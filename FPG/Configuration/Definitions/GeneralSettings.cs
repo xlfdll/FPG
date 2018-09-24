@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Xlfdll.Core;
+using Xlfdll.Configuration;
 
 namespace FPG.Configuration
 {
