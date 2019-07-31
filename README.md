@@ -2,7 +2,7 @@
 A hash-based password generator based on 3-level Keyword-Personal Salt-Random Salt architecture
 
 <p align="center">
-  <img src="https://github.com/xlfdll/xlfdll.github.io/raw/master/images/projects/FPG/FPG-Main.png"
+  <img src="https://github.com/xlfdll/xlfdll.github.io/raw/master/images/projects/FPG/Windows/FPG-Main.png"
        alt="Fkulc's Password Generator - Main Window">
 </p>
 
@@ -20,7 +20,7 @@ An extended version of the architecture description can be found in [Docs/A Hash
 4. Random salt can be saved to FPG_Salt.dat for backup. This file can be restored later in another FPG instance, or can be used in FPG iOS and Android versions
 
    <p align="center">
-       <img src="https://github.com/xlfdll/xlfdll.github.io/raw/master/images/projects/FPG/FPG-Options.png"
+       <img src="https://github.com/xlfdll/xlfdll.github.io/raw/master/images/projects/FPG/Windows/FPG-Options.png"
             alt="Fkulc's Password Generator - Options">
    </p>
 
