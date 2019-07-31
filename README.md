@@ -1,5 +1,5 @@
 # Fkulc's Password Generator
-A hash-based password generator based on 3-level Keyword-Personal Salt-Random Salt architecture
+A hash-based password generator with 3-level Keyword-Personal Salt-Random Salt architecture
 
 <p align="center">
   <img src="https://github.com/xlfdll/xlfdll.github.io/raw/master/images/projects/FPG/Windows/FPG-Main.png"
