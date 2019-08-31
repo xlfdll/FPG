@@ -9,7 +9,7 @@ A hash-based password generator with 3-level Keyword-Personal Salt-Random Salt a
 An extended version of the architecture description can be found in [Docs/A Hash-Based Password Management System.pdf](https://github.com/xlfdll/FPG/blob/master/Docs/A%20Hash-Based%20Password%20Management%20System.pdf).
 
 ## System Requirements
-* .NET Framework 4.7.2
+* .NET Framework 4.8
 
 [Runtime configuration](https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-configure-an-app-to-support-net-framework-4-or-4-5) is needed for running on other versions of .NET Framework.
 
