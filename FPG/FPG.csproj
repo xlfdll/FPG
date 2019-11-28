@@ -111,6 +111,9 @@
     <Compile Include="..\XDLibrary\Xlfdll.Core\Infrastructure\Collections\EnumerableExtensions.cs">
       <Link>Base\EnumerableExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\XDLibrary\Xlfdll.Core\Infrastructure\Text\AdditionalEncodings.cs">
+      <Link>Base\AdditionalEncodings.cs</Link>
+    </Compile>
     <Compile Include="..\XDLibrary\Xlfdll.Windows.Presentation\ApplicationPackUri.cs">
       <Link>Base\Windows\Presentation\ApplicationPackUri.cs</Link>
     </Compile>
