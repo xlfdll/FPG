@@ -15,7 +15,7 @@ namespace FPG.Helpers
             StringBuilder sb = new StringBuilder();
 
             sb.Append(keyword);
-            sb.Append(ApplicationHelper.Settings.Password.RandomSalt);
+            sb.Append(App.Settings.Password.RandomSalt);
             sb.Append(salt);
 
             String result = StringHelper.GetHashString(sha512, sb.ToString(), Encoding.BigEndianUnicode);

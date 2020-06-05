@@ -143,7 +143,6 @@
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="Configuration\Definitions\GeneralSettings.cs" />
     <Compile Include="Configuration\Definitions\PasswordSettings.cs" />
-    <Compile Include="Helpers\ApplicationHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Windows\OptionWindow.xaml.cs">

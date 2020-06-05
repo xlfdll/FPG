@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using WinForms = System.Windows.Forms;
 
@@ -23,7 +22,7 @@ namespace FPG.Windows
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!ApplicationHelper.Configuration.Check())
+            if (!App.Configuration.Check())
             {
                 this.Hide();
 
@@ -36,19 +35,19 @@ namespace FPG.Windows
                                 Environment.NewLine),
                     this.Title, MessageBoxButton.OK, MessageBoxImage.Information);
 
-                ApplicationHelper.Configuration.Save();
+                App.Configuration.Save();
 
                 this.Show();
             }
 
-            SaltPasswordBox.Password = ApplicationHelper.Settings.Password.UserSalt;
+            SaltPasswordBox.Password = App.Settings.Password.UserSalt;
         }
 
         private void WindowsFormsHost_Loaded(object sender, RoutedEventArgs e)
         {
             WinForms.Application.EnableVisualStyles();
 
-            PasswordLengthNumericUpDown.Value = ApplicationHelper.Settings.Password.PasswordLength;
+            PasswordLengthNumericUpDown.Value = App.Settings.Password.PasswordLength;
         }
 
         private void KeywordTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -79,7 +78,7 @@ namespace FPG.Windows
 
             PasswordTextBox.Text = PasswordHelper.GeneratePassword(KeywordTextBox.Text.Trim(), SaltPasswordBox.Password, Convert.ToInt32(PasswordLengthNumericUpDown.Value));
 
-            if (ApplicationHelper.Settings.General.AutoCopyPassword)
+            if (App.Settings.General.AutoCopyPassword)
             {
                 try
                 {
@@ -88,10 +87,10 @@ namespace FPG.Windows
                 catch { }
             }
 
-            ApplicationHelper.Settings.Password.UserSalt = ApplicationHelper.Settings.General.SaveLastUserSalt ? SaltPasswordBox.Password : String.Empty;
-            ApplicationHelper.Settings.Password.PasswordLength = PasswordLengthNumericUpDown.Value;
+            App.Settings.Password.UserSalt = App.Settings.General.SaveLastUserSalt ? SaltPasswordBox.Password : String.Empty;
+            App.Settings.Password.PasswordLength = PasswordLengthNumericUpDown.Value;
 
-            ApplicationHelper.Configuration.Save();
+            App.Configuration.Save();
         }
 
         private void OptionButton_Click(object sender, RoutedEventArgs e)
@@ -107,8 +106,8 @@ namespace FPG.Windows
         private void AboutButton_Click(object sender, RoutedEventArgs e)
         {
             AboutWindow aboutWindow = new AboutWindow
-                    (ApplicationHelper.MainWindow,
-                    ApplicationHelper.Metadata,
+                    (App.MainWindow,
+                    App.Metadata,
                     new ApplicationPackUri("/Images/NB.png"));
 
             aboutWindow.ShowDialog();

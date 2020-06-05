@@ -22,7 +22,7 @@ namespace FPG.Windows
 
         private void OptionWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            this.DataContext = ApplicationHelper.Settings;
+            this.DataContext = App.Settings;
 
             this.DisableMinimizeBox();
         }
@@ -36,10 +36,10 @@ namespace FPG.Windows
         {
             RandomSaltTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
 
-            PasswordHelper.SaveRandomSalt(ApplicationHelper.Settings.Password.RandomSalt);
+            PasswordHelper.SaveRandomSalt(App.Settings.Password.RandomSalt);
 
             MessageBox.Show(this, "The random salt has been saved to " + PasswordHelper.RandomSaltBackupDataFileName,
-                ApplicationHelper.Metadata.AssemblyTitle, MessageBoxButton.OK, MessageBoxImage.Information);
+                App.Metadata.AssemblyTitle, MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void RestoreRandomSaltButton_Click(object sender, RoutedEventArgs e)
@@ -50,12 +50,12 @@ namespace FPG.Windows
 
                 MessageBox.Show(this, String.Format("The random salt has been restored from {0}{1}{1}Click OK button to save the new salt data.",
                     PasswordHelper.RandomSaltBackupDataFileName, Environment.NewLine),
-                    ApplicationHelper.Metadata.AssemblyTitle, MessageBoxButton.OK, MessageBoxImage.Information);
+                    App.Metadata.AssemblyTitle, MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
                 MessageBox.Show(this, String.Format("Backup file {0} does not exist.", PasswordHelper.RandomSaltBackupDataFileName),
-                    ApplicationHelper.Metadata.AssemblyTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    App.Metadata.AssemblyTitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -71,7 +71,7 @@ namespace FPG.Windows
 
             RandomSaltTextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
 
-            ApplicationHelper.Configuration.Save();
+            App.Configuration.Save();
 
             this.Close();
         }
