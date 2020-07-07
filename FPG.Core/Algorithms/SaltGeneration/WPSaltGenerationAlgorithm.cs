@@ -9,20 +9,21 @@ namespace FPG.Algorithms
     {
         public Int32 Length { get; set; } = 64;
 
-        public string Generate()
+        public String Generate()
         {
+            // Random must be created inside the Generate() method, or repeated character issue will occur
+            Random random = new Random();
             StringBuilder sb = new StringBuilder();
 
             for (Int32 i = 0; i < this.Length; i++)
             {
                 sb.Append(WPSaltGenerationAlgorithm.Characters.Substring
-                    (this.Random.Next(0, WPSaltGenerationAlgorithm.Characters.Length - 1), 1));
+                    (random.Next(0, WPSaltGenerationAlgorithm.Characters.Length - 1), 1));
             }
 
             return sb.ToString();
         }
 
-        private Random Random => new Random();
         private const String Characters
             = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_ []{}<>~`+=,.;:/?|";
     }
