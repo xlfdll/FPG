@@ -16,8 +16,9 @@ An extended version of the architecture description can be found in [Docs/A Hash
 ## Usage
 1. A random salt will be generated automatically when program runs at the first time
 2. To generate a password, enter a keyword and a personal salt phrase, select desired password length, then click **Generate** button
+   * Check **Symbols** box to include special symbols for generated passwords. The candidates of symbols can be configured in **Options**
 3. In default, the generated password will be automatically copied to the clipboard. This can be turned off in **Options**
-4. Random salt can be saved to FPG_Salt.dat for backup. This file can be restored later in another FPG instance, or can be used in FPG iOS and Android versions
+4. Critical settings (*random salt* and *special symbol candidates*) can be saved to FPG_CriticalSettings.dat for backup. This file can be restored later in another FPG instance, or can be used in FPG iOS and Android versions
 
    <p align="center">
        <img src="https://github.com/xlfdll/xlfdll.github.io/raw/master/images/projects/FPG/Windows/FPG-Options.png"
@@ -25,6 +26,6 @@ An extended version of the architecture description can be found in [Docs/A Hash
    </p>
 
 ## Development Prerequisites
-* Visual Studio 2015+
+* Visual Studio 2019+
 
 Before the build, generate-build-number.sh needs to be executed in a Git / Bash shell to generate build information code file (BuildInfo.cs).
