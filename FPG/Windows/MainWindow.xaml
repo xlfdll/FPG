@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:FPG"
         mc:Ignorable="d"
         Title="Fkulc's Password Generator" Icon="pack://application:,,,/FPG.ico"
+        FocusManager.FocusedElement="{Binding ElementName=KeywordTextBox}"
         Width="500" Height="180" WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize" Loaded="MainWindow_Loaded">
 
