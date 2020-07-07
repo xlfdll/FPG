@@ -47,6 +47,7 @@ namespace FPG.Windows
             WinForms.Application.EnableVisualStyles();
 
             PasswordLengthNumericUpDown.Value = App.Settings.Password.PasswordLength;
+            SymbolCheckBox.IsChecked = App.Settings.Password.InsertSpecialSymbols;
         }
 
         private void KeywordTextBox_KeyDown(object sender, KeyEventArgs e)
