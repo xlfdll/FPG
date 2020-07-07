@@ -29,5 +29,7 @@ namespace FPG
 
         public static AssemblyMetadata Metadata => AssemblyMetadata.EntryAssemblyMetadata;
         public static new MainWindow MainWindow => Application.Current.MainWindow as MainWindow;
+
+        public static AlgorithmSet AlgorithmSet => AlgorithmSet.Create("Default");
     }
 }

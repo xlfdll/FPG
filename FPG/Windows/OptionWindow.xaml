@@ -28,50 +28,66 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <GroupBox Grid.Row="0" Header="General">
             <StackPanel x:Name="GeneralStackPanel" Orientation="Vertical">
-                <CheckBox Content="Copy to clipboard _automatically" IsChecked="{Binding Path=General.AutoCopyPassword}"/>
-                <CheckBox Content="Remember _last user salt" IsChecked="{Binding Path=General.SaveLastUserSalt}"/>
+                <CheckBox Content="Copy password to clipboard _automatically" IsChecked="{Binding Path=General.AutoCopyPassword, UpdateSourceTrigger=Explicit}"/>
+                <CheckBox Content="Remember _last user salt" IsChecked="{Binding Path=General.SaveLastUserSalt, UpdateSourceTrigger=Explicit}"/>
             </StackPanel>
         </GroupBox>
 
-        <GroupBox Grid.Row="1" Header="Random Salt">
+        <GroupBox Grid.Row="1" Header="Symbols">
             <Grid>
                 <Grid.Resources>
                     <Style TargetType="Grid">
                         <Setter Property="Margin" Value="1"/>
                     </Style>
                 </Grid.Resources>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBox x:Name="RandomSaltTextBox" Grid.Column="0" Text="{Binding Path=Password.RandomSalt}" IsReadOnly="True"/>
-                    <Button Grid.Column="1" Content="_Generate" Click="GenerateRandomSaltButton_Click"/>
-                </Grid>
-
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <Button Grid.Column="0" Content="_Backup Random Salt" Width="Auto" Click="BackupRandomSaltButton_Click"/>
-                    <Button Grid.Column="1" Content="_Restore Random Salt" Width="Auto" Click="RestoreRandomSaltButton_Click"/>
-                </Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBox x:Name="SpecialSymbolTextBox" Grid.Column="0"
+                         Text="{Binding Path=Password.SpecialSymbols, UpdateSourceTrigger=Explicit}"/>
+                <Button Grid.Column="1" Content="_Default" Click="RestoreDefaultSymbolsButton_Click"/>
             </Grid>
         </GroupBox>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <GroupBox Grid.Row="2" Header="Random Salt">
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="Grid">
+                        <Setter Property="Margin" Value="1"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="RandomSaltTextBox" Grid.Column="0"
+                         Text="{Binding Path=Password.RandomSalt, UpdateSourceTrigger=Explicit}" IsReadOnly="True"/>
+                <Button Grid.Column="1" Content="_Generate" Click="GenerateRandomSaltButton_Click"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="3" Header="Maintenance">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Content="_Backup Critical Settings" Width="Auto" Click="BackupCriticalSettingsButton_Click"/>
+                <Button Grid.Column="1" Content="_Restore Critical Settings" Width="Auto" Click="RestoreCriticalSettingsButton_Click"/>
+            </Grid>
+        </GroupBox>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="_OK" IsDefault="True" Click="OKButton_Click"/>
             <Button Content="_Cancel" IsCancel="True"/>
         </StackPanel>

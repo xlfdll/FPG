@@ -90,6 +90,54 @@
     <Compile Include="..\BuildInfo.cs">
       <Link>BuildInfo.cs</Link>
     </Compile>
+    <Compile Include="..\FPG.Core\AlgorithmSet.cs">
+      <Link>Core\AlgorithmSet.cs</Link>
+    </Compile>
+    <Compile Include="..\FPG.Core\Algorithms\Cropping\EvenCroppingAlgorithm.cs">
+      <Link>Core\Algorithms\Cropping\EvenCroppingAlgorithm.cs</Link>
+    </Compile>
+    <Compile Include="..\FPG.Core\Algorithms\Hashing\SHA512HashingAlgorithm.cs">
+      <Link>Core\Algorithms\Hashing\SHA512HashingAlgorithm.cs</Link>
+    </Compile>
+    <Compile Include="..\FPG.Core\Algorithms\SaltGeneration\WPSaltGenerationAlgorithm.cs">
+      <Link>Core\Algorithms\SaltGeneration\WPSaltGenerationAlgorithm.cs</Link>
+    </Compile>
+    <Compile Include="..\FPG.Core\Algorithms\Salting\AdditiveSaltingAlgorithm.cs">
+      <Link>Core\Algorithms\Salting\AdditiveSaltingAlgorithm.cs</Link>
+    </Compile>
+    <Compile Include="..\FPG.Core\Algorithms\SymbolInsertion\NPickedSymbolInsertionAlgorithm.cs">
+      <Link>Core\Algorithms\SymbolInsertion\NPickedSymbolInsertionAlgorithm.cs</Link>
+    </Compile>
+    <Compile Include="..\FPG.Core\Factories\CroppingAlgorithmFactory.cs">
+      <Link>Core\Factories\CroppingAlgorithmFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\FPG.Core\Factories\HashingAlgorithmFactory.cs">
+      <Link>Core\Factories\HashingAlgorithmFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\FPG.Core\Factories\SaltGenerationAlgorithmFactory.cs">
+      <Link>Core\Factories\SaltGenerationAlgorithmFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\FPG.Core\Factories\SaltingAlgorithmFactory.cs">
+      <Link>Core\Factories\SaltingAlgorithmFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\FPG.Core\Factories\SymbolInsertionAlgorithmFactory.cs">
+      <Link>Core\Factories\SymbolInsertionAlgorithmFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\FPG.Core\Interfaces\ICroppingAlgorithm.cs">
+      <Link>Core\Interfaces\ICroppingAlgorithm.cs</Link>
+    </Compile>
+    <Compile Include="..\FPG.Core\Interfaces\IHashingAlgorithm.cs">
+      <Link>Core\Interfaces\IHashingAlgorithm.cs</Link>
+    </Compile>
+    <Compile Include="..\FPG.Core\Interfaces\ISaltGenerationAlgorithm.cs">
+      <Link>Core\Interfaces\ISaltGenerationAlgorithm.cs</Link>
+    </Compile>
+    <Compile Include="..\FPG.Core\Interfaces\ISaltingAlgorithm.cs">
+      <Link>Core\Interfaces\ISaltingAlgorithm.cs</Link>
+    </Compile>
+    <Compile Include="..\FPG.Core\Interfaces\ISymbolInsertionAlgorithm.cs">
+      <Link>Core\Interfaces\ISymbolInsertionAlgorithm.cs</Link>
+    </Compile>
     <Compile Include="..\XDLibrary\Xlfdll.Core\Configuration\ApplicationConfiguration.cs">
       <Link>Base\Configuration\ApplicationConfiguration.cs</Link>
     </Compile>
@@ -107,6 +155,9 @@
     </Compile>
     <Compile Include="..\XDLibrary\Xlfdll.Core\Diagnostics\AssemblyMetadata.cs">
       <Link>Base\Diagnostics\AssemblyMetadata.cs</Link>
+    </Compile>
+    <Compile Include="..\XDLibrary\Xlfdll.Core\Infrastructure\Collections\ByteArrayOperations.cs">
+      <Link>Base\ByteArrayOperations.cs</Link>
     </Compile>
     <Compile Include="..\XDLibrary\Xlfdll.Core\Infrastructure\Collections\EnumerableExtensions.cs">
       <Link>Base\EnumerableExtensions.cs</Link>
@@ -144,7 +195,6 @@
     <Compile Include="Configuration\Definitions\GeneralSettings.cs" />
     <Compile Include="Configuration\Definitions\PasswordSettings.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
-    <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Windows\OptionWindow.xaml.cs">
       <DependentUpon>OptionWindow.xaml</DependentUpon>
     </Compile>

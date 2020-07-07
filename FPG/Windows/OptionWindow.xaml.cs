@@ -6,8 +6,6 @@ using System.Windows.Controls;
 using Xlfdll.Collections;
 using Xlfdll.Windows.Presentation;
 
-using FPG.Helpers;
-
 namespace FPG.Windows
 {
     /// <summary>
@@ -27,34 +25,44 @@ namespace FPG.Windows
             this.DisableMinimizeBox();
         }
 
-        private void GenerateRandomSaltButton_Click(object sender, RoutedEventArgs e)
+        private void RestoreDefaultSymbolsButton_Click(object sender, RoutedEventArgs e)
         {
-            RandomSaltTextBox.Text = PasswordHelper.GenerateSalt(PasswordHelper.RandomSaltLength);
+            SpecialSymbolTextBox.SetCurrentValue(TextBox.TextProperty, PasswordHelper.DefaultSpecialSymbols);
         }
 
-        private void BackupRandomSaltButton_Click(object sender, RoutedEventArgs e)
+        private void GenerateRandomSaltButton_Click(object sender, RoutedEventArgs e)
+        {
+            RandomSaltTextBox.SetCurrentValue(TextBox.TextProperty, App.AlgorithmSet.SaltGeneration.Generate());
+        }
+
+        private void BackupCriticalSettingsButton_Click(object sender, RoutedEventArgs e)
         {
             RandomSaltTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
+            SpecialSymbolTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
 
-            PasswordHelper.SaveRandomSalt(App.Settings.Password.RandomSalt);
+            PasswordHelper.SaveCriticalSettings();
 
-            MessageBox.Show(this, "The random salt has been saved to " + PasswordHelper.RandomSaltBackupDataFileName,
+            MessageBox.Show(this, "Critical settings (random salt and symbol candidates) has been saved to "
+                + PasswordHelper.CriticalSettingsBackupFileName,
                 App.Metadata.AssemblyTitle, MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void RestoreRandomSaltButton_Click(object sender, RoutedEventArgs e)
+        private void RestoreCriticalSettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            if (File.Exists(PasswordHelper.RandomSaltBackupDataFileName))
+            if (File.Exists(PasswordHelper.CriticalSettingsBackupFileName))
             {
-                RandomSaltTextBox.Text = PasswordHelper.LoadRandomSalt();
+                String[] criticalSettings = PasswordHelper.LoadCriticalSettings();
 
-                MessageBox.Show(this, String.Format("The random salt has been restored from {0}{1}{1}Click OK button to save the new salt data.",
-                    PasswordHelper.RandomSaltBackupDataFileName, Environment.NewLine),
+                RandomSaltTextBox.SetCurrentValue(TextBox.TextProperty, criticalSettings[0]);
+                SpecialSymbolTextBox.SetCurrentValue(TextBox.TextProperty, criticalSettings[1]);
+
+                MessageBox.Show(this, String.Format("Critical settings (random salt and symbol candidates) has been restored from {0}{1}{1}Click OK button to save them.",
+                    PasswordHelper.CriticalSettingsBackupFileName, Environment.NewLine),
                     App.Metadata.AssemblyTitle, MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                MessageBox.Show(this, String.Format("Backup file {0} does not exist.", PasswordHelper.RandomSaltBackupDataFileName),
+                MessageBox.Show(this, String.Format("Backup file {0} does not exist.", PasswordHelper.CriticalSettingsBackupFileName),
                     App.Metadata.AssemblyTitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -70,6 +78,7 @@ namespace FPG.Windows
             );
 
             RandomSaltTextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            SpecialSymbolTextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
 
             App.Configuration.Save();
 

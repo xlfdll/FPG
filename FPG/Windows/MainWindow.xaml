@@ -18,6 +18,10 @@
             <Style TargetType="Label">
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
+            <Style TargetType="CheckBox">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
             <Style TargetType="TextBox">
                 <Setter Property="Margin" Value="5"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -48,15 +52,17 @@
         <TextBox x:Name="KeywordTextBox" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" KeyDown="KeywordTextBox_KeyDown"/>
 
         <Label Grid.Row="1" Grid.Column="0" Content="_Salt"/>
-        <PasswordBox x:Name="SaltPasswordBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"/>
+        <PasswordBox x:Name="SaltPasswordBox" Grid.Row="1" Grid.Column="1"/>
+
+        <Label Grid.Row="1" Grid.Column="2" Content="_Length"/>
+        <WindowsFormsHost Grid.Row="1" Grid.Column="4" Loaded="WindowsFormsHost_Loaded">
+            <forms:NumericUpDown x:Name="PasswordLengthNumericUpDown" Minimum="4" Maximum="64" Value="8"/>
+        </WindowsFormsHost>
 
         <Label Grid.Row="2" Grid.Column="0" Content="_Password"/>
         <TextBox x:Name="PasswordTextBox" Grid.Row="2" Grid.Column="1" IsReadOnly="True"/>
-
-        <Label Grid.Row="2" Grid.Column="2" Content="_Length"/>
-        <WindowsFormsHost Grid.Row="2" Grid.Column="4" Loaded="WindowsFormsHost_Loaded">
-            <forms:NumericUpDown x:Name="PasswordLengthNumericUpDown" Minimum="4" Maximum="64" Value="8"/>
-        </WindowsFormsHost>
+        <CheckBox x:Name="SymbolCheckBox" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"
+                  Content="Symbols" IsChecked="True"/>
 
         <Button Grid.Row="3" Grid.Column="0" Width="Auto" Click="AboutButton_Click">
             <Image Source="{StaticResource AboutIcon}" Height="16"/>

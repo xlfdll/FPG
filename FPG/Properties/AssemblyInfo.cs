@@ -51,6 +51,6 @@ using Xlfdll;
 // すべての値を指定するか、下のように '*' を使ってビルドおよびリビジョン番号を 
 // 既定値にすることができます:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.0." + BuildInfo.Build)]
+[assembly: AssemblyVersion("3.1." + BuildInfo.Build)]
 
 [assembly: Guid("8162f82c-85f7-4885-b3a5-109993cad50f")]

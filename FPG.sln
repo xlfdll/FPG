@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FPG", "FPG\FPG.csproj", "{99515F39-4FB3-441B-866E-4E3D5C3928D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FPG.Core", "FPG.Core\FPG.Core.csproj", "{FDE7D294-6754-4E5E-A1C3-011C61660C49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{99515F39-4FB3-441B-866E-4E3D5C3928D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99515F39-4FB3-441B-866E-4E3D5C3928D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99515F39-4FB3-441B-866E-4E3D5C3928D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDE7D294-6754-4E5E-A1C3-011C61660C49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDE7D294-6754-4E5E-A1C3-011C61660C49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDE7D294-6754-4E5E-A1C3-011C61660C49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDE7D294-6754-4E5E-A1C3-011C61660C49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E91D33C9-569E-4FC9-9DAB-62E875D94ED7}
 	EndGlobalSection
 EndGlobal

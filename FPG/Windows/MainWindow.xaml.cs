@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+
 using WinForms = System.Windows.Forms;
 
 using Xlfdll.Windows.Presentation;
 using Xlfdll.Windows.Presentation.Dialogs;
-
-using FPG.Helpers;
 
 namespace FPG.Windows
 {
@@ -76,7 +75,11 @@ namespace FPG.Windows
                 return;
             }
 
-            PasswordTextBox.Text = PasswordHelper.GeneratePassword(KeywordTextBox.Text.Trim(), SaltPasswordBox.Password, Convert.ToInt32(PasswordLengthNumericUpDown.Value));
+            PasswordTextBox.Text = PasswordHelper.GeneratePassword
+                (KeywordTextBox.Text.Trim(),
+                SaltPasswordBox.Password,
+                Convert.ToInt32(PasswordLengthNumericUpDown.Value),
+                SymbolCheckBox.IsChecked == true);
 
             if (App.Settings.General.AutoCopyPassword)
             {
@@ -89,6 +92,7 @@ namespace FPG.Windows
 
             App.Settings.Password.UserSalt = App.Settings.General.SaveLastUserSalt ? SaltPasswordBox.Password : String.Empty;
             App.Settings.Password.PasswordLength = PasswordLengthNumericUpDown.Value;
+            App.Settings.Password.InsertSpecialSymbols = (SymbolCheckBox.IsChecked == true);
 
             App.Configuration.Save();
         }
