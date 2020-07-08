@@ -39,7 +39,7 @@
             </StackPanel>
         </GroupBox>
 
-        <GroupBox Grid.Row="1" Header="Symbols">
+        <GroupBox Grid.Row="1" Header="Symbol Candidates">
             <Grid>
                 <Grid.Resources>
                     <Style TargetType="Grid">
