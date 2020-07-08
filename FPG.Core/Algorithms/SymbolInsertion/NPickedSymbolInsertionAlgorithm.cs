@@ -24,12 +24,22 @@ namespace FPG.Algorithms
                 Int32 inputIndex = Convert.ToInt32((i + 1) * sum * 701 % input.Length);
                 Int32 symbolIndex = Convert.ToInt32((i + 1) * sum * 997 % symbols.Length);
 
-                // Prefer replacing digits
-                Int32 tempInputIndex = inputIndex;
+                // Prefer replacing digits (and not overwriting other symbols)
+                Int32 tempInputIndex = inputIndex + 1;
 
                 while (tempInputIndex != inputIndex && !Char.IsDigit(input[tempInputIndex]))
                 {
                     tempInputIndex = (tempInputIndex + 1) % input.Length;
+                }
+
+                if (tempInputIndex == inputIndex)
+                {
+                    tempInputIndex = inputIndex + 1;
+
+                    while (tempInputIndex != inputIndex && symbols.Contains(input[tempInputIndex].ToString()))
+                    {
+                        tempInputIndex = (tempInputIndex + 1) % input.Length;
+                    }
                 }
 
                 if (tempInputIndex != inputIndex)
