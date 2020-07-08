@@ -76,7 +76,7 @@ namespace FPG.Windows
                 return;
             }
 
-            PasswordTextBox.Text = PasswordHelper.GeneratePassword
+            PasswordTextBox.Text = Helper.GeneratePassword
                 (KeywordTextBox.Text.Trim(),
                 SaltPasswordBox.Password,
                 Convert.ToInt32(PasswordLengthNumericUpDown.Value),

@@ -6,7 +6,7 @@ using Xlfdll.Text;
 
 namespace FPG
 {
-    public static class PasswordHelper
+    public static class Helper
     {
         public static String GeneratePassword(String keyword, String userSalt, Int32 length, Boolean insertSymbols)
         {
@@ -28,7 +28,7 @@ namespace FPG
 
         public static String[] LoadCriticalSettings()
         {
-            return File.ReadAllLines(PasswordHelper.CriticalSettingsBackupFileName, AdditionalEncodings.UTF8WithoutBOM);
+            return File.ReadAllLines(Helper.CriticalSettingsBackupFileName, AdditionalEncodings.UTF8WithoutBOM);
         }
 
         public static void SaveCriticalSettings()
@@ -38,7 +38,7 @@ namespace FPG
             sb.AppendLine(App.Settings.Password.RandomSalt);
             sb.AppendLine(App.Settings.Password.SpecialSymbols);
 
-            File.WriteAllText(PasswordHelper.CriticalSettingsBackupFileName, sb.ToString(), AdditionalEncodings.UTF8WithoutBOM);
+            File.WriteAllText(Helper.CriticalSettingsBackupFileName, sb.ToString(), AdditionalEncodings.UTF8WithoutBOM);
         }
 
         public const String CriticalSettingsBackupFileName = "FPG_CriticalSettings.dat";

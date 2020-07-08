@@ -194,7 +194,7 @@
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="Configuration\Definitions\GeneralSettings.cs" />
     <Compile Include="Configuration\Definitions\PasswordSettings.cs" />
-    <Compile Include="Helpers\PasswordHelper.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="Windows\OptionWindow.xaml.cs">
       <DependentUpon>OptionWindow.xaml</DependentUpon>
     </Compile>

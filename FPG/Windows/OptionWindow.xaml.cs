@@ -27,7 +27,7 @@ namespace FPG.Windows
 
         private void RestoreDefaultSymbolsButton_Click(object sender, RoutedEventArgs e)
         {
-            SpecialSymbolTextBox.SetCurrentValue(TextBox.TextProperty, PasswordHelper.DefaultSpecialSymbols);
+            SpecialSymbolTextBox.SetCurrentValue(TextBox.TextProperty, Helper.DefaultSpecialSymbols);
         }
 
         private void GenerateRandomSaltButton_Click(object sender, RoutedEventArgs e)
@@ -40,29 +40,29 @@ namespace FPG.Windows
             RandomSaltTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
             SpecialSymbolTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
 
-            PasswordHelper.SaveCriticalSettings();
+            Helper.SaveCriticalSettings();
 
             MessageBox.Show(this, "Critical settings (random salt and symbol candidates) has been saved to "
-                + PasswordHelper.CriticalSettingsBackupFileName,
+                + Helper.CriticalSettingsBackupFileName,
                 App.Metadata.AssemblyTitle, MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void RestoreCriticalSettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            if (File.Exists(PasswordHelper.CriticalSettingsBackupFileName))
+            if (File.Exists(Helper.CriticalSettingsBackupFileName))
             {
-                String[] criticalSettings = PasswordHelper.LoadCriticalSettings();
+                String[] criticalSettings = Helper.LoadCriticalSettings();
 
                 RandomSaltTextBox.SetCurrentValue(TextBox.TextProperty, criticalSettings[0]);
                 SpecialSymbolTextBox.SetCurrentValue(TextBox.TextProperty, criticalSettings[1]);
 
                 MessageBox.Show(this, String.Format("Critical settings (random salt and symbol candidates) has been restored from {0}{1}{1}Click OK button to save them.",
-                    PasswordHelper.CriticalSettingsBackupFileName, Environment.NewLine),
+                    Helper.CriticalSettingsBackupFileName, Environment.NewLine),
                     App.Metadata.AssemblyTitle, MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                MessageBox.Show(this, String.Format("Backup file {0} does not exist.", PasswordHelper.CriticalSettingsBackupFileName),
+                MessageBox.Show(this, String.Format("Backup file {0} does not exist.", Helper.CriticalSettingsBackupFileName),
                     App.Metadata.AssemblyTitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
