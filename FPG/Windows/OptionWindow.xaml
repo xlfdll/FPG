@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FPG"
         mc:Ignorable="d"
-        Title="Options" Icon="pack://application:,,,/FPG.ico"
+        Title="Options" Icon="pack://application:,,,/NB.ico"
         ResizeMode="NoResize" ShowInTaskbar="False"
         Width="350" SizeToContent="Height" WindowStartupLocation="CenterOwner"
         Loaded="OptionWindow_Loaded">
@@ -50,7 +50,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBox x:Name="SpecialSymbolTextBox" Grid.Column="0"
                          Text="{Binding Path=Password.SpecialSymbols, UpdateSourceTrigger=Explicit}"/>
                 <Button Grid.Column="1" Content="_Default" Click="RestoreDefaultSymbolsButton_Click"/>
