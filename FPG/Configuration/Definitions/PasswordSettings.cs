@@ -10,7 +10,7 @@ namespace FPG.Configuration
             : base(appConfiguration)
         {
             this.Provider.Current.TryAddValue("Password", "PasswordLength", "16");
-            this.Provider.Current.TryAddValue("Password", "InsertSpecialSymbols", "true");
+            this.Provider.Current.TryAddValue("Password", "InsertSpecialSymbols", Boolean.TrueString);
             this.Provider.Current.TryAddValue("Password", "SpecialSymbols", Helper.DefaultSpecialSymbols);
             this.Provider.Current.TryAddValue("Password", "UserSalt", String.Empty);
             this.Provider.Current.TryAddValue("Password", "RandomSalt", App.AlgorithmSet.SaltGeneration.Generate());

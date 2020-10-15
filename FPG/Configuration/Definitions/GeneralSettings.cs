@@ -9,8 +9,8 @@ namespace FPG.Configuration
         public GeneralSettings(ApplicationConfiguration appConfiguration)
             : base(appConfiguration)
         {
-            this.Provider.Current.TryAddValue("General", "AutoCopyPassword", "true");
-            this.Provider.Current.TryAddValue("General", "SaveLastUserSalt", "true");
+            this.Provider.Current.TryAddValue("General", "AutoCopyPassword", Boolean.TrueString);
+            this.Provider.Current.TryAddValue("General", "SaveLastUserSalt", Boolean.TrueString);
         }
 
         public Boolean AutoCopyPassword
