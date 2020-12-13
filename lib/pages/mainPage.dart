@@ -218,32 +218,32 @@ class _MainPageState extends State<MainPage> {
               ),
               Visibility(
                   visible: isPasswordSectionVisible,
-                  child: Center(
-                      child: Row(children: [
-                    Expanded(
-                        child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: GestureDetector(
-                        child: Text(
-                          password,
-                          style: TextStyle(fontSize: 28),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: GestureDetector(
+                            child: Text(
+                              password,
+                              style: TextStyle(fontSize: 28),
+                            ),
+                            onDoubleTap: () {
+                              Clipboard.setData(ClipboardData(text: password))
+                                  .then((value) {
+                                scaffoldKey.currentState.showSnackBar(SnackBar(
+                                    content: Text(AppLocalizations.of(context)
+                                        .passwordCopiedMessage)));
+                              });
+                            },
+                          ),
                         ),
-                        onDoubleTap: () {
-                          Clipboard.setData(ClipboardData(text: password))
-                              .then((value) {
-                            scaffoldKey.currentState.showSnackBar(SnackBar(
-                                content: Text(AppLocalizations.of(context)
-                                    .passwordCopiedMessage)));
-                          });
-                        },
-                      ),
-                    )),
-                    IconButton(
-                      icon: const Icon(Icons.clear),
-                      tooltip: AppLocalizations.of(context).clear,
-                      onPressed: clearInput,
-                    )
-                  ])))
+                        IconButton(
+                          icon: const Icon(Icons.clear),
+                          tooltip: AppLocalizations.of(context).clear,
+                          onPressed: clearInput,
+                        )
+                      ]))
             ],
           ),
         ),
