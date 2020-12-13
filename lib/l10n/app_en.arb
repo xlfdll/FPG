@@ -1,0 +1,162 @@
+{
+  "appName": "Fkulc's Password Generator",
+  "ok": "OK",
+  "cancel": "Cancel",
+  "yes": "Yes",
+  "no": "No",
+  "firstRunDialogTitle": "Welcome!",
+  "firstRunDialogMessage": "This is your first time to use this program.\n\nA new random salt has been created for you.\n\nIt is highly recommended to backup your new random salt or restore your existing one in Options screen as soon as possible to avoid losing access to your passwords.",
+  "keywordHelperText": "Keyword",
+  "keywordHintText": "Enter keyword here",
+  "saltHelperText": "Salt",
+  "saltHintText": "Enter personal salt here",
+  "lengthHelperText": "Length",
+  "setLengthTitle": "Set Password Length",
+  "symbolSwitchTitle": "Add Symbols",
+  "keywordEmptyMessage": "Keyword is empty",
+  "saltEmptyMessage": "Salt is empty",
+  "generatePasswordTooltip": "Generate password",
+  "passwordCopiedMessage": "Password has been copied to the clipboard",
+  "options": "Options",
+  "warning": "Warning",
+  "exception": "The following error occurred:\n\n",
+  "generalOptionsHeader": "General",
+  "autoCopyPasswordOptionTitle": "Copy to clipboard automatically",
+  "rememberLastSaltOptionTitle": "Remember last user salt",
+  "editSymbolCandidatesOptionTitle": "Edit symbol candidates",
+  "editSymbolCandidatesHelperText": "Symbol Candidates",
+  "editSymbolCandidatesHintText": "Enter symbol candidates here",
+  "useDefault": "Use Default",
+  "randomSaltOptionsHeader": "Random Salt",
+  "editRandomSaltOptionTitle": "Edit random salt",
+  "randomSaltHintText": "Enter random salt here",
+  "generateRandomSaltOptionTitle": "Generate a new random salt",
+  "randomSaltChangePrompt": "If the random salt had been replaced, current passwords would be unavailable.\n\nContinue?",
+  "randomSaltGeneratedMessage": "A new random salt has been generated.",
+  "backupCriticalSettingsOptionTitle": "Backup critical settings",
+  "backupCriticalSettingsOptionSubtitle": "Settings will be saved to %s",
+  "backupCriticalSettingsCompletedMessage": "Critical settings has been saved to %s.",
+  "restoreCriticalSettingsOptionTitle": "Restore critical settings from file",
+  "restoreCriticalSettingsOptionSubtitle": "Settings will be restored from %s",
+  "restoreCriticalSettingsCompletedMessage": "Critical settings has been restored from %s.",
+  "@appName": {
+    "description": "App name. Used in title."
+  },
+  "@ok": {
+    "description": "Default OK action text"
+  },
+  "@cancel": {
+    "description": "Default Cancel action text"
+  },
+  "@yes": {
+    "description": "Default Yes action text"
+  },
+  "@no": {
+    "description": "Default No action text"
+  },
+  "@firstRunDialogTitle": {
+    "description": "First run dialog title"
+  },
+  "@firstRunDialogMessage": {
+    "description": "First run dialog message"
+  },
+  "@keywordHelperText": {
+    "description": "Keyword input helper text"
+  },
+  "@keywordHintText": {
+    "description": "Keyword input hint text"
+  },
+  "@saltHelperText": {
+    "description": "Personal salt input helper text"
+  },
+  "@saltHintText": {
+    "description": "Personal salt input hint text"
+  },
+  "@lengthHelperText": {
+    "description": "Password length input helper text"
+  },
+  "@setLengthTitle": {
+    "description": "Set password length dialog title"
+  },
+  "@symbolSwitchTitle": {
+    "description": "Symbols switch title"
+  },
+  "@keywordEmptyMessage": {
+    "description": "Keyword empty message"
+  },
+  "@saltEmptyMessage": {
+    "description": "Salt empty message"
+  },
+  "@generatePasswordTooltip": {
+    "description": "Generate password button tooltip"
+  },
+  "@passwordCopiedMessage": {
+    "description": "Password copied message"
+  },
+  "@options": {
+    "description": "Options AppBar action title"
+  },
+  "@warning": {
+    "description": "Warning dialog title"
+  },
+  "@exception": {
+    "description": "Exception prompt message"
+  },
+  "@generalOptionsHeader": {
+    "description": "General options header"
+  },
+  "@autoCopyPasswordOptionTitle": {
+    "description": "Auto-copy password switch title"
+  },
+  "@rememberLastSaltOptionTitle": {
+    "description": "Remember last user salt switch title"
+  },
+  "@editSymbolCandidatesOptionTitle": {
+    "description": "Edit symbol candidates option title"
+  },
+  "@editSymbolCandidatesHelperText": {
+    "description": "Edit symbol candidates helper text"
+  },
+  "@editSymbolCandidatesHintText": {
+    "description": "Edit symbol candidates hint text"
+  },
+  "@useDefault": {
+    "description": "Use default action text"
+  },
+  "@randomSaltOptionsHeader": {
+    "description": "Random salt options header"
+  },
+  "@editRandomSaltOptionTitle": {
+    "description": "Edit random salt button title"
+  },
+  "@randomSaltHintText": {
+    "description": "Random salt input hint text"
+  },
+  "@generateRandomSaltOptionTitle": {
+    "description": "Generate random salt button title"
+  },
+  "@randomSaltChangePrompt": {
+    "description": "Random salt change prompt text"
+  },
+  "@randomSaltGeneratedMessage": {
+    "description": "Random salt generated message"
+  },
+  "@backupCriticalSettingsOptionTitle": {
+    "description": "Backup critical settings button title"
+  },
+  "@backupCriticalSettingsOptionSubtitle": {
+    "description": "Backup critical settings button subtitle"
+  },
+  "@backupCriticalSettingsCompletedMessage": {
+    "description": "Critical settings backup completed message"
+  },
+  "@restoreCriticalSettingsOptionTitle": {
+    "description": "Restore critical settings button title"
+  },
+  "@restoreCriticalSettingsOptionSubtitle": {
+    "description": "Restore critical settings button subtitle"
+  },
+  "@restoreCriticalSettingsCompletedMessage": {
+    "description": "Critical settings restore completed message"
+  }
+}

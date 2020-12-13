@@ -1,0 +1,27 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:fpg_mobile/core/AlgorithmSet.dart';
+import 'package:fpg_mobile/pages/mainPage.dart';
+
+void main() {
+  runApp(App());
+}
+
+class App extends StatelessWidget {
+  static final AlgorithmSet algorithmSet = AlgorithmSet.create("default");
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        title: "Fkulc's Password Generator",
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        // The following localization delegates must follow generated AppLocalizations class comments
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        // Use explicit locale list here to generate corresponding AppLocalizations code properly
+        supportedLocales: [const Locale("en", "")],
+        home: MainPage());
+  }
+}
