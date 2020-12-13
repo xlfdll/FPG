@@ -23,6 +23,8 @@ class _MainPageState extends State<MainPage> {
   bool insertSymbols = true;
   String password = "";
 
+  bool isPasswordSectionVisible = false;
+
   Future<void> initSettings() async {
     if (await Settings.getRememberUserSaltSwitch()) {
       saltTextInputController.text = await Settings.getUserSalt();
@@ -73,6 +75,8 @@ class _MainPageState extends State<MainPage> {
         setState(() {
           password = value;
 
+          isPasswordSectionVisible = true;
+
           Settings.getAutoCopyPasswordSwitch().then((v) {
             Clipboard.setData(ClipboardData(text: value));
           });
@@ -85,6 +89,22 @@ class _MainPageState extends State<MainPage> {
         });
       });
     }
+  }
+
+  void clearInput() {
+    setState(() {
+      keywordTextInputController.text = "";
+
+      Settings.getRememberUserSaltSwitch().then((value) {
+        if (!value) {
+          saltTextInputController.text = "";
+        }
+      });
+
+      password = "";
+
+      isPasswordSectionVisible = false;
+    });
   }
 
   @override
@@ -196,25 +216,34 @@ class _MainPageState extends State<MainPage> {
                   )
                 ],
               ),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: GestureDetector(
-                    child: Text(
-                      password,
-                      style: TextStyle(fontSize: 32),
-                    ),
-                    onDoubleTap: () {
-                      Clipboard.setData(ClipboardData(text: password))
-                          .then((value) {
-                        scaffoldKey.currentState.showSnackBar(SnackBar(
-                            content: Text(AppLocalizations.of(context)
-                                .passwordCopiedMessage)));
-                      });
-                    },
-                  ),
-                ),
-              )
+              Visibility(
+                  visible: isPasswordSectionVisible,
+                  child: Center(
+                      child: Row(children: [
+                    Expanded(
+                        child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: GestureDetector(
+                        child: Text(
+                          password,
+                          style: TextStyle(fontSize: 28),
+                        ),
+                        onDoubleTap: () {
+                          Clipboard.setData(ClipboardData(text: password))
+                              .then((value) {
+                            scaffoldKey.currentState.showSnackBar(SnackBar(
+                                content: Text(AppLocalizations.of(context)
+                                    .passwordCopiedMessage)));
+                          });
+                        },
+                      ),
+                    )),
+                    IconButton(
+                      icon: const Icon(Icons.clear),
+                      tooltip: AppLocalizations.of(context).clear,
+                      onPressed: clearInput,
+                    )
+                  ])))
             ],
           ),
         ),

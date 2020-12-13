@@ -17,6 +17,7 @@
   "saltEmptyMessage": "Salt is empty",
   "generatePasswordTooltip": "Generate password",
   "passwordCopiedMessage": "Password has been copied to the clipboard",
+  "clear": "Clear",
   "options": "Options",
   "warning": "Warning",
   "exception": "The following error occurred:\n\n",
@@ -92,6 +93,9 @@
   },
   "@passwordCopiedMessage": {
     "description": "Password copied message"
+  },
+  "@clear": {
+    "description": "Clear action title"
   },
   "@options": {
     "description": "Options AppBar action title"
