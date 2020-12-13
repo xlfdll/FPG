@@ -246,6 +246,10 @@ class _OptionsPageState extends State<OptionsPage> {
                         rememberUserSalt = value;
 
                         Settings.setRememberUserSaltSwitch(value);
+
+                        if (!value) {
+                          Settings.setUserSalt("");
+                        }
                       });
                     }),
                 ListTile(
