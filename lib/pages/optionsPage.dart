@@ -183,7 +183,7 @@ class _OptionsPageState extends State<OptionsPage> {
                     Helper.restoreCriticalSettings().then((value) {
                       scaffoldKey.currentState.showSnackBar(SnackBar(
                           content: Text(AppLocalizations.of(context)
-                              .backupCriticalSettingsCompletedMessage
+                              .restoreCriticalSettingsCompletedMessage
                               .replaceAll("%s",
                                   Constants.CriticalSettingsBackupFileName))));
                     }).catchError((e) {
