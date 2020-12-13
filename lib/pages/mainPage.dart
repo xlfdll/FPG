@@ -24,6 +24,10 @@ class _MainPageState extends State<MainPage> {
   String password = "";
 
   Future<void> initSettings() async {
+    if (await Settings.getRememberUserSaltSwitch()) {
+      saltTextInputController.text = await Settings.getUserSalt();
+    }
+
     lengthTextInputController.text =
         (await Settings.getPasswordLength()).toString();
     insertSymbols = await Settings.getInsertSpecialSymbolsSwitch();
