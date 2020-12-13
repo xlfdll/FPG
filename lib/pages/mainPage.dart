@@ -78,7 +78,9 @@ class _MainPageState extends State<MainPage> {
           isPasswordSectionVisible = true;
 
           Settings.getAutoCopyPasswordSwitch().then((v) {
-            Clipboard.setData(ClipboardData(text: value));
+            if (v) {
+              Clipboard.setData(ClipboardData(text: value));
+            }
           });
           Settings.getRememberUserSaltSwitch().then((v) {
             Settings.setUserSalt(v ? saltTextInputController.text : "");
