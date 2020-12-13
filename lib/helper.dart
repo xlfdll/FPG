@@ -45,10 +45,7 @@ class Helper {
     Directory directory;
 
     if (Platform.isAndroid) {
-      List<Directory> externalDirectories =
-          await getExternalStorageDirectories(type: StorageDirectory.documents);
-
-      directory = externalDirectories[0];
+      directory = await getExternalStorageDirectory();
     } else {
       directory = await getApplicationDocumentsDirectory();
     }
