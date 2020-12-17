@@ -1,5 +1,6 @@
 #!/bin/sh
 
+rm -rf build
 flutter pub get
 cd ios
 pod install
