@@ -9,19 +9,21 @@ namespace FPG.Configuration
         public GeneralSettings(ApplicationConfiguration appConfiguration)
             : base(appConfiguration)
         {
-            this.Provider.Current.TryAddValue("General", "AutoCopyPassword", Boolean.TrueString);
-            this.Provider.Current.TryAddValue("General", "SaveLastUserSalt", Boolean.TrueString);
+            this.Provider.Current.TryAddValue(GeneralSettings.SectionName, nameof(this.AutoCopyPassword), Boolean.TrueString);
+            this.Provider.Current.TryAddValue(GeneralSettings.SectionName, nameof(this.SaveLastUserSalt), Boolean.TrueString);
         }
 
         public Boolean AutoCopyPassword
         {
-            get { return Boolean.Parse(this.Provider.Current["General"]["AutoCopyPassword"]); }
-            set { this.Provider.Current["General"]["AutoCopyPassword"] = value.ToString(); }
+            get { return Boolean.Parse(this.Provider.Current[GeneralSettings.SectionName][nameof(this.AutoCopyPassword)]); }
+            set { this.Provider.Current[GeneralSettings.SectionName][nameof(this.AutoCopyPassword)] = value.ToString(); }
         }
         public Boolean SaveLastUserSalt
         {
-            get { return Boolean.Parse(this.Provider.Current["General"]["SaveLastUserSalt"]); }
-            set { this.Provider.Current["General"]["SaveLastUserSalt"] = value.ToString(); }
+            get { return Boolean.Parse(this.Provider.Current[GeneralSettings.SectionName][nameof(this.SaveLastUserSalt)]); }
+            set { this.Provider.Current[GeneralSettings.SectionName][nameof(this.SaveLastUserSalt)] = value.ToString(); }
         }
+
+        private const String SectionName = "General";
     }
 }
