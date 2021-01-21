@@ -80,7 +80,7 @@ namespace FPG.Windows
             RandomSaltTextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             SpecialSymbolTextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
 
-            App.Configuration.Save();
+            App.Settings.Save();
 
             this.Close();
         }

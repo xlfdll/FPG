@@ -21,7 +21,7 @@ namespace FPG.Windows
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!App.Configuration.Check())
+            if (!App.Settings.Check())
             {
                 this.Hide();
 
@@ -34,7 +34,7 @@ namespace FPG.Windows
                                 Environment.NewLine),
                     this.Title, MessageBoxButton.OK, MessageBoxImage.Information);
 
-                App.Configuration.Save();
+                App.Settings.Save();
 
                 this.Show();
             }
@@ -95,7 +95,7 @@ namespace FPG.Windows
             App.Settings.Password.PasswordLength = PasswordLengthNumericUpDown.Value;
             App.Settings.Password.InsertSpecialSymbols = (SymbolCheckBox.IsChecked == true);
 
-            App.Configuration.Save();
+            App.Settings.Save();
         }
 
         private void OptionButton_Click(object sender, RoutedEventArgs e)

@@ -15,16 +15,16 @@ namespace FPG
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            App.Configuration = new ApplicationConfiguration(new RegistryConfigurationProcessor(@"Xlfdll\NB\FPG", RegistryConfigurationScope.User));
-            App.Settings = new Settings(App.Configuration);
+            ApplicationConfiguration appConfiguration = new ApplicationConfiguration
+                (new RegistryConfigurationProcessor(@"Xlfdll\NB\FPG", RegistryConfigurationScope.User));
+            App.Settings = new Settings(appConfiguration);
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            App.Configuration.Save();
+            App.Settings.Save();
         }
 
-        public static ApplicationConfiguration Configuration { get; private set; }
         public static Settings Settings { get; private set; }
 
         public static AssemblyMetadata Metadata => AssemblyMetadata.EntryAssemblyMetadata;
