@@ -16,7 +16,7 @@ namespace FPG.Algorithms
         {
             SHA512Managed sha512 = new SHA512Managed();
 
-            return sha512.ComputeHash(this.TextEncoding.GetBytes(input)).ToHexString(false);
+            return sha512.ComputeHash(this.TextEncoding.GetBytes(input)).ToHexString();
         }
     }
 }
