@@ -42,6 +42,8 @@ namespace FPG
         }
 
         public const String CriticalSettingsBackupFileName = "FPG_CriticalSettings.dat";
-        public const String DefaultSpecialSymbols = @"~`!@#$%^&*()+=_-{}[]\|:;”’?/<>,.";
+        public const String DefaultSpecialSymbols
+            = @"~`!@#$%^&*()+=_-{}[]\|:;”’?/<>,."
+            + "GgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
     }
 }
