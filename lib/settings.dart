@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fpg_mobile/constants.dart';
 import 'package:fpg_mobile/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +21,7 @@ class Settings {
     return false;
   }
 
-  static Future<bool> getAutoCopyPasswordSwitch() async {
+  static Future<bool?> getAutoCopyPasswordSwitch() async {
     return await getPreference(Constants.AutoCopyPasswordPreferenceKey);
   }
 
@@ -27,7 +29,7 @@ class Settings {
     await setBoolPreference(Constants.AutoCopyPasswordPreferenceKey, value);
   }
 
-  static Future<bool> getRememberUserSaltSwitch() async {
+  static Future<bool?> getRememberUserSaltSwitch() async {
     return await getPreference(Constants.RememberUserSaltPreferenceKey);
   }
 
@@ -35,7 +37,7 @@ class Settings {
     await setBoolPreference(Constants.RememberUserSaltPreferenceKey, value);
   }
 
-  static Future<int> getPasswordLength() async {
+  static Future<int?> getPasswordLength() async {
     return await getPreference(Constants.PasswordLengthPreferenceKey);
   }
 
@@ -43,7 +45,7 @@ class Settings {
     await setIntPreference(Constants.PasswordLengthPreferenceKey, value);
   }
 
-  static Future<bool> getInsertSpecialSymbolsSwitch() async {
+  static Future<bool?> getInsertSpecialSymbolsSwitch() async {
     return await getPreference(Constants.InsertSpecialSymbolsPreferenceKey);
   }
 
@@ -51,7 +53,7 @@ class Settings {
     await setBoolPreference(Constants.InsertSpecialSymbolsPreferenceKey, value);
   }
 
-  static Future<String> getSpecialSymbols() async {
+  static Future<String?> getSpecialSymbols() async {
     return await getPreference(Constants.SpecialSymbolsPreferenceKey);
   }
 
@@ -59,7 +61,7 @@ class Settings {
     await setStringPreference(Constants.SpecialSymbolsPreferenceKey, value);
   }
 
-  static Future<String> getUserSalt() async {
+  static Future<String?> getUserSalt() async {
     return await getPreference(Constants.UserSaltPreferenceKey);
   }
 
@@ -67,7 +69,7 @@ class Settings {
     await setStringPreference(Constants.UserSaltPreferenceKey, value);
   }
 
-  static Future<String> getRandomSalt() async {
+  static Future<String?> getRandomSalt() async {
     return await getPreference(Constants.RandomSaltPreferenceKey);
   }
 
@@ -75,10 +77,10 @@ class Settings {
     await setStringPreference(Constants.RandomSaltPreferenceKey, value);
   }
 
-  static Future<T> getPreference<T>(String key) async {
+  static Future<T?> getPreference<T>(String key) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
-    return preferences.get(key);
+    return preferences.get(key) as FutureOr<T?>;
   }
 
   static Future<void> setIntPreference(String key, int value) async {

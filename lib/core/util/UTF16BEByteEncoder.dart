@@ -16,24 +16,25 @@ class UTF16BEByteEncoder {
   static const int UNICODE_UTF16_HI_MASK = 0xffc00;
   static const int UNICODE_UTF16_LO_MASK = 0x3ff;
 
-  static List<int> encode(String input, [bool writeBOM = false]) {
+  static List<int?> encode(String input, [bool writeBOM = false]) {
     var utf16CodeUnits = _codepointsToUtf16CodeUnits(input.codeUnits);
-    var encoding = List<int>(2 * utf16CodeUnits.length + (writeBOM ? 2 : 0));
+    var encoding =
+        List<int>.filled(2 * utf16CodeUnits.length + (writeBOM ? 2 : 0), 0);
     var i = 0;
     if (writeBOM) {
       encoding[i++] = UNICODE_UTF_BOM_HI;
       encoding[i++] = UNICODE_UTF_BOM_LO;
     }
     for (var unit in utf16CodeUnits) {
-      encoding[i++] = (unit & UNICODE_BYTE_ONE_MASK) >> 8;
+      encoding[i++] = (unit! & UNICODE_BYTE_ONE_MASK) >> 8;
       encoding[i++] = unit & UNICODE_BYTE_ZERO_MASK;
     }
     return encoding;
   }
 
-  static List<int> _codepointsToUtf16CodeUnits(List<int> codepoints,
+  static List<int?> _codepointsToUtf16CodeUnits(List<int> codepoints,
       [int offset = 0,
-      int length,
+      int? length,
       int replacementCodepoint = UNICODE_REPLACEMENT_CHARACTER_CODEPOINT]) {
     var listRange = ListRange(codepoints, offset, length);
     var encodedLength = 0;
@@ -51,7 +52,7 @@ class UTF16BEByteEncoder {
       }
     }
 
-    var codeUnitsBuffer = List<int>(encodedLength);
+    var codeUnitsBuffer = List<int>.filled(encodedLength, 0);
     var j = 0;
 
     for (var value in listRange) {

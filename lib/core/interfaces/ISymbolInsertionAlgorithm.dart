@@ -1,3 +1,3 @@
 abstract class ISymbolInsertionAlgorithm {
-  String insertSymbol(String input, String symbols);
+  String insertSymbol(String input, String? symbols);
 }

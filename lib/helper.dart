@@ -42,7 +42,7 @@ class Helper {
   }
 
   static Future<String> _getBackupFilePath() async {
-    Directory directory;
+    Directory? directory;
 
     if (Platform.isAndroid) {
       directory = await getExternalStorageDirectory();
@@ -50,6 +50,6 @@ class Helper {
       directory = await getApplicationDocumentsDirectory();
     }
 
-    return "${directory.path}/${Constants.CriticalSettingsBackupFileName}";
+    return "${directory!.path}/${Constants.CriticalSettingsBackupFileName}";
   }
 }

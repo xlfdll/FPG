@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -7,7 +9,7 @@ import 'package:fpg_mobile/settings.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class MainPage extends StatefulWidget {
-  MainPage({Key key}) : super(key: key);
+  MainPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _MainPageState();
@@ -20,14 +22,15 @@ class _MainPageState extends State<MainPage> {
   final saltTextInputController = TextEditingController();
   final lengthTextInputController = TextEditingController();
 
-  bool insertSymbols = true;
+  bool? insertSymbols = true;
   String password = "";
 
   bool isPasswordSectionVisible = false;
 
   Future<void> initSettings() async {
-    if (await Settings.getRememberUserSaltSwitch()) {
-      saltTextInputController.text = await Settings.getUserSalt();
+    if (await (Settings.getRememberUserSaltSwitch() as FutureOr<bool>)) {
+      saltTextInputController.text =
+          await (Settings.getUserSalt() as FutureOr<String>);
     }
 
     lengthTextInputController.text =
@@ -38,16 +41,32 @@ class _MainPageState extends State<MainPage> {
   }
 
   void showPasswordLengthDialog() {
+    int length = int.parse(lengthTextInputController.text);
+
     showDialog(
         context: context,
         builder: (context) {
-          return NumberPickerDialog.integer(
-            title: Text(AppLocalizations.of(context).setLengthTitle),
-            minValue: 4,
-            maxValue: 64,
-            initialIntegerValue: int.parse(lengthTextInputController.text),
-            step: 1,
-          );
+          return AlertDialog(
+              title: Text(AppLocalizations.of(context)!.setLengthTitle),
+              content: NumberPicker(
+                value: length,
+                minValue: 4,
+                maxValue: 64,
+                step: 1,
+                onChanged: (value) {
+                  length = value;
+                },
+              ),
+              actions: [
+                TextButton(
+                  child: Text(AppLocalizations.of(context)!.cancel),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                TextButton(
+                  child: Text(AppLocalizations.of(context)!.ok),
+                  onPressed: () => Navigator.of(context).pop(length),
+                )
+              ]);
         }).then((value) {
       if (value != null) {
         setState(() {
@@ -58,19 +77,17 @@ class _MainPageState extends State<MainPage> {
   }
 
   void generatePassword() {
-    if (keywordTextInputController.text == null ||
-        keywordTextInputController.text.isEmpty) {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(AppLocalizations.of(context).keywordEmptyMessage)));
-    } else if (saltTextInputController.text == null ||
-        saltTextInputController.text.isEmpty) {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(AppLocalizations.of(context).saltEmptyMessage)));
+    if (keywordTextInputController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(AppLocalizations.of(context)!.keywordEmptyMessage)));
+    } else if (saltTextInputController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(AppLocalizations.of(context)!.saltEmptyMessage)));
     } else {
       int passwordLength = int.parse(lengthTextInputController.text);
 
       Helper.generatePassword(keywordTextInputController.text,
-              saltTextInputController.text, passwordLength, insertSymbols)
+              saltTextInputController.text, passwordLength, insertSymbols!)
           .then((value) {
         setState(() {
           password = value;
@@ -78,16 +95,16 @@ class _MainPageState extends State<MainPage> {
           isPasswordSectionVisible = true;
 
           Settings.getAutoCopyPasswordSwitch().then((v) {
-            if (v) {
+            if (v!) {
               Clipboard.setData(ClipboardData(text: value));
             }
           });
           Settings.getRememberUserSaltSwitch().then((v) {
-            Settings.setUserSalt(v ? saltTextInputController.text : "");
+            Settings.setUserSalt(v! ? saltTextInputController.text : "");
           });
 
           Settings.setPasswordLength(passwordLength);
-          Settings.setInsertSpecialSymbolsSwitch(insertSymbols);
+          Settings.setInsertSpecialSymbolsSwitch(insertSymbols!);
         });
       });
     }
@@ -98,7 +115,7 @@ class _MainPageState extends State<MainPage> {
       keywordTextInputController.text = "";
 
       Settings.getRememberUserSaltSwitch().then((value) {
-        if (!value) {
+        if (!value!) {
           saltTextInputController.text = "";
         }
       });
@@ -117,18 +134,19 @@ class _MainPageState extends State<MainPage> {
       initSettings();
 
       if (value) {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
           await showDialog(
               context: context,
               barrierDismissible: false,
               builder: (context) {
                 return AlertDialog(
-                  title: Text(AppLocalizations.of(context).firstRunDialogTitle),
+                  title:
+                      Text(AppLocalizations.of(context)!.firstRunDialogTitle),
                   content:
-                      Text(AppLocalizations.of(context).firstRunDialogMessage),
+                      Text(AppLocalizations.of(context)!.firstRunDialogMessage),
                   actions: [
                     TextButton(
-                      child: Text(AppLocalizations.of(context).ok),
+                      child: Text(AppLocalizations.of(context)!.ok),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -147,11 +165,11 @@ class _MainPageState extends State<MainPage> {
       // Use ScaffoldKey to get access to APIs for things like Snackbar
       key: scaffoldKey,
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).appName),
+        title: Text(AppLocalizations.of(context)!.appName),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
-            tooltip: AppLocalizations.of(context).options,
+            tooltip: AppLocalizations.of(context)!.options,
             onPressed: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => OptionsPage()));
@@ -161,7 +179,7 @@ class _MainPageState extends State<MainPage> {
       ),
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.vpn_key),
-          tooltip: AppLocalizations.of(context).generatePasswordTooltip,
+          tooltip: AppLocalizations.of(context)!.generatePasswordTooltip,
           onPressed: generatePassword),
       body: SingleChildScrollView(
         child: Padding(
@@ -174,8 +192,9 @@ class _MainPageState extends State<MainPage> {
                 enableSuggestions: false,
                 decoration: InputDecoration(
                     icon: Icon(Icons.text_fields),
-                    hintText: AppLocalizations.of(context).keywordHintText,
-                    helperText: AppLocalizations.of(context).keywordHelperText),
+                    hintText: AppLocalizations.of(context)!.keywordHintText,
+                    helperText:
+                        AppLocalizations.of(context)!.keywordHelperText),
               ),
               TextField(
                 controller: saltTextInputController,
@@ -184,8 +203,8 @@ class _MainPageState extends State<MainPage> {
                 enableSuggestions: false,
                 decoration: InputDecoration(
                     icon: Icon(Icons.security),
-                    hintText: AppLocalizations.of(context).saltHintText,
-                    helperText: AppLocalizations.of(context).saltHelperText),
+                    hintText: AppLocalizations.of(context)!.saltHintText,
+                    helperText: AppLocalizations.of(context)!.saltHelperText),
               ),
               Row(
                 children: [
@@ -197,7 +216,7 @@ class _MainPageState extends State<MainPage> {
                       decoration: InputDecoration(
                           icon: Icon(Icons.input),
                           helperText:
-                              AppLocalizations.of(context).lengthHelperText),
+                              AppLocalizations.of(context)!.lengthHelperText),
                       textAlign: TextAlign.center,
                       textAlignVertical: TextAlignVertical.center,
                       onTap: showPasswordLengthDialog,
@@ -206,7 +225,7 @@ class _MainPageState extends State<MainPage> {
                   Expanded(
                     child: CheckboxListTile(
                         title: Text(
-                            AppLocalizations.of(context).symbolSwitchTitle),
+                            AppLocalizations.of(context)!.symbolSwitchTitle),
                         controlAffinity: ListTileControlAffinity.leading,
                         value: insertSymbols,
                         onChanged: (value) {
@@ -233,16 +252,18 @@ class _MainPageState extends State<MainPage> {
                             onDoubleTap: () {
                               Clipboard.setData(ClipboardData(text: password))
                                   .then((value) {
-                                scaffoldKey.currentState.showSnackBar(SnackBar(
-                                    content: Text(AppLocalizations.of(context)
-                                        .passwordCopiedMessage)));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            AppLocalizations.of(context)!
+                                                .passwordCopiedMessage)));
                               });
                             },
                           ),
                         ),
                         IconButton(
                           icon: const Icon(Icons.clear),
-                          tooltip: AppLocalizations.of(context).clear,
+                          tooltip: AppLocalizations.of(context)!.clear,
                           onPressed: clearInput,
                         )
                       ]))

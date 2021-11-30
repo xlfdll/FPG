@@ -2,10 +2,10 @@ import 'package:fpg_mobile/core/interfaces/ISaltingAlgorithm.dart';
 
 class AdditiveSaltingAlgorithm implements ISaltingAlgorithm {
   @override
-  String salt(List<String> inputs, List<String> salts) {
+  String salt(List<String> inputs, List<String?> salts) {
     StringBuffer sb = StringBuffer();
     Iterator<String> inputEnumerator = inputs.iterator;
-    Iterator<String> saltEnumerator = salts.iterator;
+    Iterator<String?> saltEnumerator = salts.iterator;
 
     // Keyword
     inputEnumerator.moveNext();

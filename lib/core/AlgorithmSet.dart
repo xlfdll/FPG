@@ -25,11 +25,11 @@ class AlgorithmSet {
         SymbolInsertionAlgorithmFactory.create(symbolInsertionAlgorithmName);
   }
 
-  ISaltGenerationAlgorithm saltGeneration;
-  ISaltingAlgorithm salting;
-  IHashingAlgorithm hashing;
-  ICroppingAlgorithm cropping;
-  ISymbolInsertionAlgorithm symbolInsertion;
+  late ISaltGenerationAlgorithm saltGeneration;
+  late ISaltingAlgorithm salting;
+  late IHashingAlgorithm hashing;
+  late ICroppingAlgorithm cropping;
+  late ISymbolInsertionAlgorithm symbolInsertion;
 
   static AlgorithmSet create(String setName) {
     switch (setName.toLowerCase()) {

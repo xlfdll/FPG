@@ -4,7 +4,7 @@ class NPickedSymbolInsertionAlgorithm implements ISymbolInsertionAlgorithm {
   int pickCount = 1;
 
   @override
-  String insertSymbol(String input, String symbols) {
+  String insertSymbol(String input, String? symbols) {
     StringBuffer sb = StringBuffer();
     // Dart does not support replace characters in place within StringBuffer
     // Use a map to do linear writing instead
@@ -17,7 +17,7 @@ class NPickedSymbolInsertionAlgorithm implements ISymbolInsertionAlgorithm {
 
     for (int i = 0; i < this.pickCount; i++) {
       int inputIndex = ((i + 1) * sum * 701 % input.length).round();
-      int symbolIndex = ((i + 1) * sum * 997 % symbols.length).round();
+      int symbolIndex = ((i + 1) * sum * 997 % symbols!.length).round();
 
       // Prefer replacing digits (and not overwriting other symbols)
       int alternativeInputIndex = inputIndex;
@@ -45,7 +45,7 @@ class NPickedSymbolInsertionAlgorithm implements ISymbolInsertionAlgorithm {
     }
 
     for (int i = 0; i < input.length; i++) {
-      sb.write(indexMap.containsKey(i) ? symbols[indexMap[i]] : input[i]);
+      sb.write(indexMap.containsKey(i) ? symbols![indexMap[i]!] : input[i]);
     }
 
     return sb.toString();
