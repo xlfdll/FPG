@@ -10,7 +10,8 @@ class Constants {
 
   static const int RandomSaltLength = 64;
   static const String DefaultSpecialSymbols =
-      r"~`!@#$%^&*()+=_-{}[]\|:;”’?/<>,.";
+      r"~`!@#$%^&*()+=_-{}[]\|:;”’?/<>,."
+      r"GgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
   static const String CriticalSettingsBackupFileName =
       "FPG_CriticalSettings.dat";
 }
