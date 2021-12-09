@@ -28,13 +28,12 @@ class _MainPageState extends State<MainPage> {
   bool isPasswordSectionVisible = false;
 
   Future<void> initSettings() async {
-    if (await (Settings.getRememberUserSaltSwitch() as FutureOr<bool>)) {
-      saltTextInputController.text =
-          await (Settings.getUserSalt() as FutureOr<String>);
+    if (await (Settings.getRememberUserSaltSwitch() == true)) {
+      saltTextInputController.text = await (Settings.getUserSalt()) ?? "";
     }
 
     lengthTextInputController.text =
-        (await Settings.getPasswordLength()).toString();
+        (await Settings.getPasswordLength() ?? 16).toString();
     insertSymbols = await Settings.getInsertSpecialSymbolsSwitch();
 
     setState(() {});
@@ -48,13 +47,19 @@ class _MainPageState extends State<MainPage> {
         builder: (context) {
           return AlertDialog(
               title: Text(AppLocalizations.of(context)!.setLengthTitle),
-              content: NumberPicker(
-                value: length,
-                minValue: 4,
-                maxValue: 64,
-                step: 1,
-                onChanged: (value) {
-                  length = value;
+              content: StatefulBuilder(
+                builder: (context, setState) {
+                  return NumberPicker(
+                    value: length,
+                    minValue: 4,
+                    maxValue: 64,
+                    step: 1,
+                    onChanged: (value) {
+                      setState(() {
+                        length = value;
+                      });
+                    },
+                  );
                 },
               ),
               actions: [

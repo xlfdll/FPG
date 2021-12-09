@@ -32,7 +32,7 @@ class _OptionsPageState extends State<OptionsPage> {
 
   void showEditSymbolCandidatesDialog() async {
     symbolCandidatesTextInputController.text =
-        await (Settings.getSpecialSymbols() as FutureOr<String>);
+        (await Settings.getSpecialSymbols()) ?? "";
 
     await showDialog(
         context: context,
@@ -79,8 +79,7 @@ class _OptionsPageState extends State<OptionsPage> {
   }
 
   void showEditRandomSaltDialog() async {
-    randomSaltTextInputController.text =
-        await (Settings.getRandomSalt() as FutureOr<String>);
+    randomSaltTextInputController.text = (await Settings.getRandomSalt()) ?? "";
 
     await showDialog(
         context: context,
@@ -142,7 +141,7 @@ class _OptionsPageState extends State<OptionsPage> {
                     Settings.setRandomSalt(
                             App.algorithmSet.saltGeneration.generate())
                         .then((value) {
-                      scaffoldKey.currentState!.showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(AppLocalizations.of(context)!
                               .randomSaltGeneratedMessage)));
                     });
@@ -156,12 +155,12 @@ class _OptionsPageState extends State<OptionsPage> {
 
   void backupCriticalSettings() {
     Helper.backupCriticalSettings().then((value) {
-      scaffoldKey.currentState!.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(AppLocalizations.of(context)!
               .backupCriticalSettingsCompletedMessage
               .replaceAll("%s", Constants.CriticalSettingsBackupFileName))));
     }).catchError((e) {
-      scaffoldKey.currentState!.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content:
               Text(AppLocalizations.of(context)!.exception + e.toString())));
     });
@@ -185,13 +184,13 @@ class _OptionsPageState extends State<OptionsPage> {
                   child: Text(AppLocalizations.of(context)!.yes),
                   onPressed: () {
                     Helper.restoreCriticalSettings().then((value) {
-                      scaffoldKey.currentState!.showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(AppLocalizations.of(context)!
                               .restoreCriticalSettingsCompletedMessage
                               .replaceAll("%s",
                                   Constants.CriticalSettingsBackupFileName))));
                     }).catchError((e) {
-                      scaffoldKey.currentState!.showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
                               AppLocalizations.of(context)!.exception +
                                   e.toString())));

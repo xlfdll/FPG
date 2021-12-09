@@ -5,7 +5,11 @@ import 'package:fpg_mobile/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings {
+  static late SharedPreferences preferences;
+
   static Future<bool> initialize() async {
+    preferences = await SharedPreferences.getInstance();
+
     if ((await getRandomSalt()) == null) {
       await setAutoCopyPasswordSwitch(true);
       await setRememberUserSaltSwitch(true);
@@ -77,31 +81,19 @@ class Settings {
     await setStringPreference(Constants.RandomSaltPreferenceKey, value);
   }
 
-  static Future<T?> getPreference<T>(String key) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-
-    return preferences.get(key) as FutureOr<T?>;
+  static T? getPreference<T>(String key) {
+    return preferences.get(key) as T?;
   }
 
-  static Future<void> setIntPreference(String key, int value) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-
-    await preferences.setInt(key, value);
+  static Future<bool> setIntPreference(String key, int value) async {
+    return await preferences.setInt(key, value);
   }
 
-  static Future<void> setBoolPreference(String key, bool value) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-
-    await preferences.setBool(key, value);
+  static Future<bool> setBoolPreference(String key, bool value) async {
+    return await preferences.setBool(key, value);
   }
 
-  static Future<void> setStringPreference(String key, String value) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-
-    await preferences.setString(key, value);
+  static Future<bool> setStringPreference(String key, String value) async {
+    return await preferences.setString(key, value);
   }
-
-  static void loadCriticalSettings() {}
-
-  static void saveCriticalSettings() {}
 }
