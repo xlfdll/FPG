@@ -32,6 +32,12 @@ class Helper {
     await file.writeAsString(sb.toString(), flush: true);
   }
 
+  static Future<bool> checkCriticalSettings() async {
+    File file = File(await _getBackupFilePath());
+
+    return file.exists();
+  }
+
   static Future restoreCriticalSettings() async {
     File file = File(await _getBackupFilePath());
 
