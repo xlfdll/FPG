@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:fpg_mobile/constants.dart';
@@ -281,24 +282,26 @@ class _OptionsPageState extends State<OptionsPage> {
                       .generateRandomSaltOptionTitle),
                   onTap: generateRandomSalt,
                 ),
-                ListTile(
-                  title: Text(AppLocalizations.of(context)!
-                      .backupCriticalSettingsOptionTitle),
-                  subtitle: Text(AppLocalizations.of(context)!
-                      .backupCriticalSettingsOptionSubtitle
-                      .replaceAll(
-                          "%s", Constants.CriticalSettingsBackupFileName)),
-                  onTap: backupCriticalSettings,
-                ),
-                ListTile(
-                  title: Text(AppLocalizations.of(context)!
-                      .restoreCriticalSettingsOptionTitle),
-                  subtitle: Text(AppLocalizations.of(context)!
-                      .restoreCriticalSettingsOptionSubtitle
-                      .replaceAll(
-                          "%s", Constants.CriticalSettingsBackupFileName)),
-                  onTap: restoreCriticalSettings,
-                )
+                if (!kIsWeb) ...[
+                  ListTile(
+                    title: Text(AppLocalizations.of(context)!
+                        .backupCriticalSettingsOptionTitle),
+                    subtitle: Text(AppLocalizations.of(context)!
+                        .backupCriticalSettingsOptionSubtitle
+                        .replaceAll(
+                            "%s", Constants.CriticalSettingsBackupFileName)),
+                    onTap: backupCriticalSettings,
+                  ),
+                  ListTile(
+                    title: Text(AppLocalizations.of(context)!
+                        .restoreCriticalSettingsOptionTitle),
+                    subtitle: Text(AppLocalizations.of(context)!
+                        .restoreCriticalSettingsOptionSubtitle
+                        .replaceAll(
+                            "%s", Constants.CriticalSettingsBackupFileName)),
+                    onTap: restoreCriticalSettings,
+                  )
+                ]
               ],
             )));
   }
