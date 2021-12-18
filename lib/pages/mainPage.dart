@@ -28,7 +28,7 @@ class _MainPageState extends State<MainPage> {
   bool isPasswordSectionVisible = false;
 
   Future<void> initSettings() async {
-    if (await (Settings.getRememberUserSaltSwitch() == true)) {
+    if (await (Settings.getRememberUserSaltSwitch()) == true) {
       saltTextInputController.text = await (Settings.getUserSalt()) ?? "";
     }
 
