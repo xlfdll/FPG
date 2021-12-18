@@ -266,11 +266,12 @@ class _MainPageState extends State<MainPage> {
                             },
                           ),
                         ),
-                        IconButton(
+                        Flexible(
+                            child: IconButton(
                           icon: const Icon(Icons.clear),
                           tooltip: AppLocalizations.of(context)!.clear,
                           onPressed: clearInput,
-                        )
+                        ))
                       ]))
             ],
           ),
