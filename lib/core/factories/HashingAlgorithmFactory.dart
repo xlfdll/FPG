@@ -1,5 +1,5 @@
-import 'package:fpg_mobile/core/algorithms/hashing/SHA512HashingAlgorithm.dart';
-import 'package:fpg_mobile/core/interfaces/IHashingAlgorithm.dart';
+import 'package:fpg/core/algorithms/hashing/SHA512HashingAlgorithm.dart';
+import 'package:fpg/core/interfaces/IHashingAlgorithm.dart';
 
 class HashingAlgorithmFactory {
   static IHashingAlgorithm create(String name) {

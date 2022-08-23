@@ -1,6 +1,6 @@
 import 'package:crypto/crypto.dart';
-import 'package:fpg_mobile/core/interfaces/IHashingAlgorithm.dart';
-import 'package:fpg_mobile/core/util/UTF16BEByteEncoder.dart';
+import 'package:fpg/core/interfaces/IHashingAlgorithm.dart';
+import 'package:fpg/core/util/UTF16BEByteEncoder.dart';
 
 class SHA512HashingAlgorithm implements IHashingAlgorithm {
   @override

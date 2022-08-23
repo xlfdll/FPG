@@ -1,5 +1,5 @@
-import 'package:fpg_mobile/core/algorithms/symbolinsertion/NPickedSymbolInsertionAlgorithm.dart';
-import 'package:fpg_mobile/core/interfaces/ISymbolInsertionAlgorithm.dart';
+import 'package:fpg/core/algorithms/symbolinsertion/NPickedSymbolInsertionAlgorithm.dart';
+import 'package:fpg/core/interfaces/ISymbolInsertionAlgorithm.dart';
 
 class SymbolInsertionAlgorithmFactory {
   static ISymbolInsertionAlgorithm create(String name) {

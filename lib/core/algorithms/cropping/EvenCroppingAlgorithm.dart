@@ -1,4 +1,4 @@
-import 'package:fpg_mobile/core/interfaces/ICroppingAlgorithm.dart';
+import 'package:fpg/core/interfaces/ICroppingAlgorithm.dart';
 
 class EvenCroppingAlgorithm implements ICroppingAlgorithm {
   @override

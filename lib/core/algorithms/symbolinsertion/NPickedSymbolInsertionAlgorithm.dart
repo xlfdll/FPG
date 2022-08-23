@@ -1,4 +1,4 @@
-import 'package:fpg_mobile/core/interfaces/ISymbolInsertionAlgorithm.dart';
+import 'package:fpg/core/interfaces/ISymbolInsertionAlgorithm.dart';
 
 class NPickedSymbolInsertionAlgorithm implements ISymbolInsertionAlgorithm {
   int pickCount = 1;

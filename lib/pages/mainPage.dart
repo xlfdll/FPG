@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:fpg_mobile/helper.dart';
-import 'package:fpg_mobile/pages/optionsPage.dart';
-import 'package:fpg_mobile/settings.dart';
+import 'package:fpg/helper.dart';
+import 'package:fpg/pages/optionsPage.dart';
+import 'package:fpg/settings.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class MainPage extends StatefulWidget {
@@ -139,7 +139,7 @@ class _MainPageState extends State<MainPage> {
       initSettings();
 
       if (value) {
-        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
           await showDialog(
               context: context,
               barrierDismissible: false,

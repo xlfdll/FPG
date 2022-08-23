@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:fpg_mobile/core/interfaces/ISaltGenerationAlgorithm.dart';
+import 'package:fpg/core/interfaces/ISaltGenerationAlgorithm.dart';
 
 class WPSaltGenerationAlgorithm implements ISaltGenerationAlgorithm {
   int length = 64;

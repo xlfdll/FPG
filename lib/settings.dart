@@ -1,8 +1,10 @@
 import 'dart:async';
 
-import 'package:fpg_mobile/constants.dart';
-import 'package:fpg_mobile/main.dart';
+import 'package:fpg/constants.dart';
+import 'package:fpg/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+// TODO: Windows registry
 
 class Settings {
   static late SharedPreferences preferences;

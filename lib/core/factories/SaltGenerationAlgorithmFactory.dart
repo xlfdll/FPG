@@ -1,5 +1,5 @@
-import 'package:fpg_mobile/core/algorithms/saltgeneration/WPSaltGenerationAlgorithm.dart';
-import 'package:fpg_mobile/core/interfaces/ISaltGenerationAlgorithm.dart';
+import 'package:fpg/core/algorithms/saltgeneration/WPSaltGenerationAlgorithm.dart';
+import 'package:fpg/core/interfaces/ISaltGenerationAlgorithm.dart';
 
 class SaltGenerationAlgorithmFactory {
   static ISaltGenerationAlgorithm create(String name) {

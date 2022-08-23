@@ -32,20 +32,17 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
-    lintOptions {
-        disable 'InvalidPackage'
-    }
 
     defaultConfig {
         applicationId "org.xlfdll.nb.fpg"
         minSdkVersion 16
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -62,6 +59,9 @@ android {
         release {
             signingConfig signingConfigs.release
         }
+    }
+    lint {
+        disable 'InvalidPackage'
     }
 }
 

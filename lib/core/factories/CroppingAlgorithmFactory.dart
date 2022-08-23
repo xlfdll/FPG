@@ -1,5 +1,5 @@
-import 'package:fpg_mobile/core/algorithms/cropping/EvenCroppingAlgorithm.dart';
-import 'package:fpg_mobile/core/interfaces/ICroppingAlgorithm.dart';
+import 'package:fpg/core/algorithms/cropping/EvenCroppingAlgorithm.dart';
+import 'package:fpg/core/interfaces/ICroppingAlgorithm.dart';
 
 class CroppingAlgorithmFactory {
   static ICroppingAlgorithm create(String name) {

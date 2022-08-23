@@ -1,4 +1,4 @@
-import 'package:fpg_mobile/core/interfaces/ISaltingAlgorithm.dart';
+import 'package:fpg/core/interfaces/ISaltingAlgorithm.dart';
 
 class AdditiveSaltingAlgorithm implements ISaltingAlgorithm {
   @override

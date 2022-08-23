@@ -1,5 +1,5 @@
-import 'package:fpg_mobile/core/algorithms/salting/AdditiveSaltingAlgorithm.dart';
-import 'package:fpg_mobile/core/interfaces/ISaltingAlgorithm.dart';
+import 'package:fpg/core/algorithms/salting/AdditiveSaltingAlgorithm.dart';
+import 'package:fpg/core/interfaces/ISaltingAlgorithm.dart';
 
 class SaltingAlgorithmFactory {
   static ISaltingAlgorithm create(String name) {

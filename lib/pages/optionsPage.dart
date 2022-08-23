@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:fpg_mobile/constants.dart';
-import 'package:fpg_mobile/helper.dart';
-import 'package:fpg_mobile/main.dart';
-import 'package:fpg_mobile/settings.dart';
+import 'package:fpg/constants.dart';
+import 'package:fpg/helper.dart';
+import 'package:fpg/main.dart';
+import 'package:fpg/settings.dart';
 
 class OptionsPage extends StatefulWidget {
   OptionsPage({Key? key}) : super(key: key);
