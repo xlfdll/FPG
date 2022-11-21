@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = fpg
+PRODUCT_NAME = FPG
 
 // The application's bundle identifier
 PRODUCT_BUNDLE_IDENTIFIER = org.xlfdll.nb.fpg
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2022 org.xlfdll.nb. All rights reserved.
+PRODUCT_COPYRIGHT = © 2022 Xlfdll Workstation
