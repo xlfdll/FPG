@@ -5,6 +5,9 @@
 #include "flutter_window.h"
 #include "utils.h"
 
+#define WINDOW_WIDTH 1024
+#define WINDOW_HEIGHT 576
+
 int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
                       _In_ wchar_t *command_line, _In_ int show_command) {
   // Attach to console when present (e.g., 'flutter run') or create a
@@ -25,9 +28,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
   project.set_dart_entrypoint_arguments(std::move(command_line_arguments));
 
   FlutterWindow window(project);
-  Win32Window::Point origin(10, 10);
-  Win32Window::Size size(1280, 720);
-  if (!window.CreateAndShow(L"fpg", origin, size)) {
+  Win32Window::Point origin((GetSystemMetrics(SM_CXSCREEN) - WINDOW_WIDTH) / 2, (GetSystemMetrics(SM_CYSCREEN) - WINDOW_HEIGHT) / 2);
+  Win32Window::Size size(WINDOW_WIDTH, WINDOW_HEIGHT);
+  if (!window.CreateAndShow(L"Fkulc's Password Generator", origin, size)) {
     return EXIT_FAILURE;
   }
   window.SetQuitOnClose(true);

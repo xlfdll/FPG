@@ -63,6 +63,7 @@ android {
     lint {
         disable 'InvalidPackage'
     }
+    namespace 'org.xlfdll.nb.fpg'
 }
 
 flutter {

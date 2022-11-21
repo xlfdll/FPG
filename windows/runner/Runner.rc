@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "org.xlfdll.nb" "\0"
-            VALUE "FileDescription", "fpg" "\0"
+            VALUE "CompanyName", "Xlfdll Workstation" "\0"
+            VALUE "FileDescription", "Fkulc's Password Generator" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "fpg" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2022 org.xlfdll.nb. All rights reserved." "\0"
-            VALUE "OriginalFilename", "fpg.exe" "\0"
-            VALUE "ProductName", "fpg" "\0"
+            VALUE "InternalName", "FPG" "\0"
+            VALUE "LegalCopyright", "(C) 2022 Xlfdll Workstation" "\0"
+            VALUE "OriginalFilename", "FPG.exe" "\0"
+            VALUE "ProductName", "Fkulc's Password Generator" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
