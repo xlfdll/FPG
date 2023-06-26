@@ -10,7 +10,6 @@ void main() {
 class App extends StatelessWidget {
   static final AlgorithmSet algorithmSet = AlgorithmSet.create("default");
 
-  // TODO: platform-specific screens
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
