@@ -68,10 +68,8 @@ class UTF16BEByteEncoder {
             ((base & UNICODE_UTF16_HI_MASK) >> 10);
         codeUnitsBuffer[j++] = UNICODE_UTF16_SURROGATE_UNIT_1_BASE +
             (base & UNICODE_UTF16_LO_MASK);
-      } else if (replacementCodepoint != null) {
-        codeUnitsBuffer[j++] = replacementCodepoint;
       } else {
-        throw ArgumentError('Invalid encoding');
+        codeUnitsBuffer[j++] = replacementCodepoint;
       }
     }
 

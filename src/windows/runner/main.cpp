@@ -6,8 +6,8 @@
 #include "utils.h"
 
 const std::wstring &WINDOW_TITLE = L"Fkulc's Password Generator";
-const unsigned int WINDOW_WIDTH = 1024;
-const unsigned int WINDOW_HEIGHT = 576;
+const unsigned int WINDOW_WIDTH = 800;
+const unsigned int WINDOW_HEIGHT = 480;
 
 int APIENTRY
 wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
