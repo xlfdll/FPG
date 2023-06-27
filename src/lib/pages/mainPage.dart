@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:fpg/helper.dart';
+import 'package:fpg/helpers/uiHelper.dart';
 import 'package:fpg/pages/optionsPage.dart';
 import 'package:fpg/settings.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -166,6 +167,43 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final saltTextInput = TextField(
+      controller: saltTextInputController,
+      obscureText: true,
+      autocorrect: false,
+      enableSuggestions: false,
+      decoration: InputDecoration(
+          icon: Icon(Icons.security),
+          hintText: AppLocalizations.of(context)!.saltHintText,
+          helperText: AppLocalizations.of(context)!.saltHelperText),
+    );
+    final passwordOptionWidgets = [
+      Expanded(
+        child: TextField(
+          readOnly: true,
+          controller: lengthTextInputController,
+          decoration: InputDecoration(
+              icon: Icon(Icons.input),
+              helperText: AppLocalizations.of(context)!.lengthHelperText),
+          textAlign: TextAlign.center,
+          textAlignVertical: TextAlignVertical.center,
+          onTap: showPasswordLengthDialog,
+        ),
+      ),
+      Expanded(
+        child: CheckboxListTile(
+            title: Text(AppLocalizations.of(context)!.symbolSwitchTitle),
+            controlAffinity: ListTileControlAffinity.leading,
+            value: insertSymbols,
+            onChanged: (value) {
+              // setState() to notify UI changes
+              setState(() {
+                insertSymbols = value;
+              });
+            }),
+      )
+    ];
+
     return Scaffold(
       // Use ScaffoldKey to get access to APIs for things like Snackbar
       key: scaffoldKey,
@@ -201,69 +239,46 @@ class _MainPageState extends State<MainPage> {
                     helperText:
                         AppLocalizations.of(context)!.keywordHelperText),
               ),
-              TextField(
-                controller: saltTextInputController,
-                obscureText: true,
-                autocorrect: false,
-                enableSuggestions: false,
-                decoration: InputDecoration(
-                    icon: Icon(Icons.security),
-                    hintText: AppLocalizations.of(context)!.saltHintText,
-                    helperText: AppLocalizations.of(context)!.saltHelperText),
-              ),
-              Row(
-                children: [
-                  // Must use containers for child widgets as no inherited width is set
-                  Expanded(
-                    child: TextField(
-                      readOnly: true,
-                      controller: lengthTextInputController,
-                      decoration: InputDecoration(
-                          icon: Icon(Icons.input),
-                          helperText:
-                              AppLocalizations.of(context)!.lengthHelperText),
-                      textAlign: TextAlign.center,
-                      textAlignVertical: TextAlignVertical.center,
-                      onTap: showPasswordLengthDialog,
+              FormFactor.isHandset(context)
+                  ? Column(
+                      children: [
+                        saltTextInput,
+                        Row(
+                          children: passwordOptionWidgets,
+                        )
+                      ],
+                    )
+                  : Row(
+                      children: [
+                        // Must use containers for child widgets as no inherited width is set
+                        Expanded(flex: 2, child: saltTextInput),
+                        ...passwordOptionWidgets
+                      ],
                     ),
-                  ),
-                  Expanded(
-                    child: CheckboxListTile(
-                        title: Text(
-                            AppLocalizations.of(context)!.symbolSwitchTitle),
-                        controlAffinity: ListTileControlAffinity.leading,
-                        value: insertSymbols,
-                        onChanged: (value) {
-                          // setState() to notify UI changes
-                          setState(() {
-                            insertSymbols = value;
-                          });
-                        }),
-                  )
-                ],
-              ),
               Visibility(
                   visible: isPasswordSectionVisible,
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.all(16),
-                          child: GestureDetector(
-                            child: Text(
-                              password,
-                              style: TextStyle(fontSize: 28),
+                        Flexible(
+                          flex: 9,
+                          child: Padding(
+                            padding: EdgeInsets.all(16),
+                            child: GestureDetector(
+                              child: FittedBox(
+                                  child: Text(password,
+                                      style: TextStyle(fontSize: 32))),
+                              onDoubleTap: () {
+                                Clipboard.setData(ClipboardData(text: password))
+                                    .then((value) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              AppLocalizations.of(context)!
+                                                  .passwordCopiedMessage)));
+                                });
+                              },
                             ),
-                            onDoubleTap: () {
-                              Clipboard.setData(ClipboardData(text: password))
-                                  .then((value) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            AppLocalizations.of(context)!
-                                                .passwordCopiedMessage)));
-                              });
-                            },
                           ),
                         ),
                         Flexible(
