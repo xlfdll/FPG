@@ -15,7 +15,7 @@ class ListRange extends IterableBase<int> {
     if (_offset < 0 || _offset > _source.length) {
       throw RangeError.value(_offset);
     }
-    if (_length != null && (_length < 0)) {
+    if (_length < 0) {
       throw RangeError.value(_length);
     }
     if (_length + _offset > _source.length) {
