@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:fpg/helper.dart';
+import 'package:fpg/helpers/passwordHelper.dart';
 import 'package:fpg/helpers/uiHelper.dart';
 import 'package:fpg/pages/optionsPage.dart';
 import 'package:fpg/settings.dart';
@@ -29,12 +29,13 @@ class _MainPageState extends State<MainPage> {
   bool isPasswordSectionVisible = false;
 
   Future<void> initSettings() async {
-    if (await (Settings.getRememberUserSaltSwitch()) == true) {
+    if (await Settings.getRememberUserSaltSwitch() == true) {
       saltTextInputController.text = await (Settings.getUserSalt()) ?? "";
     }
 
     lengthTextInputController.text =
         (await Settings.getPasswordLength() ?? 16).toString();
+
     insertSymbols = await Settings.getInsertSpecialSymbolsSwitch();
 
     setState(() {});
@@ -97,7 +98,6 @@ class _MainPageState extends State<MainPage> {
           .then((value) {
         setState(() {
           password = value;
-
           isPasswordSectionVisible = true;
 
           Settings.getAutoCopyPasswordSwitch().then((v) {
@@ -108,7 +108,6 @@ class _MainPageState extends State<MainPage> {
           Settings.getRememberUserSaltSwitch().then((v) {
             Settings.setUserSalt(v! ? saltTextInputController.text : "");
           });
-
           Settings.setPasswordLength(passwordLength);
           Settings.setInsertSpecialSymbolsSwitch(insertSymbols!);
         });
@@ -127,7 +126,6 @@ class _MainPageState extends State<MainPage> {
       });
 
       password = "";
-
       isPasswordSectionVisible = false;
     });
   }
@@ -239,7 +237,7 @@ class _MainPageState extends State<MainPage> {
                     helperText:
                         AppLocalizations.of(context)!.keywordHelperText),
               ),
-              FormFactor.isHandset(context)
+              UIHelper.isPhoneScreen(context)
                   ? Column(
                       children: [
                         saltTextInput,

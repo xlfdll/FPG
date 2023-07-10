@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:fpg/constants.dart';
-import 'package:fpg/helper.dart';
+import 'package:fpg/helpers/passwordHelper.dart';
 import 'package:fpg/main.dart';
 import 'package:fpg/settings.dart';
 
