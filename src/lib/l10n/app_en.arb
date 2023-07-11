@@ -36,9 +36,11 @@
   "randomSaltGeneratedMessage": "A new random salt has been generated.",
   "backupCriticalSettingsOptionTitle": "Backup critical settings",
   "backupCriticalSettingsOptionSubtitle": "Settings will be saved to %s",
+  "backupCriticalSettingsOptionSubtitleWeb": "Settings will be downloaded as %s",
   "backupCriticalSettingsCompletedMessage": "Critical settings has been saved to %s.",
   "restoreCriticalSettingsOptionTitle": "Restore critical settings from file",
   "restoreCriticalSettingsOptionSubtitle": "Settings will be restored from %s",
+  "restoreCriticalSettingsOptionSubtitleWeb": "Settings will be restored from user selected file",
   "restoreCriticalSettingsCompletedMessage": "Critical settings has been restored from %s.",
   "restoreCriticalSettingsNotFoundMessage": "Critical settings %s is not found.",
   "@appName": {
@@ -152,6 +154,9 @@
   "@backupCriticalSettingsOptionSubtitle": {
     "description": "Backup critical settings button subtitle"
   },
+  "@backupCriticalSettingsOptionSubtitleWeb": {
+    "description": "Backup critical settings button subtitle (Web)"
+  },
   "@backupCriticalSettingsCompletedMessage": {
     "description": "Critical settings backup completed message"
   },
@@ -160,6 +165,9 @@
   },
   "@restoreCriticalSettingsOptionSubtitle": {
     "description": "Restore critical settings button subtitle"
+  },
+  "@restoreCriticalSettingsOptionSubtitleWeb": {
+    "description": "Restore critical settings button subtitle (Web)"
   },
   "@restoreCriticalSettingsCompletedMessage": {
     "description": "Critical settings restore completed message"
