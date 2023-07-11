@@ -4,6 +4,8 @@ import 'package:fpg/constants.dart';
 import 'package:fpg/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
+
 class Settings {
   static late SharedPreferences preferences;
 
@@ -15,7 +17,7 @@ class Settings {
       await setRememberUserSaltSwitch(true);
       await setPasswordLength(16);
       await setInsertSpecialSymbolsSwitch(true);
-      await setSpecialSymbols(Constants.DefaultSpecialSymbols);
+      await setSpecialSymbols(PreferenceConstants.DefaultSpecialSymbols);
       await setUserSalt("");
       await setRandomSalt(App.algorithmSet.saltGeneration.generate());
 
@@ -26,59 +28,59 @@ class Settings {
   }
 
   static Future<bool?> getAutoCopyPasswordSwitch() async {
-    return await getPreference(Constants.AutoCopyPasswordPreferenceKey);
+    return await getPreference(PreferenceKeys.AutoCopyPasswordPreferenceKey);
   }
 
   static Future<void> setAutoCopyPasswordSwitch(bool value) async {
-    await setBoolPreference(Constants.AutoCopyPasswordPreferenceKey, value);
+    await setBoolPreference(PreferenceKeys.AutoCopyPasswordPreferenceKey, value);
   }
 
   static Future<bool?> getRememberUserSaltSwitch() async {
-    return await getPreference(Constants.RememberUserSaltPreferenceKey);
+    return await getPreference(PreferenceKeys.RememberUserSaltPreferenceKey);
   }
 
   static Future<void> setRememberUserSaltSwitch(bool value) async {
-    await setBoolPreference(Constants.RememberUserSaltPreferenceKey, value);
+    await setBoolPreference(PreferenceKeys.RememberUserSaltPreferenceKey, value);
   }
 
   static Future<int?> getPasswordLength() async {
-    return await getPreference(Constants.PasswordLengthPreferenceKey);
+    return await getPreference(PreferenceKeys.PasswordLengthPreferenceKey);
   }
 
   static Future<void> setPasswordLength(int value) async {
-    await setIntPreference(Constants.PasswordLengthPreferenceKey, value);
+    await setIntPreference(PreferenceKeys.PasswordLengthPreferenceKey, value);
   }
 
   static Future<bool?> getInsertSpecialSymbolsSwitch() async {
-    return await getPreference(Constants.InsertSpecialSymbolsPreferenceKey);
+    return await getPreference(PreferenceKeys.InsertSpecialSymbolsPreferenceKey);
   }
 
   static Future<void> setInsertSpecialSymbolsSwitch(bool value) async {
-    await setBoolPreference(Constants.InsertSpecialSymbolsPreferenceKey, value);
+    await setBoolPreference(PreferenceKeys.InsertSpecialSymbolsPreferenceKey, value);
   }
 
   static Future<String?> getSpecialSymbols() async {
-    return await getPreference(Constants.SpecialSymbolsPreferenceKey);
+    return await getPreference(PreferenceKeys.SpecialSymbolsPreferenceKey);
   }
 
   static Future<void> setSpecialSymbols(String value) async {
-    await setStringPreference(Constants.SpecialSymbolsPreferenceKey, value);
+    await setStringPreference(PreferenceKeys.SpecialSymbolsPreferenceKey, value);
   }
 
   static Future<String?> getUserSalt() async {
-    return await getPreference(Constants.UserSaltPreferenceKey);
+    return await getPreference(PreferenceKeys.UserSaltPreferenceKey);
   }
 
   static Future<void> setUserSalt(String value) async {
-    await setStringPreference(Constants.UserSaltPreferenceKey, value);
+    await setStringPreference(PreferenceKeys.UserSaltPreferenceKey, value);
   }
 
   static Future<String?> getRandomSalt() async {
-    return await getPreference(Constants.RandomSaltPreferenceKey);
+    return await getPreference(PreferenceKeys.RandomSaltPreferenceKey);
   }
 
   static Future<void> setRandomSalt(String value) async {
-    await setStringPreference(Constants.RandomSaltPreferenceKey, value);
+    await setStringPreference(PreferenceKeys.RandomSaltPreferenceKey, value);
   }
 
   static T? getPreference<T>(String key) {

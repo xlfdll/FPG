@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:fpg/constants.dart';
 import 'package:fpg/helpers/passwordHelper.dart';
+import 'package:fpg/helpers/platformHelper.dart';
 import 'package:fpg/main.dart';
 import 'package:fpg/settings.dart';
 
@@ -31,7 +32,7 @@ class _OptionsPageState extends State<OptionsPage> {
     setState(() {});
   }
 
-  void showEditSymbolCandidatesDialog() async {
+  Future<void> showEditSymbolCandidatesDialog() async {
     symbolCandidatesTextInputController.text =
         (await Settings.getSpecialSymbols()) ?? "";
 
@@ -58,7 +59,7 @@ class _OptionsPageState extends State<OptionsPage> {
                   child: Text(AppLocalizations.of(context)!.useDefault),
                   onPressed: () {
                     symbolCandidatesTextInputController.text =
-                        Constants.DefaultSpecialSymbols;
+                        PreferenceConstants.DefaultSpecialSymbols;
                   }),
               TextButton(
                   child: Text(AppLocalizations.of(context)!.cancel),
@@ -79,7 +80,7 @@ class _OptionsPageState extends State<OptionsPage> {
         });
   }
 
-  void showEditRandomSaltDialog() async {
+  Future<void> showEditRandomSaltDialog() async {
     randomSaltTextInputController.text = (await Settings.getRandomSalt()) ?? "";
 
     await showDialog(
@@ -155,11 +156,12 @@ class _OptionsPageState extends State<OptionsPage> {
   }
 
   void backupCriticalSettings() {
-    Helper.backupCriticalSettings().then((value) {
+    PasswordHelper.backupCriticalSettings().then((value) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(AppLocalizations.of(context)!
               .backupCriticalSettingsCompletedMessage
-              .replaceAll("%s", Constants.CriticalSettingsBackupFileName))));
+              .replaceAll(
+                  "%s", PreferenceConstants.CriticalSettingsBackupFileName))));
     }).catchError((e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content:
@@ -167,51 +169,54 @@ class _OptionsPageState extends State<OptionsPage> {
     });
   }
 
-  void restoreCriticalSettings() async {
-    if (await Helper.checkCriticalSettings()) {
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) {
-            return AlertDialog(
-              title: Text(AppLocalizations.of(context)!.warning),
-              content:
-                  Text(AppLocalizations.of(context)!.randomSaltChangePrompt),
-              actions: [
-                TextButton(
-                    child: Text(AppLocalizations.of(context)!.no),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    }),
-                TextButton(
-                    child: Text(AppLocalizations.of(context)!.yes),
-                    onPressed: () {
-                      Helper.restoreCriticalSettings().then((value) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(AppLocalizations.of(context)!
-                                .restoreCriticalSettingsCompletedMessage
-                                .replaceAll(
-                                    "%s",
-                                    Constants
-                                        .CriticalSettingsBackupFileName))));
-                      }).catchError((e) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                                AppLocalizations.of(context)!.exception +
-                                    e.toString())));
-                      });
-
-                      Navigator.of(context).pop();
-                    }),
-              ],
-            );
-          });
-    } else {
+  Future<void> restoreCriticalSettings() async {
+    if (!PlatformHelper.isWeb() &&
+        !(await PasswordHelper.checkCriticalSettings())) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(AppLocalizations.of(context)!
               .restoreCriticalSettingsNotFoundMessage
-              .replaceAll("%s", Constants.CriticalSettingsBackupFileName))));
+              .replaceAll(
+                  "%s", PreferenceConstants.CriticalSettingsBackupFileName))));
+
+      return;
     }
+
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(AppLocalizations.of(context)!.warning),
+            content: Text(AppLocalizations.of(context)!.randomSaltChangePrompt),
+            actions: [
+              TextButton(
+                  child: Text(AppLocalizations.of(context)!.no),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }),
+              TextButton(
+                  child: Text(AppLocalizations.of(context)!.yes),
+                  onPressed: () {
+                    PasswordHelper.restoreCriticalSettings().then((value) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(AppLocalizations.of(context)!
+                              .restoreCriticalSettingsCompletedMessage
+                              .replaceAll(
+                                  "%s",
+                                  PreferenceConstants
+                                      .CriticalSettingsBackupFileName))));
+                    }).catchError((e) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              AppLocalizations.of(context)!.exception +
+                                  e.toString())));
+                    });
+
+                    Navigator.of(context).pop();
+                  }),
+            ],
+          );
+        });
   }
 
   @override
@@ -229,90 +234,96 @@ class _OptionsPageState extends State<OptionsPage> {
         appBar: AppBar(title: Text(AppLocalizations.of(context)!.options)),
         body: Padding(
             padding: EdgeInsets.all(16),
-            child: ListView(
-              children: [
-                ListTile(
-                  title: Text(
-                    AppLocalizations.of(context)!.generalOptionsHeader,
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold),
-                  ),
+            child: ListView(children: [
+              ListTile(
+                title: Text(
+                  AppLocalizations.of(context)!.generalOptionsHeader,
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold),
                 ),
-                SwitchListTile(
-                    title: Text(AppLocalizations.of(context)!
-                        .autoCopyPasswordOptionTitle),
-                    value: autoCopyPassword!,
-                    onChanged: (value) {
-                      setState(() {
-                        // Update status locally due to async function limitations
-                        autoCopyPassword = value;
-
-                        Settings.setAutoCopyPasswordSwitch(value);
-                      });
-                    }),
-                SwitchListTile(
-                    title: Text(AppLocalizations.of(context)!
-                        .rememberLastSaltOptionTitle),
-                    value: rememberUserSalt!,
-                    onChanged: (value) {
-                      setState(() {
-                        rememberUserSalt = value;
-
-                        Settings.setRememberUserSaltSwitch(value);
-
-                        if (!value) {
-                          Settings.setUserSalt("");
-                        }
-                      });
-                    }),
-                ListTile(
+              ),
+              SwitchListTile(
                   title: Text(AppLocalizations.of(context)!
-                      .editSymbolCandidatesOptionTitle),
-                  onTap: showEditSymbolCandidatesDialog,
-                ),
-                Divider(),
-                ListTile(
-                  title: Text(
-                    AppLocalizations.of(context)!.randomSaltOptionsHeader,
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                ListTile(
-                  title: Text(
-                      AppLocalizations.of(context)!.editRandomSaltOptionTitle),
-                  onTap: showEditRandomSaltDialog,
-                ),
-                ListTile(
+                      .autoCopyPasswordOptionTitle),
+                  value: autoCopyPassword!,
+                  onChanged: (value) {
+                    setState(() {
+                      // Update status locally due to async function limitations
+                      autoCopyPassword = value;
+
+                      Settings.setAutoCopyPasswordSwitch(value);
+                    });
+                  }),
+              SwitchListTile(
                   title: Text(AppLocalizations.of(context)!
-                      .generateRandomSaltOptionTitle),
-                  onTap: generateRandomSalt,
+                      .rememberLastSaltOptionTitle),
+                  value: rememberUserSalt!,
+                  onChanged: (value) {
+                    setState(() {
+                      rememberUserSalt = value;
+
+                      Settings.setRememberUserSaltSwitch(value);
+
+                      if (!value) {
+                        Settings.setUserSalt("");
+                      }
+                    });
+                  }),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!
+                    .editSymbolCandidatesOptionTitle),
+                onTap: showEditSymbolCandidatesDialog,
+              ),
+              Divider(),
+              ListTile(
+                title: Text(
+                  AppLocalizations.of(context)!.randomSaltOptionsHeader,
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold),
                 ),
-                if (!kIsWeb) ...[
-                  ListTile(
-                    title: Text(AppLocalizations.of(context)!
-                        .backupCriticalSettingsOptionTitle),
-                    subtitle: Text(AppLocalizations.of(context)!
+              ),
+              ListTile(
+                title: Text(
+                    AppLocalizations.of(context)!.editRandomSaltOptionTitle),
+                onTap: showEditRandomSaltDialog,
+              ),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!
+                    .generateRandomSaltOptionTitle),
+                onTap: generateRandomSalt,
+              ),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!
+                    .backupCriticalSettingsOptionTitle),
+                subtitle: !PlatformHelper.isWeb()
+                    ? Text(AppLocalizations.of(context)!
                         .backupCriticalSettingsOptionSubtitle
+                        .replaceAll("%s",
+                            PreferenceConstants.CriticalSettingsBackupFileName))
+                    : Text(AppLocalizations.of(context)!
+                        .backupCriticalSettingsOptionSubtitleWeb
                         .replaceAll(
-                            "%s", Constants.CriticalSettingsBackupFileName)),
-                    onTap: backupCriticalSettings,
-                  ),
-                  ListTile(
-                    title: Text(AppLocalizations.of(context)!
-                        .restoreCriticalSettingsOptionTitle),
-                    subtitle: Text(AppLocalizations.of(context)!
+                            "%s",
+                            PreferenceConstants
+                                .CriticalSettingsBackupFileName)),
+                onTap: backupCriticalSettings,
+              ),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!
+                    .restoreCriticalSettingsOptionTitle),
+                subtitle: !PlatformHelper.isWeb()
+                    ? Text(AppLocalizations.of(context)!
                         .restoreCriticalSettingsOptionSubtitle
-                        .replaceAll(
-                            "%s", Constants.CriticalSettingsBackupFileName)),
-                    onTap: restoreCriticalSettings,
-                  )
-                ]
-              ],
-            )));
+                        .replaceAll("%s",
+                            PreferenceConstants.CriticalSettingsBackupFileName))
+                    : Text(AppLocalizations.of(context)!
+                        .restoreCriticalSettingsOptionSubtitleWeb),
+                onTap: restoreCriticalSettings,
+              )
+            ])));
   }
 }

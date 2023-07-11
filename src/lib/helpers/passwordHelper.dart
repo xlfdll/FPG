@@ -1,11 +1,12 @@
 import 'dart:io';
 
 import 'package:fpg/constants.dart';
+import 'package:fpg/helpers/platformHelper.dart';
 import 'package:fpg/main.dart';
 import 'package:fpg/settings.dart';
 import 'package:path_provider/path_provider.dart';
 
-class Helper {
+class PasswordHelper {
   static Future<String> generatePassword(
       String keyword, String userSalt, int length, bool insertSymbols) async {
     String result = App.algorithmSet.cropping.crop(
@@ -21,15 +22,17 @@ class Helper {
     }
   }
 
-  static Future backupCriticalSettings() async {
+  static Future<void> backupCriticalSettings() async {
     StringBuffer sb = StringBuffer();
 
     sb.writeln(await Settings.getRandomSalt());
     sb.writeln(await Settings.getSpecialSymbols());
 
-    File file = File(await _getBackupFilePath());
+    if (!PlatformHelper.isWeb()) {
+      File file = File(await _getBackupFilePath());
 
-    await file.writeAsString(sb.toString(), flush: true);
+      await file.writeAsString(sb.toString(), flush: true);
+    } else {}
   }
 
   static Future<bool> checkCriticalSettings() async {
@@ -38,7 +41,7 @@ class Helper {
     return file.exists();
   }
 
-  static Future restoreCriticalSettings() async {
+  static Future<void> restoreCriticalSettings() async {
     File file = File(await _getBackupFilePath());
 
     List<String> lines = await file.readAsLines();
@@ -56,6 +59,6 @@ class Helper {
       directory = await getApplicationDocumentsDirectory();
     }
 
-    return "${directory!.path}/${Constants.CriticalSettingsBackupFileName}";
+    return "${directory!.path}/${PreferenceConstants.CriticalSettingsBackupFileName}";
   }
 }
