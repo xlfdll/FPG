@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:fpg/constants.dart';
 import 'package:fpg/helpers/passwordHelper.dart';
+import 'package:fpg/helpers/uiHelper.dart';
 import 'package:fpg/pages/optionsPage.dart';
 import 'package:fpg/settings.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -45,7 +46,7 @@ class _MainPageState extends State<MainPage> {
     await showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) {
+        builder: (dialogContext) {
           return AlertDialog(
             title: Text(AppLocalizations.of(context)!.firstRunDialogTitle),
             content: Text(AppLocalizations.of(context)!.firstRunDialogMessage),
@@ -53,7 +54,7 @@ class _MainPageState extends State<MainPage> {
               TextButton(
                 child: Text(AppLocalizations.of(context)!.ok),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(dialogContext).pop();
                 },
               )
             ],
@@ -66,11 +67,11 @@ class _MainPageState extends State<MainPage> {
 
     showDialog(
         context: context,
-        builder: (context) {
+        builder: (dialogContext) {
           return AlertDialog(
               title: Text(AppLocalizations.of(context)!.setLengthTitle),
               content: StatefulBuilder(
-                builder: (context, setState) {
+                builder: (statefulBuilderContext, setState) {
                   return NumberPicker(
                     value: length,
                     minValue: 4,
@@ -87,11 +88,11 @@ class _MainPageState extends State<MainPage> {
               actions: [
                 TextButton(
                   child: Text(AppLocalizations.of(context)!.cancel),
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () => Navigator.of(dialogContext).pop(),
                 ),
                 TextButton(
                   child: Text(AppLocalizations.of(context)!.ok),
-                  onPressed: () => Navigator.of(context).pop(length),
+                  onPressed: () => Navigator.of(dialogContext).pop(length),
                 )
               ]);
         }).then((value) {
@@ -105,11 +106,11 @@ class _MainPageState extends State<MainPage> {
 
   void generatePassword() {
     if (keywordTextInputController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(AppLocalizations.of(context)!.keywordEmptyMessage)));
+      UIHelper.showMessage(
+          context, AppLocalizations.of(context)!.keywordEmptyMessage);
     } else if (saltTextInputController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(AppLocalizations.of(context)!.saltEmptyMessage)));
+      UIHelper.showMessage(
+          context, AppLocalizations.of(context)!.saltEmptyMessage);
     } else {
       int passwordLength = int.parse(lengthTextInputController.text);
 
@@ -273,11 +274,10 @@ class _MainPageState extends State<MainPage> {
                                     Clipboard.setData(
                                             ClipboardData(text: password))
                                         .then((value) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                              content: Text(
-                                                  AppLocalizations.of(context)!
-                                                      .passwordCopiedMessage)));
+                                      UIHelper.showMessage(
+                                          context,
+                                          AppLocalizations.of(context)!
+                                              .passwordCopiedMessage);
                                     });
                                   },
                                 ),

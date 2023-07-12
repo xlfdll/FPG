@@ -9,7 +9,7 @@ class PreferenceKeys {
   static const String RandomSaltPreferenceKey = "RandomSalt";
 }
 
-class PreferenceConstants {
+class AppConstants {
   static const int RandomSaltLength = 64;
   static const String DefaultSpecialSymbols =
       r"~`!@#$%^&*()+=_-{}[]\|:;”’?/<>,."

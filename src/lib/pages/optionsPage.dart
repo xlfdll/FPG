@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:fpg/constants.dart';
 import 'package:fpg/helpers/passwordHelper.dart';
 import 'package:fpg/helpers/platformHelper.dart';
+import 'package:fpg/helpers/uiHelper.dart';
 import 'package:fpg/main.dart';
 import 'package:fpg/settings.dart';
 
@@ -39,7 +39,7 @@ class _OptionsPageState extends State<OptionsPage> {
     await showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) {
+        builder: (dialogContext) {
           return AlertDialog(
             title: Text(
                 AppLocalizations.of(context)!.editSymbolCandidatesOptionTitle),
@@ -59,12 +59,12 @@ class _OptionsPageState extends State<OptionsPage> {
                   child: Text(AppLocalizations.of(context)!.useDefault),
                   onPressed: () {
                     symbolCandidatesTextInputController.text =
-                        PreferenceConstants.DefaultSpecialSymbols;
+                        AppConstants.DefaultSpecialSymbols;
                   }),
               TextButton(
                   child: Text(AppLocalizations.of(context)!.cancel),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(dialogContext).pop();
                   }),
               TextButton(
                   child: Text(AppLocalizations.of(context)!.ok),
@@ -72,7 +72,7 @@ class _OptionsPageState extends State<OptionsPage> {
                     Settings.setSpecialSymbols(
                             symbolCandidatesTextInputController.text)
                         .then((value) {
-                      Navigator.of(context).pop();
+                      Navigator.of(dialogContext).pop();
                     });
                   }),
             ],
@@ -86,7 +86,7 @@ class _OptionsPageState extends State<OptionsPage> {
     await showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) {
+        builder: (dialogContext) {
           return AlertDialog(
             title:
                 Text(AppLocalizations.of(context)!.editRandomSaltOptionTitle),
@@ -104,18 +104,18 @@ class _OptionsPageState extends State<OptionsPage> {
               TextButton(
                   child: Text(AppLocalizations.of(context)!.cancel),
                   onPressed: () {
-                    randomSaltTextInputController.text = "";
+                    Navigator.of(dialogContext).pop();
 
-                    Navigator.of(context).pop();
+                    randomSaltTextInputController.text = "";
                   }),
               TextButton(
                   child: Text(AppLocalizations.of(context)!.ok),
                   onPressed: () {
                     Settings.setRandomSalt(randomSaltTextInputController.text)
                         .then((value) {
-                      randomSaltTextInputController.text = "";
+                      Navigator.of(dialogContext).pop();
 
-                      Navigator.of(context).pop();
+                      randomSaltTextInputController.text = "";
                     });
                   }),
             ],
@@ -127,7 +127,7 @@ class _OptionsPageState extends State<OptionsPage> {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) {
+        builder: (dialogContext) {
           return AlertDialog(
             title: Text(AppLocalizations.of(context)!.warning),
             content: Text(AppLocalizations.of(context)!.randomSaltChangePrompt),
@@ -135,20 +135,19 @@ class _OptionsPageState extends State<OptionsPage> {
               TextButton(
                   child: Text(AppLocalizations.of(context)!.no),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(dialogContext).pop();
                   }),
               TextButton(
                   child: Text(AppLocalizations.of(context)!.yes),
                   onPressed: () {
-                    Settings.setRandomSalt(
-                            App.algorithmSet.saltGeneration.generate())
-                        .then((value) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(AppLocalizations.of(context)!
-                              .randomSaltGeneratedMessage)));
+                    PasswordHelper.generateRandomSalt().then((value) {
+                      UIHelper.showMessage(
+                          context,
+                          AppLocalizations.of(context)!
+                              .randomSaltGeneratedMessage);
                     });
 
-                    Navigator.of(context).pop();
+                    Navigator.of(dialogContext).pop();
                   }),
             ],
           );
@@ -157,66 +156,67 @@ class _OptionsPageState extends State<OptionsPage> {
 
   void backupCriticalSettings() {
     PasswordHelper.backupCriticalSettings().then((value) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(AppLocalizations.of(context)!
+      UIHelper.showMessage(
+          context,
+          AppLocalizations.of(context)!
               .backupCriticalSettingsCompletedMessage
-              .replaceAll(
-                  "%s", PreferenceConstants.CriticalSettingsBackupFileName))));
+              .replaceAll("%s", AppConstants.CriticalSettingsBackupFileName));
     }).catchError((e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content:
-              Text(AppLocalizations.of(context)!.exception + e.toString())));
+      UIHelper.showMessage(
+          context, AppLocalizations.of(context)!.exception + e.toString());
     });
   }
 
   Future<void> restoreCriticalSettings() async {
-    if (!PlatformHelper.isWeb() &&
-        !(await PasswordHelper.checkCriticalSettings())) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(AppLocalizations.of(context)!
+    if (await PasswordHelper.checkCriticalSettings()) {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (dialogContext) {
+            return AlertDialog(
+              title: Text(AppLocalizations.of(context)!.warning),
+              content:
+                  Text(AppLocalizations.of(context)!.randomSaltChangePrompt),
+              actions: [
+                TextButton(
+                    child: Text(AppLocalizations.of(context)!.no),
+                    onPressed: () {
+                      Navigator.of(dialogContext).pop();
+                    }),
+                TextButton(
+                    child: Text(AppLocalizations.of(context)!.yes),
+                    onPressed: () {
+                      PasswordHelper.restoreCriticalSettings().then((value) {
+                        UIHelper.showMessage(
+                            context,
+                            !PlatformHelper.isWeb()
+                                ? AppLocalizations.of(context)!
+                                    .restoreCriticalSettingsCompletedMessage
+                                    .replaceAll(
+                                        "%s",
+                                        AppConstants
+                                            .CriticalSettingsBackupFileName)
+                                : AppLocalizations.of(context)!
+                                    .restoreCriticalSettingsCompletedMessageWeb);
+                      }).catchError((e) {
+                        UIHelper.showMessage(
+                            context,
+                            AppLocalizations.of(context)!.exception +
+                                e.toString());
+                      });
+
+                      Navigator.of(dialogContext).pop();
+                    }),
+              ],
+            );
+          });
+    } else {
+      UIHelper.showMessage(
+          context,
+          AppLocalizations.of(context)!
               .restoreCriticalSettingsNotFoundMessage
-              .replaceAll(
-                  "%s", PreferenceConstants.CriticalSettingsBackupFileName))));
-
-      return;
+              .replaceAll("%s", AppConstants.CriticalSettingsBackupFileName));
     }
-
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(AppLocalizations.of(context)!.warning),
-            content: Text(AppLocalizations.of(context)!.randomSaltChangePrompt),
-            actions: [
-              TextButton(
-                  child: Text(AppLocalizations.of(context)!.no),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  }),
-              TextButton(
-                  child: Text(AppLocalizations.of(context)!.yes),
-                  onPressed: () {
-                    PasswordHelper.restoreCriticalSettings().then((value) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(AppLocalizations.of(context)!
-                              .restoreCriticalSettingsCompletedMessage
-                              .replaceAll(
-                                  "%s",
-                                  PreferenceConstants
-                                      .CriticalSettingsBackupFileName))));
-                    }).catchError((e) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(
-                              AppLocalizations.of(context)!.exception +
-                                  e.toString())));
-                    });
-
-                    Navigator.of(context).pop();
-                  }),
-            ],
-          );
-        });
   }
 
   @override
@@ -302,14 +302,12 @@ class _OptionsPageState extends State<OptionsPage> {
                 subtitle: !PlatformHelper.isWeb()
                     ? Text(AppLocalizations.of(context)!
                         .backupCriticalSettingsOptionSubtitle
-                        .replaceAll("%s",
-                            PreferenceConstants.CriticalSettingsBackupFileName))
+                        .replaceAll(
+                            "%s", AppConstants.CriticalSettingsBackupFileName))
                     : Text(AppLocalizations.of(context)!
                         .backupCriticalSettingsOptionSubtitleWeb
                         .replaceAll(
-                            "%s",
-                            PreferenceConstants
-                                .CriticalSettingsBackupFileName)),
+                            "%s", AppConstants.CriticalSettingsBackupFileName)),
                 onTap: backupCriticalSettings,
               ),
               ListTile(
@@ -318,8 +316,8 @@ class _OptionsPageState extends State<OptionsPage> {
                 subtitle: !PlatformHelper.isWeb()
                     ? Text(AppLocalizations.of(context)!
                         .restoreCriticalSettingsOptionSubtitle
-                        .replaceAll("%s",
-                            PreferenceConstants.CriticalSettingsBackupFileName))
+                        .replaceAll(
+                            "%s", AppConstants.CriticalSettingsBackupFileName))
                     : Text(AppLocalizations.of(context)!
                         .restoreCriticalSettingsOptionSubtitleWeb),
                 onTap: restoreCriticalSettings,
