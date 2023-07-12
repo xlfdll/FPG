@@ -42,6 +42,7 @@
   "restoreCriticalSettingsOptionSubtitle": "Settings will be restored from %s",
   "restoreCriticalSettingsOptionSubtitleWeb": "Settings will be restored from user selected file",
   "restoreCriticalSettingsCompletedMessage": "Critical settings has been restored from %s.",
+  "restoreCriticalSettingsCompletedMessageWeb": "Critical settings has been restored from user selected file.",
   "restoreCriticalSettingsNotFoundMessage": "Critical settings %s is not found.",
   "@appName": {
     "description": "App name. Used in title."
@@ -171,6 +172,9 @@
   },
   "@restoreCriticalSettingsCompletedMessage": {
     "description": "Critical settings restore completed message"
+  },
+  "@restoreCriticalSettingsCompletedMessageWeb": {
+    "description": "Critical settings restore completed message (Web)"
   },
   "@restoreCriticalSettingsNotFoundMessage": {
     "description": "Critical settings restore not found message"
