@@ -47,6 +47,7 @@ class _OptionsPageState extends State<OptionsPage> {
               controller: symbolCandidatesTextInputController,
               autocorrect: false,
               enableSuggestions: false,
+              textInputAction: TextInputAction.done,
               decoration: InputDecoration(
                   icon: Icon(Icons.keyboard),
                   hintText: AppLocalizations.of(context)!
@@ -94,6 +95,7 @@ class _OptionsPageState extends State<OptionsPage> {
               controller: randomSaltTextInputController,
               autocorrect: false,
               enableSuggestions: false,
+              textInputAction: TextInputAction.done,
               decoration: InputDecoration(
                   icon: Icon(Icons.security),
                   hintText: AppLocalizations.of(context)!.randomSaltHintText,

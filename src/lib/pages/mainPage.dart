@@ -173,6 +173,7 @@ class _MainPageState extends State<MainPage> {
       obscureText: true,
       autocorrect: false,
       enableSuggestions: false,
+      textInputAction: TextInputAction.next,
       decoration: InputDecoration(
           icon: Icon(Icons.security),
           hintText: AppLocalizations.of(context)!.saltHintText,
@@ -186,6 +187,7 @@ class _MainPageState extends State<MainPage> {
           helperText: AppLocalizations.of(context)!.lengthHelperText),
       textAlign: TextAlign.center,
       textAlignVertical: TextAlignVertical.center,
+      textInputAction: TextInputAction.next,
       onTap: showPasswordLengthDialog,
     );
     final insertSymbolsCheckBox = CheckboxListTile(
@@ -230,6 +232,11 @@ class _MainPageState extends State<MainPage> {
                     controller: keywordTextInputController,
                     autocorrect: false,
                     enableSuggestions: false,
+                    autofocus: true,
+                    textInputAction: TextInputAction.go,
+                    onSubmitted: (value) {
+                      generatePassword();
+                    },
                     decoration: InputDecoration(
                         icon: Icon(Icons.text_fields),
                         hintText: AppLocalizations.of(context)!.keywordHintText,
