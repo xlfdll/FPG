@@ -8,6 +8,7 @@ import 'package:fpg/helpers/passwordHelper.dart';
 import 'package:fpg/helpers/uiHelper.dart';
 import 'package:fpg/pages/optionsPage.dart';
 import 'package:fpg/settings.dart';
+import 'package:fpg/widgets/AppBarLinearProgressIndicator.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class MainPage extends StatefulWidget {
@@ -18,26 +19,35 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   final keywordTextInputController = TextEditingController();
   final saltTextInputController = TextEditingController();
   final lengthTextInputController = TextEditingController();
 
-  bool? insertSymbols = true;
-  String password = "";
+  Timer? passwordClearTimer;
 
+  bool? insertSpecialSymbols = PreferenceDefaults.InsertSpecialSymbols;
+  int passwordClearTime = PreferenceDefaults.PasswordClearTime;
+  int remainingPasswordClearTime = PreferenceDefaults.PasswordClearTime;
+
+  String password = "";
   bool isPasswordSectionVisible = false;
 
   Future<void> initSettings() async {
     if (await Settings.getRememberUserSaltSwitch() == true) {
-      saltTextInputController.text = await (Settings.getUserSalt()) ?? "";
+      saltTextInputController.text =
+          await (Settings.getUserSalt()) ?? PreferenceDefaults.UserSalt;
     }
 
-    lengthTextInputController.text =
-        (await Settings.getPasswordLength() ?? 16).toString();
+    lengthTextInputController.text = (await Settings.getPasswordLength() ??
+            PreferenceDefaults.PasswordLength)
+        .toString();
 
-    insertSymbols = await Settings.getInsertSpecialSymbolsSwitch();
+    insertSpecialSymbols = await Settings.getInsertSpecialSymbolsSwitch();
+    passwordClearTime = await Settings.getPasswordClearTime() ??
+        PreferenceDefaults.PasswordClearTime;
+    remainingPasswordClearTime = 0;
 
     setState(() {});
   }
@@ -62,10 +72,9 @@ class _MainPageState extends State<MainPage> {
         });
   }
 
-  void showPasswordLengthDialog() {
+  Future<void> showPasswordLengthDialog() async {
     int length = int.parse(lengthTextInputController.text);
-
-    showDialog(
+    int? result = await showDialog(
         context: context,
         builder: (dialogContext) {
           return AlertDialog(
@@ -95,13 +104,13 @@ class _MainPageState extends State<MainPage> {
                   onPressed: () => Navigator.of(dialogContext).pop(length),
                 )
               ]);
-        }).then((value) {
-      if (value != null) {
-        setState(() {
-          lengthTextInputController.text = value.toString();
         });
-      }
-    });
+
+    if (result != null) {
+      setState(() {
+        lengthTextInputController.text = result.toString();
+      });
+    }
   }
 
   void generatePassword() {
@@ -114,23 +123,37 @@ class _MainPageState extends State<MainPage> {
     } else {
       int passwordLength = int.parse(lengthTextInputController.text);
 
-      PasswordHelper.generatePassword(keywordTextInputController.text,
-              saltTextInputController.text, passwordLength, insertSymbols!)
+      PasswordHelper.generatePassword(
+              keywordTextInputController.text,
+              saltTextInputController.text,
+              passwordLength,
+              insertSpecialSymbols!)
           .then((value) {
         setState(() {
-          password = value;
-          isPasswordSectionVisible = true;
+          Settings.getShowPasswordSwitch().then((v) {
+            if (v!) {
+              password = value;
+              isPasswordSectionVisible = true;
+
+              Settings.getAutoClearPasswordSwitch().then((v) => {
+                    if (v!) {startPasswordClearTimer()}
+                  });
+            }
+          });
 
           Settings.getAutoCopyPasswordSwitch().then((v) {
             if (v!) {
               Clipboard.setData(ClipboardData(text: value));
+
+              UIHelper.showMessage(
+                  context, AppLocalizations.of(context)!.passwordCopiedMessage);
             }
           });
           Settings.getRememberUserSaltSwitch().then((v) {
             Settings.setUserSalt(v! ? saltTextInputController.text : "");
           });
           Settings.setPasswordLength(passwordLength);
-          Settings.setInsertSpecialSymbolsSwitch(insertSymbols!);
+          Settings.setInsertSpecialSymbolsSwitch(insertSpecialSymbols!);
         });
       });
     }
@@ -149,6 +172,33 @@ class _MainPageState extends State<MainPage> {
       password = "";
       isPasswordSectionVisible = false;
     });
+  }
+
+  Future<void> startPasswordClearTimer() async {
+    passwordClearTime = await Settings.getPasswordClearTime() ??
+        PreferenceDefaults.PasswordClearTime;
+    remainingPasswordClearTime = passwordClearTime;
+
+    final timerDuration = Duration(milliseconds: 50);
+
+    passwordClearTimer = Timer.periodic(timerDuration, (timer) {
+      setState(() {
+        if (remainingPasswordClearTime == 0) {
+          timer.cancel();
+
+          this.clearInput();
+        } else {
+          remainingPasswordClearTime -= timerDuration.inMilliseconds;
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    passwordClearTimer?.cancel();
+
+    super.dispose();
   }
 
   @override
@@ -193,11 +243,11 @@ class _MainPageState extends State<MainPage> {
     final insertSymbolsCheckBox = CheckboxListTile(
         title: Text(AppLocalizations.of(context)!.symbolSwitchTitle),
         controlAffinity: ListTileControlAffinity.leading,
-        value: insertSymbols,
+        value: insertSpecialSymbols,
         onChanged: (value) {
           // setState() to notify UI changes
           setState(() {
-            insertSymbols = value;
+            insertSpecialSymbols = value;
           });
         });
 
@@ -206,6 +256,10 @@ class _MainPageState extends State<MainPage> {
       key: scaffoldKey,
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.appName),
+        bottom: AppBarLinearProgressIndicator(
+          value: remainingPasswordClearTime / passwordClearTime,
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -223,82 +277,80 @@ class _MainPageState extends State<MainPage> {
           onPressed: generatePassword),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          return Container(
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: keywordTextInputController,
-                    autocorrect: false,
-                    enableSuggestions: false,
-                    autofocus: true,
-                    textInputAction: TextInputAction.go,
-                    onSubmitted: (value) {
-                      generatePassword();
-                    },
-                    decoration: InputDecoration(
-                        icon: Icon(Icons.text_fields),
-                        hintText: AppLocalizations.of(context)!.keywordHintText,
-                        helperText:
-                            AppLocalizations.of(context)!.keywordHelperText),
-                  ),
-                  constraints.maxWidth < UIConstants.ScreenWidthBreakpoint
-                      ? Column(
-                          children: [
-                            saltTextInput,
-                            Row(
-                              children: [
-                                Expanded(child: lengthTextInput),
-                                Container(
-                                    width: 200, child: insertSymbolsCheckBox)
-                              ],
-                            )
-                          ],
-                        )
-                      : Row(
-                          children: [
-                            // Must use containers for child widgets as no inherited width is set
-                            Expanded(child: saltTextInput),
-                            Container(width: 200, child: lengthTextInput),
-                            Container(width: 200, child: insertSymbolsCheckBox)
-                          ],
-                        ),
-                  Visibility(
-                      visible: isPasswordSectionVisible,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Flexible(
-                              flex: 9,
-                              child: Padding(
-                                padding: EdgeInsets.all(16),
-                                child: GestureDetector(
-                                  child: FittedBox(
-                                      child: Text(password,
-                                          style: TextStyle(fontSize: 32))),
-                                  onDoubleTap: () {
-                                    Clipboard.setData(
-                                            ClipboardData(text: password))
-                                        .then((value) {
-                                      UIHelper.showMessage(
-                                          context,
-                                          AppLocalizations.of(context)!
-                                              .passwordCopiedMessage);
-                                    });
-                                  },
-                                ),
+          return Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              children: [
+                TextField(
+                  controller: keywordTextInputController,
+                  autocorrect: false,
+                  enableSuggestions: false,
+                  autofocus: true,
+                  textInputAction: TextInputAction.go,
+                  onSubmitted: (value) {
+                    generatePassword();
+                  },
+                  decoration: InputDecoration(
+                      icon: Icon(Icons.text_fields),
+                      hintText: AppLocalizations.of(context)!.keywordHintText,
+                      helperText:
+                          AppLocalizations.of(context)!.keywordHelperText),
+                ),
+                constraints.maxWidth < UIConstants.ScreenWidthBreakpoint
+                    ? Column(
+                        children: [
+                          saltTextInput,
+                          Row(
+                            children: [
+                              Expanded(child: lengthTextInput),
+                              Container(
+                                  width: 200, child: insertSymbolsCheckBox)
+                            ],
+                          )
+                        ],
+                      )
+                    : Row(
+                        children: [
+                          // Must use containers for child widgets as no inherited width is set
+                          Expanded(child: saltTextInput),
+                          Container(width: 200, child: lengthTextInput),
+                          Container(width: 200, child: insertSymbolsCheckBox)
+                        ],
+                      ),
+                Visibility(
+                    visible: isPasswordSectionVisible,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            flex: 9,
+                            child: Padding(
+                              padding: EdgeInsets.all(16),
+                              child: GestureDetector(
+                                child: FittedBox(
+                                    child: Text(password,
+                                        style: TextStyle(fontSize: 32))),
+                                onDoubleTap: () {
+                                  Clipboard.setData(
+                                          ClipboardData(text: password))
+                                      .then((value) {
+                                    UIHelper.showMessage(
+                                        context,
+                                        AppLocalizations.of(context)!
+                                            .passwordCopiedMessage);
+                                  });
+                                },
                               ),
                             ),
-                            Flexible(
-                                child: IconButton(
-                              icon: const Icon(Icons.clear),
-                              tooltip: AppLocalizations.of(context)!.clear,
-                              onPressed: clearInput,
-                            ))
-                          ]))
-                ],
-              ),
+                          ),
+                          Flexible(
+                              child: IconButton(
+                            icon: const Icon(Icons.clear),
+                            tooltip: AppLocalizations.of(context)!.clear,
+                            onPressed: clearInput,
+                          ))
+                        ]))
+              ],
             ),
           );
         },

@@ -6,8 +6,8 @@ import 'package:fpg/constants.dart';
 import 'package:fpg/helpers/passwordHelper.dart';
 import 'package:fpg/helpers/platformHelper.dart';
 import 'package:fpg/helpers/uiHelper.dart';
-import 'package:fpg/main.dart';
 import 'package:fpg/settings.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 class OptionsPage extends StatefulWidget {
   OptionsPage({Key? key}) : super(key: key);
@@ -17,24 +17,70 @@ class OptionsPage extends StatefulWidget {
 }
 
 class _OptionsPageState extends State<OptionsPage> {
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   final symbolCandidatesTextInputController = TextEditingController();
   final randomSaltTextInputController = TextEditingController();
 
-  bool? autoCopyPassword = true;
-  bool? rememberUserSalt = true;
+  bool? autoCopyPassword = PreferenceDefaults.AutoCopyPassword;
+  bool? rememberUserSalt = PreferenceDefaults.RememberUserSalt;
+  bool? showPassword = PreferenceDefaults.ShowPassword;
+  bool? autoClearPassword = PreferenceDefaults.AutoClearPassword;
+  int passwordClearTime = PreferenceDefaults.PasswordClearTime;
 
   Future<void> initSettings() async {
     autoCopyPassword = await Settings.getAutoCopyPasswordSwitch();
     rememberUserSalt = await Settings.getRememberUserSaltSwitch();
+    showPassword = await Settings.getShowPasswordSwitch();
+    autoClearPassword = await Settings.getAutoClearPasswordSwitch();
+    passwordClearTime = await Settings.getPasswordClearTime() ??
+        PreferenceDefaults.PasswordClearTime;
 
     setState(() {});
   }
 
+  Future<void> showPasswordClearTimeDialog() async {
+    await showDialog(
+        context: context,
+        builder: (dialogContext) {
+          return AlertDialog(
+              title: Text(AppLocalizations.of(context)!
+                  .setPasswordClearTimeOptionTitle),
+              content: StatefulBuilder(
+                builder: (statefulBuilderContext, setState) {
+                  return NumberPicker(
+                    value: passwordClearTime ~/ 1000,
+                    minValue: 5,
+                    maxValue: 300,
+                    step: 1,
+                    onChanged: (value) {
+                      setState(() {
+                        passwordClearTime = value * 1000;
+
+                        Settings.setPasswordClearTime(passwordClearTime);
+                      });
+                    },
+                  );
+                },
+              ),
+              actions: [
+                TextButton(
+                  child: Text(AppLocalizations.of(context)!.cancel),
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                ),
+                TextButton(
+                  child: Text(AppLocalizations.of(context)!.ok),
+                  onPressed: () =>
+                      Navigator.of(dialogContext).pop(passwordClearTime),
+                )
+              ]);
+        });
+  }
+
   Future<void> showEditSymbolCandidatesDialog() async {
     symbolCandidatesTextInputController.text =
-        (await Settings.getSpecialSymbols()) ?? "";
+        (await Settings.getSpecialSymbols()) ??
+            PreferenceDefaults.SpecialSymbols;
 
     await showDialog(
         context: context,
@@ -60,7 +106,7 @@ class _OptionsPageState extends State<OptionsPage> {
                   child: Text(AppLocalizations.of(context)!.useDefault),
                   onPressed: () {
                     symbolCandidatesTextInputController.text =
-                        AppConstants.DefaultSpecialSymbols;
+                        PreferenceDefaults.SpecialSymbols;
                   }),
               TextButton(
                   child: Text(AppLocalizations.of(context)!.cancel),
@@ -125,8 +171,8 @@ class _OptionsPageState extends State<OptionsPage> {
         });
   }
 
-  void generateRandomSalt() {
-    showDialog(
+  Future<void> generateRandomSalt() async {
+    await showDialog(
         context: context,
         barrierDismissible: false,
         builder: (dialogContext) {
@@ -156,17 +202,19 @@ class _OptionsPageState extends State<OptionsPage> {
         });
   }
 
-  void backupCriticalSettings() {
-    PasswordHelper.backupCriticalSettings().then((value) {
+  Future<void> backupCriticalSettings() async {
+    try {
+      await PasswordHelper.backupCriticalSettings();
+
       UIHelper.showMessage(
           context,
           AppLocalizations.of(context)!
               .backupCriticalSettingsCompletedMessage
               .replaceAll("%s", AppConstants.CriticalSettingsBackupFileName));
-    }).catchError((e) {
+    } catch (e) {
       UIHelper.showMessage(
           context, AppLocalizations.of(context)!.exception + e.toString());
-    });
+    }
   }
 
   Future<void> restoreCriticalSettings() async {
@@ -230,6 +278,11 @@ class _OptionsPageState extends State<OptionsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final headerTextStyle = TextStyle(
+        color: Theme.of(context).primaryColor,
+        fontSize: 14,
+        fontWeight: FontWeight.bold);
+
     return Scaffold(
         // Use ScaffoldKey to get access to APIs for things like Snackbar
         key: scaffoldKey,
@@ -240,24 +293,29 @@ class _OptionsPageState extends State<OptionsPage> {
               ListTile(
                 title: Text(
                   AppLocalizations.of(context)!.generalOptionsHeader,
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold),
+                  style: headerTextStyle,
                 ),
               ),
               SwitchListTile(
                   title: Text(AppLocalizations.of(context)!
                       .autoCopyPasswordOptionTitle),
                   value: autoCopyPassword!,
-                  onChanged: (value) {
-                    setState(() {
-                      // Update status locally due to async function limitations
-                      autoCopyPassword = value;
+                  onChanged: !showPassword!
+                      ? null
+                      : (value) {
+                          setState(() {
+                            // Update status locally due to async function limitations
+                            autoCopyPassword = value;
 
-                      Settings.setAutoCopyPasswordSwitch(value);
-                    });
-                  }),
+                            Settings.setAutoCopyPasswordSwitch(value);
+
+                            if (!value) {
+                              showPassword = true;
+
+                              Settings.setShowPasswordSwitch(true);
+                            }
+                          });
+                        }),
               SwitchListTile(
                   title: Text(AppLocalizations.of(context)!
                       .rememberLastSaltOptionTitle),
@@ -280,12 +338,55 @@ class _OptionsPageState extends State<OptionsPage> {
               ),
               Divider(),
               ListTile(
+                  title: Text(
+                AppLocalizations.of(context)!.userInterfaceOptionsHeader,
+                style: headerTextStyle,
+              )),
+              SwitchListTile(
+                  title: Text(
+                      AppLocalizations.of(context)!.showPasswordOptionTitle),
+                  value: showPassword!,
+                  onChanged: !autoCopyPassword!
+                      ? null
+                      : (value) {
+                          setState(() {
+                            // Update status locally due to async function limitations
+                            showPassword = value;
+
+                            Settings.setShowPasswordSwitch(value);
+
+                            if (!value) {
+                              autoCopyPassword = true;
+
+                              Settings.setAutoCopyPasswordSwitch(true);
+                            }
+                          });
+                        }),
+              SwitchListTile(
+                  title: Text(AppLocalizations.of(context)!
+                      .autoClearPasswordOptionTitle),
+                  value: autoClearPassword!,
+                  onChanged: !showPassword!
+                      ? null
+                      : (value) {
+                          setState(() {
+                            // Update status locally due to async function limitations
+                            autoClearPassword = value;
+
+                            Settings.setAutoClearPasswordSwitch(value);
+                          });
+                        }),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!
+                    .setPasswordClearTimeOptionTitle),
+                enabled: autoClearPassword!,
+                onTap: showPasswordClearTimeDialog,
+              ),
+              Divider(),
+              ListTile(
                 title: Text(
                   AppLocalizations.of(context)!.randomSaltOptionsHeader,
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold),
+                  style: headerTextStyle,
                 ),
               ),
               ListTile(

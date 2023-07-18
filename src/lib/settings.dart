@@ -10,19 +10,40 @@ class Settings {
   static Future<bool> initialize() async {
     preferences = await SharedPreferences.getInstance();
 
-    if ((await getRandomSalt()) == null) {
-      await setAutoCopyPasswordSwitch(true);
-      await setRememberUserSaltSwitch(true);
-      await setPasswordLength(16);
-      await setInsertSpecialSymbolsSwitch(true);
-      await setSpecialSymbols(AppConstants.DefaultSpecialSymbols);
-      await setUserSalt("");
-      await setRandomSalt(App.algorithmSet.saltGeneration.generate());
+    bool firstRun = ((await getRandomSalt()) == null);
 
-      return true;
+    if ((await getAutoCopyPasswordSwitch()) == null) {
+      await setAutoCopyPasswordSwitch(PreferenceDefaults.AutoCopyPassword);
+    }
+    if ((await getRememberUserSaltSwitch()) == null) {
+      await setRememberUserSaltSwitch(PreferenceDefaults.RememberUserSalt);
+    }
+    if ((await getPasswordLength()) == null) {
+      await setPasswordLength(PreferenceDefaults.PasswordLength);
+    }
+    if ((await getInsertSpecialSymbolsSwitch()) == null) {
+      await setInsertSpecialSymbolsSwitch(PreferenceDefaults.InsertSpecialSymbols);
+    }
+    if ((await getSpecialSymbols()) == null) {
+      await setSpecialSymbols(PreferenceDefaults.SpecialSymbols);
+    }
+    if ((await getUserSalt()) == null) {
+      await setUserSalt(PreferenceDefaults.UserSalt);
+    }
+    if ((await getRandomSalt()) == null) {
+      await setRandomSalt(App.algorithmSet.saltGeneration.generate());
+    }
+    if ((await getShowPasswordSwitch()) == null) {
+      await setShowPasswordSwitch(PreferenceDefaults.ShowPassword);
+    }
+    if ((await getAutoClearPasswordSwitch()) == null) {
+      await setAutoClearPasswordSwitch(PreferenceDefaults.AutoClearPassword);
+    }
+    if ((await getPasswordClearTime()) == null) {
+      await setPasswordClearTime(PreferenceDefaults.PasswordClearTime);
     }
 
-    return false;
+    return firstRun;
   }
 
   static Future<bool?> getAutoCopyPasswordSwitch() async {
@@ -79,6 +100,30 @@ class Settings {
 
   static Future<void> setRandomSalt(String value) async {
     await _setStringPreference(PreferenceKeys.RandomSaltPreferenceKey, value);
+  }
+
+  static Future<bool?> getShowPasswordSwitch() async {
+    return await _getPreference(PreferenceKeys.ShowPasswordPreferenceKey);
+  }
+
+  static Future<void> setShowPasswordSwitch(bool value) async {
+    await _setBoolPreference(PreferenceKeys.ShowPasswordPreferenceKey, value);
+  }
+
+  static Future<bool?> getAutoClearPasswordSwitch() async {
+    return await _getPreference(PreferenceKeys.AutoClearPasswordPreferenceKey);
+  }
+
+  static Future<void> setAutoClearPasswordSwitch(bool value) async {
+    await _setBoolPreference(PreferenceKeys.AutoClearPasswordPreferenceKey, value);
+  }
+
+  static Future<int?> getPasswordClearTime() async {
+    return await _getPreference(PreferenceKeys.PasswordClearTimePreferenceKey);
+  }
+
+  static Future<void> setPasswordClearTime(int value) async {
+    await _setIntPreference(PreferenceKeys.PasswordClearTimePreferenceKey, value);
   }
 
   static T? _getPreference<T>(String key) {

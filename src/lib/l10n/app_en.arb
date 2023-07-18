@@ -28,6 +28,10 @@
   "editSymbolCandidatesHelperText": "Symbol Candidates",
   "editSymbolCandidatesHintText": "Enter symbol candidates here",
   "useDefault": "Use Default",
+  "userInterfaceOptionsHeader": "User Interface",
+  "showPasswordOptionTitle": "Show password on screen",
+  "autoClearPasswordOptionTitle": "Clear password automatically",
+  "setPasswordClearTimeOptionTitle": "Set password clear time",
   "randomSaltOptionsHeader": "Random Salt",
   "editRandomSaltOptionTitle": "Edit random salt",
   "randomSaltHintText": "Enter random salt here",
@@ -114,7 +118,7 @@
     "description": "General options header"
   },
   "@autoCopyPasswordOptionTitle": {
-    "description": "Auto-copy password switch title"
+    "description": "Auto copy password switch title"
   },
   "@rememberLastSaltOptionTitle": {
     "description": "Remember last user salt switch title"
@@ -130,6 +134,18 @@
   },
   "@useDefault": {
     "description": "Use default action text"
+  },
+  "@userInterfaceOptionsHeader": {
+    "description": "User interface options header"
+  },
+  "@showPasswordOptionTitle": {
+    "description": "Show password switch title"
+  },
+  "@autoClearPasswordOptionTitle": {
+    "description": "Auto clear password switch title"
+  },
+  "@setPasswordClearTimeOptionTitle": {
+    "description": "Set password clear time option title"
   },
   "@randomSaltOptionsHeader": {
     "description": "Random salt options header"
