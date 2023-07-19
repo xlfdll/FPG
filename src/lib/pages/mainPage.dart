@@ -18,12 +18,15 @@ class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   final keywordTextInputController = TextEditingController();
   final saltTextInputController = TextEditingController();
   final lengthTextInputController = TextEditingController();
+
+  late FocusNode keywordTextInputFocusNode;
+  late FocusNode saltTextInputFocusNode;
 
   Timer? passwordClearTimer;
 
@@ -117,9 +120,13 @@ class _MainPageState extends State<MainPage> {
     if (keywordTextInputController.text.isEmpty) {
       UIHelper.showMessage(
           context, AppLocalizations.of(context)!.keywordEmptyMessage);
+
+      keywordTextInputFocusNode.requestFocus();
     } else if (saltTextInputController.text.isEmpty) {
       UIHelper.showMessage(
           context, AppLocalizations.of(context)!.saltEmptyMessage);
+
+      saltTextInputFocusNode.requestFocus();
     } else {
       int passwordLength = int.parse(lengthTextInputController.text);
 
@@ -194,9 +201,19 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  void stopPasswordClearTimer() {
+    setState(() {
+      passwordClearTimer?.cancel();
+
+      remainingPasswordClearTime = 0;
+    });
+  }
+
   @override
   void dispose() {
     passwordClearTimer?.cancel();
+
+    WidgetsBinding.instance.removeObserver(this);
 
     super.dispose();
   }
@@ -204,6 +221,11 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
+
+    keywordTextInputFocusNode = FocusNode();
+    saltTextInputFocusNode = FocusNode();
+
+    WidgetsBinding.instance.addObserver(this);
 
     Settings.initialize().then((value) {
       initSettings();
@@ -217,13 +239,25 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed) {
+      this.stopPasswordClearTimer();
+      this.clearInput();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final saltTextInput = TextField(
       controller: saltTextInputController,
+      focusNode: saltTextInputFocusNode,
       obscureText: true,
       autocorrect: false,
       enableSuggestions: false,
-      textInputAction: TextInputAction.next,
+      textInputAction: TextInputAction.go,
+      onSubmitted: (value) {
+        generatePassword();
+      },
       decoration: InputDecoration(
           icon: Icon(Icons.security),
           hintText: AppLocalizations.of(context)!.saltHintText,
@@ -256,10 +290,12 @@ class _MainPageState extends State<MainPage> {
       key: scaffoldKey,
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.appName),
-        bottom: AppBarLinearProgressIndicator(
-          value: remainingPasswordClearTime / passwordClearTime,
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
-        ),
+        bottom: remainingPasswordClearTime > 0
+            ? AppBarLinearProgressIndicator(
+                value: remainingPasswordClearTime / passwordClearTime,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+              )
+            : null,
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -283,6 +319,7 @@ class _MainPageState extends State<MainPage> {
               children: [
                 TextField(
                   controller: keywordTextInputController,
+                  focusNode: keywordTextInputFocusNode,
                   autocorrect: false,
                   enableSuggestions: false,
                   autofocus: true,
