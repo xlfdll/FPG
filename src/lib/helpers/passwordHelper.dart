@@ -29,34 +29,28 @@ class PasswordHelper {
     await Settings.setRandomSalt(App.algorithmSet.saltGeneration.generate());
   }
 
-  static Future<void> backupCriticalSettings() async {
+  static Future<String> getCriticalSettingsContents() async {
     StringBuffer sb = StringBuffer();
 
     sb.writeln(await Settings.getRandomSalt());
     sb.writeln(await Settings.getSpecialSymbols());
 
+    return sb.toString();
+  }
+
+  static Future<void> backupCriticalSettings() async {
     if (!PlatformHelper.isWeb()) {
       File file = File(await _getBackupFilePath());
 
-      await file.writeAsString(sb.toString(), flush: true);
+      await file.writeAsString(await getCriticalSettingsContents(), flush: true);
     } else {
-      Blob blob = Blob([sb.toString()], "text/plain", "native");
+      Blob blob = Blob([await getCriticalSettingsContents()], "text/plain", "native");
       AnchorElement anchorElement =
           AnchorElement(href: Url.createObjectUrlFromBlob(blob).toString());
 
       anchorElement.setAttribute(
           "download", AppConstants.CriticalSettingsBackupFileName);
       anchorElement.click();
-    }
-  }
-
-  static Future<bool> checkCriticalSettings() async {
-    if (!PlatformHelper.isWeb()) {
-      File file = File(await _getBackupFilePath());
-
-      return file.exists();
-    } else {
-      return true;
     }
   }
 
@@ -84,6 +78,16 @@ class PasswordHelper {
     if (lines != null) {
       await Settings.setRandomSalt(lines[0]);
       await Settings.setSpecialSymbols(lines[1]);
+    }
+  }
+
+  static Future<bool> checkCriticalSettings() async {
+    if (!PlatformHelper.isWeb()) {
+      File file = File(await _getBackupFilePath());
+
+      return file.exists();
+    } else {
+      return true;
     }
   }
 
