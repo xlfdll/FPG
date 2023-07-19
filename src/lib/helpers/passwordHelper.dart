@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:html' show Blob, AnchorElement, Url;
+import 'package:universal_html/html.dart' show Blob, AnchorElement, Url;
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -10,8 +10,8 @@ import 'package:fpg/settings.dart';
 import 'package:path_provider/path_provider.dart';
 
 class PasswordHelper {
-  static Future<String> generatePassword(String keyword, String userSalt,
-      int length, bool insertSymbols) async {
+  static Future<String> generatePassword(
+      String keyword, String userSalt, int length, bool insertSymbols) async {
     String result = App.algorithmSet.cropping.crop(
         App.algorithmSet.hashing.hash(App.algorithmSet.salting
             .salt([keyword], [await Settings.getRandomSalt(), userSalt])),
@@ -41,10 +41,11 @@ class PasswordHelper {
       await file.writeAsString(sb.toString(), flush: true);
     } else {
       Blob blob = Blob([sb.toString()], "text/plain", "native");
-      AnchorElement anchorElement = AnchorElement(
-          href: Url.createObjectUrlFromBlob(blob).toString());
+      AnchorElement anchorElement =
+          AnchorElement(href: Url.createObjectUrlFromBlob(blob).toString());
 
-      anchorElement.setAttribute("download", AppConstants.CriticalSettingsBackupFileName);
+      anchorElement.setAttribute(
+          "download", AppConstants.CriticalSettingsBackupFileName);
       anchorElement.click();
     }
   }
