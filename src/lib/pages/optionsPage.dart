@@ -2,12 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:numberpicker/numberpicker.dart';
+
 import 'package:fpg/constants.dart';
+import 'package:fpg/helpers/ioHelper.dart';
 import 'package:fpg/helpers/passwordHelper.dart';
 import 'package:fpg/helpers/platformHelper.dart';
 import 'package:fpg/helpers/uiHelper.dart';
+import 'package:fpg/pages/qrCodePage.dart';
+import 'package:fpg/pages/qrScanPage.dart';
 import 'package:fpg/settings.dart';
-import 'package:numberpicker/numberpicker.dart';
 
 class OptionsPage extends StatefulWidget {
   OptionsPage({Key? key}) : super(key: key);
@@ -40,6 +45,8 @@ class _OptionsPageState extends State<OptionsPage> {
   }
 
   Future<void> showPasswordClearTimeDialog() async {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
     await showDialog(
         context: context,
         builder: (dialogContext) {
@@ -78,6 +85,8 @@ class _OptionsPageState extends State<OptionsPage> {
   }
 
   Future<void> showEditSymbolCandidatesDialog() async {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
     symbolCandidatesTextInputController.text =
         (await Settings.getSpecialSymbols()) ??
             PreferenceDefaults.SpecialSymbols;
@@ -128,6 +137,8 @@ class _OptionsPageState extends State<OptionsPage> {
   }
 
   Future<void> showEditRandomSaltDialog() async {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
     randomSaltTextInputController.text = (await Settings.getRandomSalt()) ?? "";
 
     await showDialog(
@@ -172,7 +183,101 @@ class _OptionsPageState extends State<OptionsPage> {
   }
 
   Future<void> generateRandomSalt() async {
-    await showDialog(
+    if (await showRandomSaltChangePrompt()) {
+      PasswordHelper.generateRandomSalt().then((value) {
+        UIHelper.showMessage(
+            context, AppLocalizations.of(context)!.randomSaltGeneratedMessage,
+            showDismissButton: true);
+      });
+    }
+  }
+
+  Future<void> backupCriticalSettingsToFile() async {
+    try {
+      await IOHelper.backupCriticalSettingsToFile();
+
+      UIHelper.showMessage(
+          context,
+          AppLocalizations.of(context)!
+              .backupCriticalSettingsCompletedMessage
+              .replaceAll("%s", AppConstants.CriticalSettingsBackupFileName),
+          showDismissButton: true);
+    } catch (e) {
+      UIHelper.showMessage(
+          context, AppLocalizations.of(context)!.exception + e.toString(),
+          showDismissButton: true);
+    }
+  }
+
+  Future<void> restoreCriticalSettingsFromFile() async {
+    if (await IOHelper.checkCriticalSettingsFile()) {
+      if (await showRandomSaltChangePrompt()) {
+        try {
+          await IOHelper.restoreCriticalSettingsFromFile();
+
+          UIHelper.showMessage(
+              context,
+              !PlatformHelper.isWeb()
+                  ? AppLocalizations.of(context)!
+                      .restoreCriticalSettingsCompletedMessage
+                      .replaceAll(
+                          "%s", AppConstants.CriticalSettingsBackupFileName)
+                  : AppLocalizations.of(context)!
+                      .restoreCriticalSettingsCompletedMessageWeb,
+              showDismissButton: true);
+        } catch (e) {
+          UIHelper.showMessage(
+              context, AppLocalizations.of(context)!.exception + e.toString(),
+              showDismissButton: true);
+        }
+      }
+    } else {
+      UIHelper.showMessage(
+          context,
+          AppLocalizations.of(context)!
+              .restoreCriticalSettingsNotFoundErrorMessage
+              .replaceAll("%s", AppConstants.CriticalSettingsBackupFileName),
+          showDismissButton: true);
+    }
+  }
+
+  void importCriticalSettingsFromQRCode() {
+    showRandomSaltChangePrompt().then((value) {
+      if (value) {
+        PlatformHelper.isCameraPermissionGranted().then((value) {
+          if (value) {
+            Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => QRScanPage()))
+                .then((value) {
+              try {
+                if (value != null && (value as String).isNotEmpty) {
+                  IOHelper.decompressCriticalSettingsContents(value);
+
+                  UIHelper.showMessage(
+                      context,
+                      AppLocalizations.of(context)!
+                          .importCriticalSettingsFromQRCodeCompletedMessage,
+                      showDismissButton: true);
+                }
+              } catch (e) {
+                UIHelper.showMessage(context,
+                    AppLocalizations.of(context)!.invalidQRCodeErrorMessage,
+                    showDismissButton: true);
+              }
+            });
+          } else {
+            UIHelper.showMessage(context,
+                AppLocalizations.of(context)!.noCameraPermissionErrorMessage);
+          }
+        });
+      }
+    });
+  }
+
+  Future<bool> showRandomSaltChangePrompt() async {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+    return await showDialog(
         context: context,
         barrierDismissible: false,
         builder: (dialogContext) {
@@ -183,90 +288,16 @@ class _OptionsPageState extends State<OptionsPage> {
               TextButton(
                   child: Text(AppLocalizations.of(context)!.no),
                   onPressed: () {
-                    Navigator.of(dialogContext).pop();
+                    Navigator.of(dialogContext).pop(false);
                   }),
               TextButton(
                   child: Text(AppLocalizations.of(context)!.yes),
                   onPressed: () {
-                    PasswordHelper.generateRandomSalt().then((value) {
-                      UIHelper.showMessage(
-                          context,
-                          AppLocalizations.of(context)!
-                              .randomSaltGeneratedMessage);
-                    });
-
-                    Navigator.of(dialogContext).pop();
+                    Navigator.of(dialogContext).pop(true);
                   }),
             ],
           );
         });
-  }
-
-  Future<void> backupCriticalSettings() async {
-    try {
-      await PasswordHelper.backupCriticalSettings();
-
-      UIHelper.showMessage(
-          context,
-          AppLocalizations.of(context)!
-              .backupCriticalSettingsCompletedMessage
-              .replaceAll("%s", AppConstants.CriticalSettingsBackupFileName));
-    } catch (e) {
-      UIHelper.showMessage(
-          context, AppLocalizations.of(context)!.exception + e.toString());
-    }
-  }
-
-  Future<void> restoreCriticalSettings() async {
-    if (await PasswordHelper.checkCriticalSettings()) {
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (dialogContext) {
-            return AlertDialog(
-              title: Text(AppLocalizations.of(context)!.warning),
-              content:
-                  Text(AppLocalizations.of(context)!.randomSaltChangePrompt),
-              actions: [
-                TextButton(
-                    child: Text(AppLocalizations.of(context)!.no),
-                    onPressed: () {
-                      Navigator.of(dialogContext).pop();
-                    }),
-                TextButton(
-                    child: Text(AppLocalizations.of(context)!.yes),
-                    onPressed: () {
-                      PasswordHelper.restoreCriticalSettings().then((value) {
-                        UIHelper.showMessage(
-                            context,
-                            !PlatformHelper.isWeb()
-                                ? AppLocalizations.of(context)!
-                                    .restoreCriticalSettingsCompletedMessage
-                                    .replaceAll(
-                                        "%s",
-                                        AppConstants
-                                            .CriticalSettingsBackupFileName)
-                                : AppLocalizations.of(context)!
-                                    .restoreCriticalSettingsCompletedMessageWeb);
-                      }).catchError((e) {
-                        UIHelper.showMessage(
-                            context,
-                            AppLocalizations.of(context)!.exception +
-                                e.toString());
-                      });
-
-                      Navigator.of(dialogContext).pop();
-                    }),
-              ],
-            );
-          });
-    } else {
-      UIHelper.showMessage(
-          context,
-          AppLocalizations.of(context)!
-              .restoreCriticalSettingsNotFoundMessage
-              .replaceAll("%s", AppConstants.CriticalSettingsBackupFileName));
-    }
   }
 
   @override
@@ -334,6 +365,7 @@ class _OptionsPageState extends State<OptionsPage> {
               ListTile(
                 title: Text(AppLocalizations.of(context)!
                     .editSymbolCandidatesOptionTitle),
+                trailing: Icon(Icons.open_in_new),
                 onTap: showEditSymbolCandidatesDialog,
               ),
               Divider(),
@@ -379,6 +411,7 @@ class _OptionsPageState extends State<OptionsPage> {
               ListTile(
                 title: Text(AppLocalizations.of(context)!
                     .setPasswordClearTimeOptionTitle),
+                trailing: Icon(Icons.open_in_new),
                 enabled: autoClearPassword!,
                 onTap: showPasswordClearTimeDialog,
               ),
@@ -392,12 +425,20 @@ class _OptionsPageState extends State<OptionsPage> {
               ListTile(
                 title: Text(
                     AppLocalizations.of(context)!.editRandomSaltOptionTitle),
+                trailing: Icon(Icons.open_in_new),
                 onTap: showEditRandomSaltDialog,
               ),
               ListTile(
                 title: Text(AppLocalizations.of(context)!
                     .generateRandomSaltOptionTitle),
                 onTap: generateRandomSalt,
+              ),
+              Divider(),
+              ListTile(
+                title: Text(
+                  AppLocalizations.of(context)!.backupRestoreOptionsHeader,
+                  style: headerTextStyle,
+                ),
               ),
               ListTile(
                 title: Text(AppLocalizations.of(context)!
@@ -411,7 +452,7 @@ class _OptionsPageState extends State<OptionsPage> {
                         .backupCriticalSettingsOptionSubtitleWeb
                         .replaceAll(
                             "%s", AppConstants.CriticalSettingsBackupFileName)),
-                onTap: backupCriticalSettings,
+                onTap: backupCriticalSettingsToFile,
               ),
               ListTile(
                 title: Text(AppLocalizations.of(context)!
@@ -423,8 +464,32 @@ class _OptionsPageState extends State<OptionsPage> {
                             "%s", AppConstants.CriticalSettingsBackupFileName))
                     : Text(AppLocalizations.of(context)!
                         .restoreCriticalSettingsOptionSubtitleWeb),
-                onTap: restoreCriticalSettings,
-              )
+                onTap: restoreCriticalSettingsFromFile,
+              ),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!
+                    .showCriticalSettingsQRCodeOptionTitle),
+                trailing: Icon(Icons.qr_code_2),
+                onTap: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+                  IOHelper.compressCriticalSettingsContents().then((value) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                QRCodePage(qrCodeData: value)));
+                  });
+                },
+              ),
+              if (PlatformHelper.isCameraAvailable()) ...[
+                ListTile(
+                  title: Text(AppLocalizations.of(context)!
+                      .importCriticalSettingsFromQRCodeOptionTitle),
+                  trailing: Icon(Icons.qr_code_scanner),
+                  onTap: importCriticalSettingsFromQRCode,
+                )
+              ],
             ])));
   }
 }

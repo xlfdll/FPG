@@ -30,8 +30,11 @@ class AppConstants {
   static const int RandomSaltLength = 64;
   static const String CriticalSettingsBackupFileName =
       "FPG_CriticalSettings.dat";
+  static const String CriticalSettingsQRImageFileName =
+      "FPG_CriticalSettings_QR.png";
 }
 
 class UIConstants {
   static const int ScreenWidthBreakpoint = 600;
+  static const int QRCodeDisplayTime = 30 * 1000;
 }

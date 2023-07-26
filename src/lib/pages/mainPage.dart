@@ -3,13 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:numberpicker/numberpicker.dart';
+
+import 'package:fpg/components/CountdownTimer.dart';
 import 'package:fpg/constants.dart';
 import 'package:fpg/helpers/passwordHelper.dart';
 import 'package:fpg/helpers/uiHelper.dart';
 import 'package:fpg/pages/optionsPage.dart';
 import 'package:fpg/settings.dart';
 import 'package:fpg/widgets/AppBarLinearProgressIndicator.dart';
-import 'package:numberpicker/numberpicker.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key? key}) : super(key: key);
@@ -28,14 +31,14 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   late FocusNode keywordTextInputFocusNode;
   late FocusNode saltTextInputFocusNode;
 
-  Timer? passwordClearTimer;
-
   bool? insertSpecialSymbols = PreferenceDefaults.InsertSpecialSymbols;
-  int passwordClearTime = PreferenceDefaults.PasswordClearTime;
-  int remainingPasswordClearTime = PreferenceDefaults.PasswordClearTime;
 
   String password = "";
   bool isPasswordSectionVisible = false;
+
+  late CountdownStopTimer passwordClearTimer;
+  int passwordClearTime = PreferenceDefaults.PasswordClearTime;
+  int remainingPasswordClearTime = 0;
 
   Future<void> initSettings() async {
     if (await Settings.getRememberUserSaltSwitch() == true) {
@@ -48,9 +51,20 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         .toString();
 
     insertSpecialSymbols = await Settings.getInsertSpecialSymbolsSwitch();
+
     passwordClearTime = await Settings.getPasswordClearTime() ??
         PreferenceDefaults.PasswordClearTime;
-    remainingPasswordClearTime = 0;
+    passwordClearTimer = CountdownStopTimer(passwordClearTime, () {
+      setState(() {
+        remainingPasswordClearTime = passwordClearTimer.remainingTime;
+      });
+    }, () {
+      this.clearInput();
+
+      setState(() {
+        remainingPasswordClearTime = 0;
+      });
+    });
 
     setState(() {});
   }
@@ -76,6 +90,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   Future<void> showPasswordLengthDialog() async {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
     int length = int.parse(lengthTextInputController.text);
     int? result = await showDialog(
         context: context,
@@ -119,12 +135,14 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   void generatePassword() {
     if (keywordTextInputController.text.isEmpty) {
       UIHelper.showMessage(
-          context, AppLocalizations.of(context)!.keywordEmptyMessage);
+          context, AppLocalizations.of(context)!.keywordEmptyMessage,
+          showDismissButton: true);
 
       keywordTextInputFocusNode.requestFocus();
     } else if (saltTextInputController.text.isEmpty) {
       UIHelper.showMessage(
-          context, AppLocalizations.of(context)!.saltEmptyMessage);
+          context, AppLocalizations.of(context)!.saltEmptyMessage,
+          showDismissButton: true);
 
       saltTextInputFocusNode.requestFocus();
     } else {
@@ -137,14 +155,18 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
               insertSpecialSymbols!)
           .then((value) {
         setState(() {
+          FocusManager.instance.primaryFocus?.unfocus();
+
           Settings.getShowPasswordSwitch().then((v) {
             if (v!) {
               password = value;
               isPasswordSectionVisible = true;
 
-              Settings.getAutoClearPasswordSwitch().then((v) => {
-                    if (v!) {startPasswordClearTimer()}
-                  });
+              Settings.getAutoClearPasswordSwitch().then((v) {
+                if (v!) {
+                  startPasswordClearTimer();
+                }
+              });
             }
           });
 
@@ -167,6 +189,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   void clearInput() {
+    stopPasswordClearTimer();
+
     setState(() {
       keywordTextInputController.text = "";
 
@@ -184,35 +208,24 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Future<void> startPasswordClearTimer() async {
     passwordClearTime = await Settings.getPasswordClearTime() ??
         PreferenceDefaults.PasswordClearTime;
-    remainingPasswordClearTime = passwordClearTime;
-
-    final timerDuration = Duration(milliseconds: 50);
-
-    passwordClearTimer = Timer.periodic(timerDuration, (timer) {
-      setState(() {
-        if (remainingPasswordClearTime == 0) {
-          timer.cancel();
-
-          this.clearInput();
-        } else {
-          remainingPasswordClearTime -= timerDuration.inMilliseconds;
-        }
-      });
-    });
+    passwordClearTimer.period = passwordClearTime;
+    passwordClearTimer.reset();
+    passwordClearTimer.start();
   }
 
   void stopPasswordClearTimer() {
-    setState(() {
-      passwordClearTimer?.cancel();
+    passwordClearTimer.stop();
 
+    setState(() {
       remainingPasswordClearTime = 0;
     });
   }
 
   @override
   void dispose() {
-    passwordClearTimer?.cancel();
+    passwordClearTimer.stop();
 
+    // Unregister lifecycle handling
     WidgetsBinding.instance.removeObserver(this);
 
     super.dispose();
@@ -225,6 +238,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     keywordTextInputFocusNode = FocusNode();
     saltTextInputFocusNode = FocusNode();
 
+    // Register lifecycle handling
     WidgetsBinding.instance.addObserver(this);
 
     Settings.initialize().then((value) {
@@ -301,6 +315,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
             icon: const Icon(Icons.settings),
             tooltip: AppLocalizations.of(context)!.options,
             onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => OptionsPage()));
             },

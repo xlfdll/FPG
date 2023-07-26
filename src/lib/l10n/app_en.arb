@@ -4,6 +4,7 @@
   "cancel": "Cancel",
   "yes": "Yes",
   "no": "No",
+  "dismiss": "Dismiss",
   "firstRunDialogTitle": "Welcome!",
   "firstRunDialogMessage": "This is your first time to use this program.\n\nA new random salt has been created for you.\n\nIt is highly recommended to backup your new random salt or restore your existing one in Options screen as soon as possible to avoid losing access to your passwords.",
   "keywordHelperText": "Keyword",
@@ -38,7 +39,8 @@
   "generateRandomSaltOptionTitle": "Generate a new random salt",
   "randomSaltChangePrompt": "If the random salt had been replaced, current passwords would be unavailable.\n\nContinue?",
   "randomSaltGeneratedMessage": "A new random salt has been generated.",
-  "backupCriticalSettingsOptionTitle": "Backup critical settings",
+  "backupRestoreOptionsHeader": "Backup / Restore",
+  "backupCriticalSettingsOptionTitle": "Backup critical settings to file",
   "backupCriticalSettingsOptionSubtitle": "Settings will be saved to %s",
   "backupCriticalSettingsOptionSubtitleWeb": "Settings will be downloaded as %s",
   "backupCriticalSettingsCompletedMessage": "Critical settings has been saved to %s.",
@@ -47,7 +49,17 @@
   "restoreCriticalSettingsOptionSubtitleWeb": "Settings will be restored from user selected file",
   "restoreCriticalSettingsCompletedMessage": "Critical settings has been restored from %s.",
   "restoreCriticalSettingsCompletedMessageWeb": "Critical settings has been restored from user selected file.",
-  "restoreCriticalSettingsNotFoundMessage": "Critical settings %s is not found.",
+  "restoreCriticalSettingsNotFoundErrorMessage": "ERROR: Critical settings %s is not found.",
+  "showCriticalSettingsQRCodeOptionTitle": "Show critical settings QR code",
+  "showCriticalSettingsQRCodePageTitle": "Critical Settings QR Code",
+  "noCriticalSettingsQRCodeErrorMessage": "ERROR: Unknown error occurred during QR code generation",
+  "saveCriticalSettingsQRCodeButtonLabel": "Save QR Code",
+  "saveCriticalSettingsQRCodeCompletedMessage": "Critical settings QR code image has been saved to %s.",
+  "importCriticalSettingsFromQRCodeOptionTitle": "Import critical settings from QR code",
+  "importCriticalSettingsFromQRCodePageTitle": "Import critical settings (QR)",
+  "importCriticalSettingsFromQRCodeCompletedMessage": "Critical settings has been imported",
+  "noCameraPermissionErrorMessage": "ERROR: Camera access was denied",
+  "invalidQRCodeErrorMessage": "ERROR: No critical settings found in QR code",
   "@appName": {
     "description": "App name. Used in title."
   },
@@ -62,6 +74,9 @@
   },
   "@no": {
     "description": "Default No action text"
+  },
+  "@dismiss": {
+    "description": "Default Dismiss action text"
   },
   "@firstRunDialogTitle": {
     "description": "First run dialog title"
@@ -165,6 +180,9 @@
   "@randomSaltGeneratedMessage": {
     "description": "Random salt generated message"
   },
+  "@backupRestoreOptionsHeader": {
+    "description": "Backup / restore options header"
+  },
   "@backupCriticalSettingsOptionTitle": {
     "description": "Backup critical settings button title"
   },
@@ -192,7 +210,37 @@
   "@restoreCriticalSettingsCompletedMessageWeb": {
     "description": "Critical settings restore completed message (Web)"
   },
-  "@restoreCriticalSettingsNotFoundMessage": {
+  "@restoreCriticalSettingsNotFoundErrorMessage": {
     "description": "Critical settings restore not found message"
+  },
+  "@showCriticalSettingsQRCodeOptionTitle": {
+    "description": "Show critical settings QR code button title"
+  },
+  "@showCriticalSettingsQRCodePageTitle": {
+    "description": "Show critical settings QR code page title"
+  },
+  "@noCriticalSettingsQRCodeErrorMessage": {
+    "description": "No critical settings QR code error message"
+  },
+  "@saveCriticalSettingsQRCodeButtonLabel": {
+    "description": "Save critical settings QR code button label"
+  },
+  "@saveCriticalSettingsQRCodeCompletedMessage": {
+    "description": "Critical settings QR code save completed message"
+  },
+  "@importCriticalSettingsFromQRCodeOptionTitle": {
+    "description": "Import critical settings from QR code button title"
+  },
+  "@importCriticalSettingsFromQRCodePageTitle": {
+    "description": "Import critical settings from QR code page title"
+  },
+  "@importCriticalSettingsFromQRCodeCompletedMessage": {
+    "description": "Import critical settings from QR code completed message"
+  },
+  "@noCameraPermissionErrorMessage": {
+    "description": "No camera permission error message"
+  },
+  "@invalidQRCodeErrorMessage": {
+    "description": "Invalid QR code error message"
   }
 }

@@ -41,7 +41,7 @@ android {
 
     defaultConfig {
         applicationId "org.xlfdll.nb.fpg"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
