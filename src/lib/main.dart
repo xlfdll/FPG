@@ -8,7 +8,7 @@ void main() {
 }
 
 class App extends StatelessWidget {
-  static final AlgorithmSet algorithmSet = AlgorithmSet.create("default");
+  static final algorithmSet = AlgorithmSet.create("default");
 
   @override
   Widget build(BuildContext context) {

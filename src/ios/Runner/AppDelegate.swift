@@ -10,4 +10,14 @@ import Flutter
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
+
+  // Hide your app’s preview window
+  //override func applicationWillResignActive(_: UIApplication ) {
+  //  self.window?.isHidden = true;
+  //}
+
+  // Show your app’s preview window
+  //override func applicationDidBecomeActive(_: UIApplication) {
+  //  self.window?.isHidden = false;
+  //}
 }
