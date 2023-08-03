@@ -9,7 +9,7 @@ class CountdownStopTimer {
     _onEnd = onEnd;
   }
 
-  late Timer _timer;
+  Timer? _timer;
   late int _remainingTime;
   late int _period;
   late void Function()? _onPeriodic;
@@ -50,7 +50,9 @@ class CountdownStopTimer {
   }
 
   void stop() {
-    _timer.cancel();
+    if (_timer != null) {
+      _timer?.cancel();
+    }
 
     _remainingTime = 0;
   }
