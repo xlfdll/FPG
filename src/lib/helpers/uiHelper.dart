@@ -18,7 +18,6 @@ class UIHelper {
       action: showDismissButton
           ? SnackBarAction(
               label: AppLocalizations.of(context)!.dismiss,
-              textColor: Colors.orange,
               onPressed: () =>
                   ScaffoldMessenger.of(context).hideCurrentSnackBar(),
             )

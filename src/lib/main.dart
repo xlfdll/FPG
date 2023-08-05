@@ -14,10 +14,16 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: "Fkulc's Password Generator",
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
+        theme: ThemeData.light()
+            .copyWith(visualDensity: VisualDensity.adaptivePlatformDensity),
+        darkTheme: ThemeData.dark().copyWith(
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            colorScheme: ColorScheme.dark(
+                primary: Colors.blue,
+                secondary: Colors.blue,
+                onSecondary: Colors.white),
+            appBarTheme: AppBarTheme(backgroundColor: Colors.blue)),
+        themeMode: ThemeMode.system,
         // The following localization delegates must follow generated AppLocalizations class comments
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         // Use explicit locale list here to generate corresponding AppLocalizations code properly
