@@ -107,8 +107,10 @@ class _QRCodePageState extends State<QRCodePage> with WidgetsBindingObserver {
                           color: Theme.of(context).colorScheme.primary),
                     )
                   : Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.error),
+                        Icon(Icons.error, size: UIConstants.LargeIconSize),
                         Text(AppLocalizations.of(context)!
                             .noCriticalSettingsQRCodeErrorMessage),
                       ],
