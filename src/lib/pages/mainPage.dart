@@ -306,9 +306,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         title: Text(AppLocalizations.of(context)!.appName),
         bottom: remainingPasswordClearTime > 0
             ? AppBarLinearProgressIndicator(
-                value: remainingPasswordClearTime / passwordClearTime,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
-              )
+                value: remainingPasswordClearTime / passwordClearTime)
             : null,
         actions: [
           IconButton(
