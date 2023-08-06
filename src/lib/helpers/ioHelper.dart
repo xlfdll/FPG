@@ -22,10 +22,12 @@ class IOHelper {
   }
 
   static Future<void> _setCriticalSettings(List<String> lines) async {
-    if (lines.isNotEmpty) {
-      await Settings.setRandomSalt(lines[0]);
-      await Settings.setSpecialSymbols(lines[1]);
+    if (lines.isEmpty) {
+      throw FormatException("Empty critical settings lines");
     }
+
+    await Settings.setRandomSalt(lines[0]);
+    await Settings.setSpecialSymbols(lines[1]);
   }
 
   static Future<String> _getBackupDirectoryPath() async {

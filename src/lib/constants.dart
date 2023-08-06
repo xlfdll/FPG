@@ -35,6 +35,10 @@ class AppConstants {
 }
 
 class UIConstants {
-  static const int ScreenWidthBreakpoint = 600;
+  // Reference:
+  // https://learn.microsoft.com/en-us/windows/apps/design/layout/screen-sizes-and-breakpoints-for-responsive-design
+  static const int SmallScreenWidthBreakpoint = 640;
+  static const int MediumScreenWidthBreakpoint = 1007;
+  static const double LargeIconSize = 128;
   static const int QRCodeDisplayTime = 30 * 1000;
 }

@@ -90,7 +90,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   Future<void> showPasswordLengthDialog() async {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).clearSnackBars();
 
     int length = int.parse(lengthTextInputController.text);
     int? result = await showDialog(
@@ -135,14 +135,12 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   void generatePassword() {
     if (keywordTextInputController.text.isEmpty) {
       UIHelper.showMessage(
-          context, AppLocalizations.of(context)!.keywordEmptyMessage,
-          showDismissButton: true);
+          context, AppLocalizations.of(context)!.keywordEmptyMessage);
 
       keywordTextInputFocusNode.requestFocus();
     } else if (saltTextInputController.text.isEmpty) {
       UIHelper.showMessage(
-          context, AppLocalizations.of(context)!.saltEmptyMessage,
-          showDismissButton: true);
+          context, AppLocalizations.of(context)!.saltEmptyMessage);
 
       saltTextInputFocusNode.requestFocus();
     } else {
@@ -164,6 +162,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
               Settings.getAutoClearPasswordSwitch().then((v) {
                 if (v!) {
+                  stopPasswordClearTimer();
                   startPasswordClearTimer();
                 }
               });
@@ -313,7 +312,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
             icon: const Icon(Icons.settings),
             tooltip: AppLocalizations.of(context)!.options,
             onPressed: () {
-              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).clearSnackBars();
 
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => OptionsPage()));
@@ -347,7 +346,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
                       helperText:
                           AppLocalizations.of(context)!.keywordHelperText),
                 ),
-                constraints.maxWidth < UIConstants.ScreenWidthBreakpoint
+                constraints.maxWidth < UIConstants.SmallScreenWidthBreakpoint
                     ? Column(
                         children: [
                           saltTextInput,
