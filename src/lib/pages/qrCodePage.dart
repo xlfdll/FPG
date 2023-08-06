@@ -86,9 +86,7 @@ class _QRCodePageState extends State<QRCodePage> with WidgetsBindingObserver {
               .showCriticalSettingsQRCodePageTitle),
           bottom: remainingReturnTime > 0
               ? AppBarLinearProgressIndicator(
-                  value: remainingReturnTime / returnTime,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
-                )
+                  value: remainingReturnTime / returnTime)
               : null,
         ),
         floatingActionButton: FloatingActionButton.extended(
@@ -102,6 +100,11 @@ class _QRCodePageState extends State<QRCodePage> with WidgetsBindingObserver {
               child: qrCodeData != null
                   ? QrImageView(
                       data: qrCodeData ?? '',
+                      eyeStyle: QrEyeStyle(
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                          eyeShape: QrEyeShape.square),
+                      dataModuleStyle: QrDataModuleStyle(
+                          color: Theme.of(context).colorScheme.primary),
                     )
                   : Column(
                       children: [
