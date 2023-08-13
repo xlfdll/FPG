@@ -9,6 +9,7 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.NFC"/>
 
     <application
         android:name="${applicationName}"

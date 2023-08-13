@@ -56,10 +56,24 @@
   "saveCriticalSettingsQRCodeButtonLabel": "Save QR Code",
   "saveCriticalSettingsQRCodeCompletedMessage": "Critical settings QR code image has been saved to %s.",
   "importCriticalSettingsFromQRCodeOptionTitle": "Import critical settings from QR code",
-  "importCriticalSettingsFromQRCodePageTitle": "Import critical settings (QR)",
+  "importCriticalSettingsFromQRCodePageTitle": "Import Critical Settings (QR)",
   "importCriticalSettingsFromQRCodeCompletedMessage": "Critical settings has been imported",
   "noCameraPermissionErrorMessage": "ERROR: Camera access was denied",
   "invalidQRCodeErrorMessage": "ERROR: No critical settings found in QR code",
+  "readCriticalSettingsNFCTagOptionTitle": "Read critical settings NFC tag",
+  "readCriticalSettingsNFCTagPageTitle": "Read Critical Settings (NFC)",
+  "readCriticalSettingsNFCTagPageDescription": "Touch NFC tag to read critical settings data",
+  "readCriticalSettingsNFCTagCompletedMessage": "Critical settings has been read from NFC tag",
+  "writeCriticalSettingsNFCTagOptionTitle": "Write critical settings as NFC tag",
+  "writeCriticalSettingsNFCTagPageTitle": "Write Critical Settings (NFC)",
+  "writeCriticalSettingsNFCTagPageDescription": "Touch NFC tag to write critical settings data",
+  "writeCriticalSettingsNFCTagPageWarningMessage": "WARNING: All data in NFC tag will be erased!",
+  "writeCriticalSettingsNFCTagCompletedMessage": "Critical settings has been written to NFC tag",
+  "nfcTagOperationCompletedMessage": "NFC operation has been done successfully",
+  "invalidNFCTagDataErrorMessage": "ERROR: No critical settings found in NFC tag data",
+  "unsupportedNFCTagFormatErrorMessage": "ERROR: NFC tag is not compatible (NDEF)",
+  "unwritableNFCTagErrorMessage": "ERROR: NFC tag is not writable",
+
   "@appName": {
     "description": "App name. Used in title."
   },
@@ -242,5 +256,44 @@
   },
   "@invalidQRCodeErrorMessage": {
     "description": "Invalid QR code error message"
+  },
+  "@readCriticalSettingsNFCTagOptionTitle": {
+    "description": "Read critical settings NFC tag button title"
+  },
+  "@readCriticalSettingsNFCTagPageTitle": {
+    "description": "Read critical settings NFC tag page title"
+  },
+  "@readCriticalSettingsNFCTagPageDescription": {
+    "description": "Read critical settings NFC tag page description"
+  },
+  "@readCriticalSettingsNFCTagCompletedMessage": {
+    "description": "Read critical settings NFC tag completed message"
+  },
+  "@writeCriticalSettingsNFCTagOptionTitle": {
+    "description": "Write critical settings NFC tag button title"
+  },
+  "@writeCriticalSettingsNFCTagPageTitle": {
+    "description": "Write critical settings NFC tag page title"
+  },
+  "@writeCriticalSettingsNFCTagPageDescription": {
+    "description": "Write critical settings NFC tag page description"
+  },
+  "@writeCriticalSettingsNFCTagPageWarningMessage": {
+    "description": "Write critical settings NFC tag page warning message"
+  },
+  "@writeCriticalSettingsNFCTagCompletedMessage": {
+    "description": "Write critical settings NFC tag completed message"
+  },
+  "@nfcTagOperationCompletedMessage": {
+    "description": "NFC tag operation completed message"
+  },
+  "@invalidNFCTagDataErrorMessage": {
+    "description": "Invalid NFC tag data error message"
+  },
+  "@unsupportedNFCTagFormatErrorMessage": {
+    "description": "Unsupported NFC tag format error message"
+  },
+  "@unwritableNFCTagErrorMessage": {
+    "description": "Unwritable NFC tag error message"
   }
 }
