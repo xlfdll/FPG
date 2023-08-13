@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:fpg/pages/nfcPage.dart';
 
 import 'package:numberpicker/numberpicker.dart';
 
@@ -33,6 +34,8 @@ class _OptionsPageState extends State<OptionsPage> {
   bool? autoClearPassword = PreferenceDefaults.AutoClearPassword;
   int passwordClearTime = PreferenceDefaults.PasswordClearTime;
 
+  bool isNFCAvailable = false;
+
   Future<void> initSettings() async {
     autoCopyPassword = await Settings.getAutoCopyPasswordSwitch();
     rememberUserSalt = await Settings.getRememberUserSaltSwitch();
@@ -41,11 +44,13 @@ class _OptionsPageState extends State<OptionsPage> {
     passwordClearTime = await Settings.getPasswordClearTime() ??
         PreferenceDefaults.PasswordClearTime;
 
+    isNFCAvailable = await PlatformHelper.isNFCAvailable();
+
     setState(() {});
   }
 
   Future<void> showPasswordClearTimeDialog() async {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).clearSnackBars();
 
     await showDialog(
         context: context,
@@ -85,7 +90,7 @@ class _OptionsPageState extends State<OptionsPage> {
   }
 
   Future<void> showEditSymbolCandidatesDialog() async {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).clearSnackBars();
 
     symbolCandidatesTextInputController.text =
         (await Settings.getSpecialSymbols()) ??
@@ -137,7 +142,7 @@ class _OptionsPageState extends State<OptionsPage> {
   }
 
   Future<void> showEditRandomSaltDialog() async {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).clearSnackBars();
 
     randomSaltTextInputController.text = (await Settings.getRandomSalt()) ?? "";
 
@@ -249,21 +254,11 @@ class _OptionsPageState extends State<OptionsPage> {
             Navigator.push(context,
                     MaterialPageRoute(builder: (context) => QRScanPage()))
                 .then((value) {
-              try {
-                if (value != null && (value as String).isNotEmpty) {
-                  IOHelper.decompressCriticalSettingsContents(value);
-
-                  UIHelper.showMessage(
-                      context,
-                      AppLocalizations.of(context)!
-                          .importCriticalSettingsFromQRCodeCompletedMessage,
-                      showDismissButton: true);
-                }
-              } catch (e) {
-                UIHelper.showMessage(context,
-                    AppLocalizations.of(context)!.invalidQRCodeErrorMessage,
-                    showDismissButton: true);
-              }
+              UIHelper.showMessage(
+                  context,
+                  AppLocalizations.of(context)!
+                      .importCriticalSettingsFromQRCodeCompletedMessage,
+                  showDismissButton: true);
             });
           } else {
             UIHelper.showMessage(context,
@@ -274,8 +269,43 @@ class _OptionsPageState extends State<OptionsPage> {
     });
   }
 
+  void readCriticalSettingsNFCTag() {
+    showRandomSaltChangePrompt().then((value) {
+      if (value) {
+        Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NFCPage(operation: "read")))
+            .then((value) {
+          if (value ?? false) {
+            UIHelper.showMessage(
+                context,
+                AppLocalizations.of(context)!
+                    .readCriticalSettingsNFCTagCompletedMessage,
+                showDismissButton: true);
+          }
+        });
+      }
+    });
+  }
+
+  void writeCriticalSettingsNFCTag() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => NFCPage(operation: "write"))).then((value) {
+      if (value ?? false) {
+        UIHelper.showMessage(
+            context,
+            AppLocalizations.of(context)!
+                .writeCriticalSettingsNFCTagCompletedMessage,
+            showDismissButton: true);
+      }
+    });
+  }
+
   Future<bool> showRandomSaltChangePrompt() async {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).clearSnackBars();
 
     return await showDialog(
         context: context,
@@ -310,8 +340,8 @@ class _OptionsPageState extends State<OptionsPage> {
   @override
   Widget build(BuildContext context) {
     final headerTextStyle = TextStyle(
-        color: Theme.of(context).primaryColor,
-        fontSize: 14,
+        color: Theme.of(context).colorScheme.primary,
+        fontSize: 16,
         fontWeight: FontWeight.bold);
 
     return Scaffold(
@@ -471,7 +501,7 @@ class _OptionsPageState extends State<OptionsPage> {
                     .showCriticalSettingsQRCodeOptionTitle),
                 trailing: Icon(Icons.qr_code_2),
                 onTap: () {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  ScaffoldMessenger.of(context).clearSnackBars();
 
                   IOHelper.compressCriticalSettingsContents().then((value) {
                     Navigator.push(
@@ -482,12 +512,25 @@ class _OptionsPageState extends State<OptionsPage> {
                   });
                 },
               ),
-              if (PlatformHelper.isCameraAvailable()) ...[
+              if (PlatformHelper.isCameraAvailable())
                 ListTile(
                   title: Text(AppLocalizations.of(context)!
                       .importCriticalSettingsFromQRCodeOptionTitle),
                   trailing: Icon(Icons.qr_code_scanner),
                   onTap: importCriticalSettingsFromQRCode,
+                ),
+              if (isNFCAvailable) ...[
+                ListTile(
+                  title: Text(AppLocalizations.of(context)!
+                      .readCriticalSettingsNFCTagOptionTitle),
+                  trailing: Icon(Icons.nfc),
+                  onTap: readCriticalSettingsNFCTag,
+                ),
+                ListTile(
+                  title: Text(AppLocalizations.of(context)!
+                      .writeCriticalSettingsNFCTagOptionTitle),
+                  trailing: Icon(Icons.nfc_outlined),
+                  onTap: writeCriticalSettingsNFCTag,
                 )
               ],
             ])));
