@@ -93,7 +93,7 @@ BEGIN
             VALUE "FileDescription", "Fkulc's Password Generator" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "FPG" "\0"
-            VALUE "LegalCopyright", "(C) 2022 Xlfdll Workstation" "\0"
+            VALUE "LegalCopyright", "(C) 2010-2023 Xlfdll Workstation" "\0"
             VALUE "OriginalFilename", "FPG.exe" "\0"
             VALUE "ProductName", "Fkulc's Password Generator" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
