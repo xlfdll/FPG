@@ -85,7 +85,7 @@ class IOHelper {
     }
   }
 
-  static Future<void> restoreCriticalSettingsFromFile() async {
+  static Future<bool> restoreCriticalSettingsFromFile() async {
     List<String>? lines;
 
     if (!PlatformHelper.isWeb()) {
@@ -109,6 +109,8 @@ class IOHelper {
     if (lines != null) {
       _setCriticalSettings(lines);
     }
+
+    return (lines != null);
   }
 
   static Future<String?> compressCriticalSettingsContents() async {
