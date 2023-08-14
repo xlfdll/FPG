@@ -218,18 +218,20 @@ class _OptionsPageState extends State<OptionsPage> {
     if (await IOHelper.checkCriticalSettingsFile()) {
       if (await showRandomSaltChangePrompt()) {
         try {
-          await IOHelper.restoreCriticalSettingsFromFile();
+          bool result = await IOHelper.restoreCriticalSettingsFromFile();
 
-          UIHelper.showMessage(
-              context,
-              !PlatformHelper.isWeb()
-                  ? AppLocalizations.of(context)!
-                      .restoreCriticalSettingsCompletedMessage
-                      .replaceAll(
-                          "%s", AppConstants.CriticalSettingsBackupFileName)
-                  : AppLocalizations.of(context)!
-                      .restoreCriticalSettingsCompletedMessageWeb,
-              showDismissButton: true);
+          if (result) {
+            UIHelper.showMessage(
+                context,
+                !PlatformHelper.isWeb()
+                    ? AppLocalizations.of(context)!
+                        .restoreCriticalSettingsCompletedMessage
+                        .replaceAll(
+                            "%s", AppConstants.CriticalSettingsBackupFileName)
+                    : AppLocalizations.of(context)!
+                        .restoreCriticalSettingsCompletedMessageWeb,
+                showDismissButton: true);
+          }
         } catch (e) {
           UIHelper.showMessage(
               context, AppLocalizations.of(context)!.exception + e.toString(),
