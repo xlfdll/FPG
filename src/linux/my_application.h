@@ -4,8 +4,8 @@
 #include <gtk/gtk.h>
 
 #define WINDOW_TITLE "Fkulc's Password Generator"
-#define WINDOW_WIDTH 1024
-#define WINDOW_HEIGHT 576
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 400
 
 G_DECLARE_FINAL_TYPE(MyApplication, my_application, MY, APPLICATION,
                      GtkApplication)

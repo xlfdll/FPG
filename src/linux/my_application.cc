@@ -53,7 +53,8 @@ static void my_application_activate(GApplication *application)
   {
     gtk_window_set_title(window, WINDOW_TITLE);
   }
-
+  
+  gtk_window_set_icon_from_file(GTK_WINDOW(window), "resources/app_icon.ico", NULL);
   gtk_window_set_default_size(window, WINDOW_WIDTH, WINDOW_HEIGHT);
   gtk_widget_show(GTK_WIDGET(window));
 
