@@ -28,6 +28,8 @@ class PlatformHelper {
 
       return status.isGranted;
     } else {
+      await window.navigator.getUserMedia(video: true);
+
       final status =
           await window.navigator.permissions?.query({"name": "camera"});
 
