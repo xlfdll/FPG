@@ -41,8 +41,7 @@ class _OptionsPageState extends State<OptionsPage> {
     rememberUserSalt = await Settings.getRememberUserSaltSwitch();
     showPassword = await Settings.getShowPasswordSwitch();
     autoClearPassword = await Settings.getAutoClearPasswordSwitch();
-    passwordClearTime = await Settings.getPasswordClearTime() ??
-        PreferenceDefaults.PasswordClearTime;
+    passwordClearTime = await Settings.getPasswordClearTime() ?? PreferenceDefaults.PasswordClearTime;
 
     isNFCAvailable = await PlatformHelper.isNFCAvailable();
 
@@ -56,8 +55,7 @@ class _OptionsPageState extends State<OptionsPage> {
         context: context,
         builder: (dialogContext) {
           return AlertDialog(
-              title: Text(AppLocalizations.of(context)!
-                  .setPasswordClearTimeOptionTitle),
+              title: Text(AppLocalizations.of(context)!.setPasswordClearTimeOptionTitle),
               content: StatefulBuilder(
                 builder: (statefulBuilderContext, setState) {
                   return NumberPicker(
@@ -82,8 +80,7 @@ class _OptionsPageState extends State<OptionsPage> {
                 ),
                 TextButton(
                   child: Text(AppLocalizations.of(context)!.ok),
-                  onPressed: () =>
-                      Navigator.of(dialogContext).pop(passwordClearTime),
+                  onPressed: () => Navigator.of(dialogContext).pop(passwordClearTime),
                 )
               ]);
         });
@@ -93,16 +90,14 @@ class _OptionsPageState extends State<OptionsPage> {
     ScaffoldMessenger.of(context).clearSnackBars();
 
     symbolCandidatesTextInputController.text =
-        (await Settings.getSpecialSymbols()) ??
-            PreferenceDefaults.SpecialSymbols;
+        (await Settings.getSpecialSymbols()) ?? PreferenceDefaults.SpecialSymbols;
 
     await showDialog(
         context: context,
         barrierDismissible: false,
         builder: (dialogContext) {
           return AlertDialog(
-            title: Text(
-                AppLocalizations.of(context)!.editSymbolCandidatesOptionTitle),
+            title: Text(AppLocalizations.of(context)!.editSymbolCandidatesOptionTitle),
             content: TextField(
               controller: symbolCandidatesTextInputController,
               autocorrect: false,
@@ -110,17 +105,14 @@ class _OptionsPageState extends State<OptionsPage> {
               textInputAction: TextInputAction.done,
               decoration: InputDecoration(
                   icon: Icon(Icons.keyboard),
-                  hintText: AppLocalizations.of(context)!
-                      .editSymbolCandidatesHintText,
-                  helperText: AppLocalizations.of(context)!
-                      .editSymbolCandidatesHelperText),
+                  hintText: AppLocalizations.of(context)!.editSymbolCandidatesHintText,
+                  helperText: AppLocalizations.of(context)!.editSymbolCandidatesHelperText),
             ),
             actions: [
               TextButton(
                   child: Text(AppLocalizations.of(context)!.useDefault),
                   onPressed: () {
-                    symbolCandidatesTextInputController.text =
-                        PreferenceDefaults.SpecialSymbols;
+                    symbolCandidatesTextInputController.text = PreferenceDefaults.SpecialSymbols;
                   }),
               TextButton(
                   child: Text(AppLocalizations.of(context)!.cancel),
@@ -130,9 +122,7 @@ class _OptionsPageState extends State<OptionsPage> {
               TextButton(
                   child: Text(AppLocalizations.of(context)!.ok),
                   onPressed: () {
-                    Settings.setSpecialSymbols(
-                            symbolCandidatesTextInputController.text)
-                        .then((value) {
+                    Settings.setSpecialSymbols(symbolCandidatesTextInputController.text).then((value) {
                       Navigator.of(dialogContext).pop();
                     });
                   }),
@@ -151,8 +141,7 @@ class _OptionsPageState extends State<OptionsPage> {
         barrierDismissible: false,
         builder: (dialogContext) {
           return AlertDialog(
-            title:
-                Text(AppLocalizations.of(context)!.editRandomSaltOptionTitle),
+            title: Text(AppLocalizations.of(context)!.editRandomSaltOptionTitle),
             content: TextField(
               controller: randomSaltTextInputController,
               autocorrect: false,
@@ -161,8 +150,7 @@ class _OptionsPageState extends State<OptionsPage> {
               decoration: InputDecoration(
                   icon: Icon(Icons.security),
                   hintText: AppLocalizations.of(context)!.randomSaltHintText,
-                  helperText:
-                      AppLocalizations.of(context)!.randomSaltOptionsHeader),
+                  helperText: AppLocalizations.of(context)!.randomSaltOptionsHeader),
             ),
             actions: [
               TextButton(
@@ -175,8 +163,7 @@ class _OptionsPageState extends State<OptionsPage> {
               TextButton(
                   child: Text(AppLocalizations.of(context)!.ok),
                   onPressed: () {
-                    Settings.setRandomSalt(randomSaltTextInputController.text)
-                        .then((value) {
+                    Settings.setRandomSalt(randomSaltTextInputController.text).then((value) {
                       Navigator.of(dialogContext).pop();
 
                       randomSaltTextInputController.text = "";
@@ -190,8 +177,7 @@ class _OptionsPageState extends State<OptionsPage> {
   Future<void> generateRandomSalt() async {
     if (await showRandomSaltChangePrompt()) {
       PasswordHelper.generateRandomSalt().then((value) {
-        UIHelper.showMessage(
-            context, AppLocalizations.of(context)!.randomSaltGeneratedMessage,
+        UIHelper.showMessage(context, AppLocalizations.of(context)!.randomSaltGeneratedMessage,
             showDismissButton: true);
       });
     }
@@ -208,9 +194,7 @@ class _OptionsPageState extends State<OptionsPage> {
               .replaceAll("%s", AppConstants.CriticalSettingsBackupFileName),
           showDismissButton: true);
     } catch (e) {
-      UIHelper.showMessage(
-          context, AppLocalizations.of(context)!.exception + e.toString(),
-          showDismissButton: true);
+      UIHelper.showMessage(context, AppLocalizations.of(context)!.exception + e.toString(), showDismissButton: true);
     }
   }
 
@@ -226,15 +210,12 @@ class _OptionsPageState extends State<OptionsPage> {
                 !PlatformHelper.isWeb()
                     ? AppLocalizations.of(context)!
                         .restoreCriticalSettingsCompletedMessage
-                        .replaceAll(
-                            "%s", AppConstants.CriticalSettingsBackupFileName)
-                    : AppLocalizations.of(context)!
-                        .restoreCriticalSettingsCompletedMessageWeb,
+                        .replaceAll("%s", AppConstants.CriticalSettingsBackupFileName)
+                    : AppLocalizations.of(context)!.restoreCriticalSettingsCompletedMessageWeb,
                 showDismissButton: true);
           }
         } catch (e) {
-          UIHelper.showMessage(
-              context, AppLocalizations.of(context)!.exception + e.toString(),
+          UIHelper.showMessage(context, AppLocalizations.of(context)!.exception + e.toString(),
               showDismissButton: true);
         }
       }
@@ -253,18 +234,15 @@ class _OptionsPageState extends State<OptionsPage> {
       if (value) {
         PlatformHelper.isCameraPermissionGranted().then((value) {
           if (value) {
-            Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => QRScanPage()))
-                .then((value) {
-              UIHelper.showMessage(
-                  context,
-                  AppLocalizations.of(context)!
-                      .importCriticalSettingsFromQRCodeCompletedMessage,
-                  showDismissButton: true);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => QRScanPage())).then((value) {
+              if (value != null) {
+                UIHelper.showMessage(
+                    context, AppLocalizations.of(context)!.importCriticalSettingsFromQRCodeCompletedMessage,
+                    showDismissButton: true);
+              }
             });
           } else {
-            UIHelper.showMessage(context,
-                AppLocalizations.of(context)!.noCameraPermissionErrorMessage);
+            UIHelper.showMessage(context, AppLocalizations.of(context)!.noCameraPermissionErrorMessage);
           }
         });
       }
@@ -274,16 +252,9 @@ class _OptionsPageState extends State<OptionsPage> {
   void readCriticalSettingsNFCTag() {
     showRandomSaltChangePrompt().then((value) {
       if (value) {
-        Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => NFCPage(operation: "read")))
-            .then((value) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => NFCPage(operation: "read"))).then((value) {
           if (value ?? false) {
-            UIHelper.showMessage(
-                context,
-                AppLocalizations.of(context)!
-                    .readCriticalSettingsNFCTagCompletedMessage,
+            UIHelper.showMessage(context, AppLocalizations.of(context)!.readCriticalSettingsNFCTagCompletedMessage,
                 showDismissButton: true);
           }
         });
@@ -292,15 +263,9 @@ class _OptionsPageState extends State<OptionsPage> {
   }
 
   void writeCriticalSettingsNFCTag() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => NFCPage(operation: "write"))).then((value) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => NFCPage(operation: "write"))).then((value) {
       if (value ?? false) {
-        UIHelper.showMessage(
-            context,
-            AppLocalizations.of(context)!
-                .writeCriticalSettingsNFCTagCompletedMessage,
+        UIHelper.showMessage(context, AppLocalizations.of(context)!.writeCriticalSettingsNFCTagCompletedMessage,
             showDismissButton: true);
       }
     });
@@ -341,10 +306,8 @@ class _OptionsPageState extends State<OptionsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final headerTextStyle = TextStyle(
-        color: Theme.of(context).colorScheme.primary,
-        fontSize: 16,
-        fontWeight: FontWeight.bold);
+    final headerTextStyle =
+        TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 16, fontWeight: FontWeight.bold);
 
     return Scaffold(
         // Use ScaffoldKey to get access to APIs for things like Snackbar
@@ -360,8 +323,7 @@ class _OptionsPageState extends State<OptionsPage> {
                 ),
               ),
               SwitchListTile(
-                  title: Text(AppLocalizations.of(context)!
-                      .autoCopyPasswordOptionTitle),
+                  title: Text(AppLocalizations.of(context)!.autoCopyPasswordOptionTitle),
                   value: autoCopyPassword!,
                   onChanged: !showPassword!
                       ? null
@@ -380,8 +342,7 @@ class _OptionsPageState extends State<OptionsPage> {
                           });
                         }),
               SwitchListTile(
-                  title: Text(AppLocalizations.of(context)!
-                      .rememberLastSaltOptionTitle),
+                  title: Text(AppLocalizations.of(context)!.rememberLastSaltOptionTitle),
                   value: rememberUserSalt!,
                   onChanged: (value) {
                     setState(() {
@@ -395,8 +356,7 @@ class _OptionsPageState extends State<OptionsPage> {
                     });
                   }),
               ListTile(
-                title: Text(AppLocalizations.of(context)!
-                    .editSymbolCandidatesOptionTitle),
+                title: Text(AppLocalizations.of(context)!.editSymbolCandidatesOptionTitle),
                 trailing: Icon(Icons.open_in_new),
                 onTap: showEditSymbolCandidatesDialog,
               ),
@@ -407,8 +367,7 @@ class _OptionsPageState extends State<OptionsPage> {
                 style: headerTextStyle,
               )),
               SwitchListTile(
-                  title: Text(
-                      AppLocalizations.of(context)!.showPasswordOptionTitle),
+                  title: Text(AppLocalizations.of(context)!.showPasswordOptionTitle),
                   value: showPassword!,
                   onChanged: !autoCopyPassword!
                       ? null
@@ -427,8 +386,7 @@ class _OptionsPageState extends State<OptionsPage> {
                           });
                         }),
               SwitchListTile(
-                  title: Text(AppLocalizations.of(context)!
-                      .autoClearPasswordOptionTitle),
+                  title: Text(AppLocalizations.of(context)!.autoClearPasswordOptionTitle),
                   value: autoClearPassword!,
                   onChanged: !showPassword!
                       ? null
@@ -441,8 +399,7 @@ class _OptionsPageState extends State<OptionsPage> {
                           });
                         }),
               ListTile(
-                title: Text(AppLocalizations.of(context)!
-                    .setPasswordClearTimeOptionTitle),
+                title: Text(AppLocalizations.of(context)!.setPasswordClearTimeOptionTitle),
                 trailing: Icon(Icons.open_in_new),
                 enabled: autoClearPassword!,
                 onTap: showPasswordClearTimeDialog,
@@ -455,14 +412,12 @@ class _OptionsPageState extends State<OptionsPage> {
                 ),
               ),
               ListTile(
-                title: Text(
-                    AppLocalizations.of(context)!.editRandomSaltOptionTitle),
+                title: Text(AppLocalizations.of(context)!.editRandomSaltOptionTitle),
                 trailing: Icon(Icons.open_in_new),
                 onTap: showEditRandomSaltDialog,
               ),
               ListTile(
-                title: Text(AppLocalizations.of(context)!
-                    .generateRandomSaltOptionTitle),
+                title: Text(AppLocalizations.of(context)!.generateRandomSaltOptionTitle),
                 onTap: generateRandomSalt,
               ),
               Divider(),
@@ -473,64 +428,50 @@ class _OptionsPageState extends State<OptionsPage> {
                 ),
               ),
               ListTile(
-                title: Text(AppLocalizations.of(context)!
-                    .backupCriticalSettingsOptionTitle),
+                title: Text(AppLocalizations.of(context)!.backupCriticalSettingsOptionTitle),
                 subtitle: !PlatformHelper.isWeb()
                     ? Text(AppLocalizations.of(context)!
                         .backupCriticalSettingsOptionSubtitle
-                        .replaceAll(
-                            "%s", AppConstants.CriticalSettingsBackupFileName))
+                        .replaceAll("%s", AppConstants.CriticalSettingsBackupFileName))
                     : Text(AppLocalizations.of(context)!
                         .backupCriticalSettingsOptionSubtitleWeb
-                        .replaceAll(
-                            "%s", AppConstants.CriticalSettingsBackupFileName)),
+                        .replaceAll("%s", AppConstants.CriticalSettingsBackupFileName)),
                 onTap: backupCriticalSettingsToFile,
               ),
               ListTile(
-                title: Text(AppLocalizations.of(context)!
-                    .restoreCriticalSettingsOptionTitle),
+                title: Text(AppLocalizations.of(context)!.restoreCriticalSettingsOptionTitle),
                 subtitle: !PlatformHelper.isWeb()
                     ? Text(AppLocalizations.of(context)!
                         .restoreCriticalSettingsOptionSubtitle
-                        .replaceAll(
-                            "%s", AppConstants.CriticalSettingsBackupFileName))
-                    : Text(AppLocalizations.of(context)!
-                        .restoreCriticalSettingsOptionSubtitleWeb),
+                        .replaceAll("%s", AppConstants.CriticalSettingsBackupFileName))
+                    : Text(AppLocalizations.of(context)!.restoreCriticalSettingsOptionSubtitleWeb),
                 onTap: restoreCriticalSettingsFromFile,
               ),
               ListTile(
-                title: Text(AppLocalizations.of(context)!
-                    .showCriticalSettingsQRCodeOptionTitle),
+                title: Text(AppLocalizations.of(context)!.showCriticalSettingsQRCodeOptionTitle),
                 trailing: Icon(Icons.qr_code_2),
                 onTap: () {
                   ScaffoldMessenger.of(context).clearSnackBars();
 
                   IOHelper.compressCriticalSettingsContents().then((value) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                QRCodePage(qrCodeData: value)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => QRCodePage(qrCodeData: value)));
                   });
                 },
               ),
               if (PlatformHelper.isCameraAvailable())
                 ListTile(
-                  title: Text(AppLocalizations.of(context)!
-                      .importCriticalSettingsFromQRCodeOptionTitle),
+                  title: Text(AppLocalizations.of(context)!.importCriticalSettingsFromQRCodeOptionTitle),
                   trailing: Icon(Icons.qr_code_scanner),
                   onTap: importCriticalSettingsFromQRCode,
                 ),
               if (isNFCAvailable) ...[
                 ListTile(
-                  title: Text(AppLocalizations.of(context)!
-                      .readCriticalSettingsNFCTagOptionTitle),
+                  title: Text(AppLocalizations.of(context)!.readCriticalSettingsNFCTagOptionTitle),
                   trailing: Icon(Icons.nfc),
                   onTap: readCriticalSettingsNFCTag,
                 ),
                 ListTile(
-                  title: Text(AppLocalizations.of(context)!
-                      .writeCriticalSettingsNFCTagOptionTitle),
+                  title: Text(AppLocalizations.of(context)!.writeCriticalSettingsNFCTagOptionTitle),
                   trailing: Icon(Icons.nfc_outlined),
                   onTap: writeCriticalSettingsNFCTag,
                 )
