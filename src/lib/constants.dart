@@ -2,8 +2,7 @@ class PreferenceKeys {
   static const String AutoCopyPasswordPreferenceKey = "AutoCopyPassword";
   static const String RememberUserSaltPreferenceKey = "RememberUserSalt";
   static const String PasswordLengthPreferenceKey = "PasswordLength";
-  static const String InsertSpecialSymbolsPreferenceKey =
-      "InsertSpecialSymbols";
+  static const String InsertSpecialSymbolsPreferenceKey = "InsertSpecialSymbols";
   static const String SpecialSymbolsPreferenceKey = "SpecialSymbols";
   static const String UserSaltPreferenceKey = "UserSalt";
   static const String RandomSaltPreferenceKey = "RandomSalt";
@@ -17,8 +16,7 @@ class PreferenceDefaults {
   static const bool RememberUserSalt = true;
   static const int PasswordLength = 16;
   static const bool InsertSpecialSymbols = true;
-  static const String SpecialSymbols =
-      r"~`!@#$%^&*()+=_-{}[]\|:;”’?/<>,."
+  static const String SpecialSymbols = r"~`!@#$%^&*()+=_-{}[]\|:;”’?/<>,."
       r"GgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
   static const String UserSalt = "";
   static const bool ShowPassword = false;
@@ -28,10 +26,8 @@ class PreferenceDefaults {
 
 class AppConstants {
   static const int RandomSaltLength = 64;
-  static const String CriticalSettingsBackupFileName =
-      "FPG_CriticalSettings.dat";
-  static const String CriticalSettingsQRImageFileName =
-      "FPG_CriticalSettings_QR.png";
+  static const String CriticalSettingsBackupFileName = "FPG_CriticalSettings.dat";
+  static const String CriticalSettingsQRImageFileName = "FPG_CriticalSettings_QR.png";
 }
 
 class UIConstants {

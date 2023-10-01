@@ -24,8 +24,7 @@ class ListRange extends IterableBase<int> {
   }
 
   @override
-  ListRangeIterator get iterator =>
-      _ListRangeIteratorImpl(_source, _offset, _offset + _length);
+  ListRangeIterator get iterator => _ListRangeIteratorImpl(_source, _offset, _offset + _length);
 
   @override
   int get length => _length;
@@ -55,8 +54,7 @@ class _ListRangeIteratorImpl implements ListRangeIterator {
   int _offset;
   final int _end;
 
-  _ListRangeIteratorImpl(this._source, int offset, this._end)
-      : _offset = offset - 1;
+  _ListRangeIteratorImpl(this._source, int offset, this._end) : _offset = offset - 1;
 
   @override
   int get current => _source[_offset];

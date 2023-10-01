@@ -6,10 +6,8 @@ import 'package:fpg/helpers/uiHelper.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class QRScanPage extends StatelessWidget {
-  final scanController = MobileScannerController(
-      detectionSpeed: DetectionSpeed.normal,
-      facing: CameraFacing.back,
-      torchEnabled: false);
+  final scanController =
+      MobileScannerController(detectionSpeed: DetectionSpeed.normal, facing: CameraFacing.back, torchEnabled: false);
 
   bool isDetected = false;
   String? previousValue;
@@ -17,9 +15,7 @@ class QRScanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!
-              .importCriticalSettingsFromQRCodePageTitle)),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.importCriticalSettingsFromQRCodePageTitle)),
       body: MobileScanner(
         controller: scanController,
         errorBuilder: (context, exception, widget) {
@@ -28,8 +24,7 @@ class QRScanPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Icon(Icons.error, size: UIConstants.LargeIconSize),
-              Text(
-                  AppLocalizations.of(context)!.noCameraPermissionErrorMessage),
+              Text(AppLocalizations.of(context)!.noCameraPermissionErrorMessage),
             ],
           );
         },
@@ -51,8 +46,7 @@ class QRScanPage extends StatelessWidget {
               }
             } catch (e) {
               if (previousValue != value) {
-                UIHelper.showMessage(context,
-                    AppLocalizations.of(context)!.invalidQRCodeErrorMessage);
+                UIHelper.showMessage(context, AppLocalizations.of(context)!.invalidQRCodeErrorMessage);
 
                 previousValue = value;
               }

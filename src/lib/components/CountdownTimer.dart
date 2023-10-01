@@ -1,8 +1,7 @@
 import 'dart:async';
 
 class CountdownStopTimer {
-  CountdownStopTimer(
-      int period, void Function()? onPeriodic, void Function()? onEnd) {
+  CountdownStopTimer(int period, void Function()? onPeriodic, void Function()? onEnd) {
     _remainingTime = period;
     _period = period;
     _onPeriodic = onPeriodic;

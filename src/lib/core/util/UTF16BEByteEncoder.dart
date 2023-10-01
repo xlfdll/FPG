@@ -18,8 +18,7 @@ class UTF16BEByteEncoder {
 
   static List<int?> encode(String input, [bool writeBOM = false]) {
     var utf16CodeUnits = _codepointsToUtf16CodeUnits(input.codeUnits);
-    var encoding =
-        List<int>.filled(2 * utf16CodeUnits.length + (writeBOM ? 2 : 0), 0);
+    var encoding = List<int>.filled(2 * utf16CodeUnits.length + (writeBOM ? 2 : 0), 0);
     var i = 0;
     if (writeBOM) {
       encoding[i++] = UNICODE_UTF_BOM_HI;
@@ -33,19 +32,15 @@ class UTF16BEByteEncoder {
   }
 
   static List<int?> _codepointsToUtf16CodeUnits(List<int> codepoints,
-      [int offset = 0,
-      int? length,
-      int replacementCodepoint = UNICODE_REPLACEMENT_CHARACTER_CODEPOINT]) {
+      [int offset = 0, int? length, int replacementCodepoint = UNICODE_REPLACEMENT_CHARACTER_CODEPOINT]) {
     var listRange = ListRange(codepoints, offset, length);
     var encodedLength = 0;
 
     for (var value in listRange) {
       if ((value >= 0 && value < UNICODE_UTF16_RESERVED_LO) ||
-          (value > UNICODE_UTF16_RESERVED_HI &&
-              value <= UNICODE_PLANE_ONE_MAX)) {
+          (value > UNICODE_UTF16_RESERVED_HI && value <= UNICODE_PLANE_ONE_MAX)) {
         encodedLength++;
-      } else if (value > UNICODE_PLANE_ONE_MAX &&
-          value <= UNICODE_VALID_RANGE_MAX) {
+      } else if (value > UNICODE_PLANE_ONE_MAX && value <= UNICODE_VALID_RANGE_MAX) {
         encodedLength += 2;
       } else {
         encodedLength++;
@@ -57,17 +52,13 @@ class UTF16BEByteEncoder {
 
     for (var value in listRange) {
       if ((value >= 0 && value < UNICODE_UTF16_RESERVED_LO) ||
-          (value > UNICODE_UTF16_RESERVED_HI &&
-              value <= UNICODE_PLANE_ONE_MAX)) {
+          (value > UNICODE_UTF16_RESERVED_HI && value <= UNICODE_PLANE_ONE_MAX)) {
         codeUnitsBuffer[j++] = value;
-      } else if (value > UNICODE_PLANE_ONE_MAX &&
-          value <= UNICODE_VALID_RANGE_MAX) {
+      } else if (value > UNICODE_PLANE_ONE_MAX && value <= UNICODE_VALID_RANGE_MAX) {
         var base = value - UNICODE_UTF16_OFFSET;
 
-        codeUnitsBuffer[j++] = UNICODE_UTF16_SURROGATE_UNIT_0_BASE +
-            ((base & UNICODE_UTF16_HI_MASK) >> 10);
-        codeUnitsBuffer[j++] = UNICODE_UTF16_SURROGATE_UNIT_1_BASE +
-            (base & UNICODE_UTF16_LO_MASK);
+        codeUnitsBuffer[j++] = UNICODE_UTF16_SURROGATE_UNIT_0_BASE + ((base & UNICODE_UTF16_HI_MASK) >> 10);
+        codeUnitsBuffer[j++] = UNICODE_UTF16_SURROGATE_UNIT_1_BASE + (base & UNICODE_UTF16_LO_MASK);
       } else {
         codeUnitsBuffer[j++] = replacementCodepoint;
       }

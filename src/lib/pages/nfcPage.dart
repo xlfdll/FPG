@@ -13,8 +13,7 @@ class NFCPage extends StatefulWidget {
   final String operation;
 
   @override
-  State<StatefulWidget> createState() =>
-      _NFCPageState(operation: this.operation);
+  State<StatefulWidget> createState() => _NFCPageState(operation: this.operation);
 }
 
 class _NFCPageState extends State<NFCPage> with WidgetsBindingObserver {
@@ -42,8 +41,7 @@ class _NFCPageState extends State<NFCPage> with WidgetsBindingObserver {
     Ndef? ndef = Ndef.from(tag);
 
     if (ndef == null) {
-      UIHelper.showMessage(context,
-          AppLocalizations.of(context)!.unsupportedNFCTagFormatErrorMessage);
+      UIHelper.showMessage(context, AppLocalizations.of(context)!.unsupportedNFCTagFormatErrorMessage);
 
       return;
     }
@@ -61,8 +59,7 @@ class _NFCPageState extends State<NFCPage> with WidgetsBindingObserver {
             final data = await IOHelper.compressCriticalSettingsContents();
 
             if (data == null) {
-              throw FormatException(
-                  "Empty data from compressCriticalSettingsContents()");
+              throw FormatException("Empty data from compressCriticalSettingsContents()");
             }
 
             await writeNfcTagData(ndef, data);
@@ -85,17 +82,14 @@ class _NFCPageState extends State<NFCPage> with WidgetsBindingObserver {
     } catch (e) {
       switch (operation) {
         case OPERATION_READ:
-          UIHelper.showMessage(context,
-              AppLocalizations.of(context)!.invalidNFCTagDataErrorMessage);
+          UIHelper.showMessage(context, AppLocalizations.of(context)!.invalidNFCTagDataErrorMessage);
 
           break;
         case OPERATION_WRITE:
           if (!ndef.isWritable) {
-            UIHelper.showMessage(context,
-                AppLocalizations.of(context)!.unwritableNFCTagErrorMessage);
+            UIHelper.showMessage(context, AppLocalizations.of(context)!.unwritableNFCTagErrorMessage);
           } else {
-            UIHelper.showMessage(context,
-                AppLocalizations.of(context)!.exception + e.toString());
+            UIHelper.showMessage(context, AppLocalizations.of(context)!.exception + e.toString());
           }
 
           break;
@@ -136,21 +130,16 @@ class _NFCPageState extends State<NFCPage> with WidgetsBindingObserver {
           switch (operation) {
             case OPERATION_READ:
               icon = Icons.nfc;
-              title = AppLocalizations.of(context)!
-                  .readCriticalSettingsNFCTagPageTitle;
-              description = AppLocalizations.of(context)!
-                  .readCriticalSettingsNFCTagPageDescription;
+              title = AppLocalizations.of(context)!.readCriticalSettingsNFCTagPageTitle;
+              description = AppLocalizations.of(context)!.readCriticalSettingsNFCTagPageDescription;
               warning = "";
 
               break;
             case OPERATION_WRITE:
               icon = Icons.nfc_outlined;
-              title = AppLocalizations.of(context)!
-                  .writeCriticalSettingsNFCTagPageTitle;
-              description = AppLocalizations.of(context)!
-                  .writeCriticalSettingsNFCTagPageDescription;
-              warning = AppLocalizations.of(context)!
-                  .writeCriticalSettingsNFCTagPageWarningMessage;
+              title = AppLocalizations.of(context)!.writeCriticalSettingsNFCTagPageTitle;
+              description = AppLocalizations.of(context)!.writeCriticalSettingsNFCTagPageDescription;
+              warning = AppLocalizations.of(context)!.writeCriticalSettingsNFCTagPageWarningMessage;
 
               break;
             default:
@@ -160,8 +149,7 @@ class _NFCPageState extends State<NFCPage> with WidgetsBindingObserver {
           break;
         case STATE_COMPLETED:
           icon = Icons.check_circle;
-          description =
-              AppLocalizations.of(context)!.nfcTagOperationCompletedMessage;
+          description = AppLocalizations.of(context)!.nfcTagOperationCompletedMessage;
           warning = "";
 
           break;
@@ -198,8 +186,7 @@ class _NFCPageState extends State<NFCPage> with WidgetsBindingObserver {
               title: Text(title),
             ),
             body: Padding(
-                padding:
-                    EdgeInsets.only(top: 60, bottom: 60, left: 30, right: 30),
+                padding: EdgeInsets.only(top: 60, bottom: 60, left: 30, right: 30),
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -207,8 +194,7 @@ class _NFCPageState extends State<NFCPage> with WidgetsBindingObserver {
                     children: [
                       Icon(icon, size: UIConstants.LargeIconSize),
                       Text(description, style: textStyle),
-                      if (state == STATE_READY && operation == OPERATION_WRITE)
-                        Text(warning, style: warningTextStyle)
+                      if (state == STATE_READY && operation == OPERATION_WRITE) Text(warning, style: warningTextStyle)
                     ],
                   ),
                 ))),

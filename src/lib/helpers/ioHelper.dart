@@ -52,8 +52,7 @@ class IOHelper {
 
   static void _downloadBlob(String fileName, Blob blob) {
     if (PlatformHelper.isWeb()) {
-      final anchorElement =
-          AnchorElement(href: Url.createObjectUrlFromBlob(blob).toString());
+      final anchorElement = AnchorElement(href: Url.createObjectUrlFromBlob(blob).toString());
 
       // "download" attribute in <a> will force downloading files
       anchorElement.setAttribute("download", fileName);
@@ -75,11 +74,9 @@ class IOHelper {
     if (!PlatformHelper.isWeb()) {
       final file = File(await _getBackupFilePath());
 
-      await file.writeAsString(await _getCriticalSettingsContents(),
-          flush: true);
+      await file.writeAsString(await _getCriticalSettingsContents(), flush: true);
     } else {
-      final blob =
-          Blob([await _getCriticalSettingsContents()], "text/plain", "native");
+      final blob = Blob([await _getCriticalSettingsContents()], "text/plain", "native");
 
       _downloadBlob(AppConstants.CriticalSettingsBackupFileName, blob);
     }
@@ -93,10 +90,8 @@ class IOHelper {
 
       lines = await file.readAsLines();
     } else {
-      final result = await FilePicker.platform.pickFiles(
-          type: FileType.custom,
-          allowedExtensions: ["dat"],
-          allowMultiple: false);
+      final result =
+          await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ["dat"], allowMultiple: false);
 
       if (result != null) {
         final ls = LineSplitter();
@@ -114,8 +109,7 @@ class IOHelper {
   }
 
   static Future<String?> compressCriticalSettingsContents() async {
-    final bytes =
-        GZipEncoder().encode(utf8.encode(await _getCriticalSettingsContents()));
+    final bytes = GZipEncoder().encode(utf8.encode(await _getCriticalSettingsContents()));
 
     if (bytes != null) {
       return base64.encode(bytes);
@@ -124,18 +118,16 @@ class IOHelper {
     return null;
   }
 
-  static void decompressCriticalSettingsContents(
-      String compressedEncodedContents) {
+  static void decompressCriticalSettingsContents(String compressedEncodedContents) {
     final ls = LineSplitter();
-    final lines = ls.convert(utf8.decode(GZipDecoder()
-        .decodeBytes(base64.decode(compressedEncodedContents).toList())));
+    final lines = ls.convert(utf8.decode(GZipDecoder().decodeBytes(base64.decode(compressedEncodedContents).toList())));
 
     _setCriticalSettings(lines);
   }
 
   static Future<void> writeQRCodeImageToFile(ByteData qrImageByteData) async {
-    final qrImageBytes = qrImageByteData.buffer.asUint8List(
-        qrImageByteData.offsetInBytes, qrImageByteData.lengthInBytes);
+    final qrImageBytes =
+        qrImageByteData.buffer.asUint8List(qrImageByteData.offsetInBytes, qrImageByteData.lengthInBytes);
 
     if (!PlatformHelper.isWeb()) {
       final file = File(await _getQRImageFilePath());

@@ -34,8 +34,7 @@ abstract class NfcRecord {
 }
 
 class WellknownTextNfcRecord implements NfcRecord {
-  WellknownTextNfcRecord(
-      {this.identifier, required this.languageCode, required this.text});
+  WellknownTextNfcRecord({this.identifier, required this.languageCode, required this.text});
 
   final Uint8List? identifier;
   final String languageCode;
@@ -86,8 +85,7 @@ class WellknownUriRecord implements NfcRecord {
 
   @override
   NdefRecord toNdef() {
-    var prefixIndex = NdefRecord.URI_PREFIX_LIST
-        .indexWhere((e) => uri.toString().startsWith(e), 1);
+    var prefixIndex = NdefRecord.URI_PREFIX_LIST.indexWhere((e) => uri.toString().startsWith(e), 1);
 
     if (prefixIndex < 0) {
       prefixIndex = 0;
@@ -136,8 +134,7 @@ class MimeRecord implements NfcRecord {
 }
 
 class AbsoluteUriRecord implements NfcRecord {
-  AbsoluteUriRecord(
-      {this.identifier, required this.uriType, required this.payload});
+  AbsoluteUriRecord({this.identifier, required this.uriType, required this.payload});
 
   final Uint8List? identifier;
   final Uri uriType;
@@ -165,11 +162,7 @@ class AbsoluteUriRecord implements NfcRecord {
 }
 
 class ExternalRecord implements NfcRecord {
-  ExternalRecord(
-      {this.identifier,
-      required this.domain,
-      required this.type,
-      required this.data});
+  ExternalRecord({this.identifier, required this.domain, required this.type, required this.data});
 
   final Uint8List? identifier;
   final String domain;

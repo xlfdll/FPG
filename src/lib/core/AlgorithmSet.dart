@@ -10,19 +10,13 @@ import 'interfaces/ISaltingAlgorithm.dart';
 import 'interfaces/ISymbolInsertionAlgorithm.dart';
 
 class AlgorithmSet {
-  AlgorithmSet(
-      String saltGenerationAlgorithmName,
-      String saltingAlgorithmName,
-      String hashingAlgorithmName,
-      String croppingAlgorithmName,
-      String symbolInsertionAlgorithmName) {
-    saltGeneration =
-        SaltGenerationAlgorithmFactory.create(saltGenerationAlgorithmName);
+  AlgorithmSet(String saltGenerationAlgorithmName, String saltingAlgorithmName, String hashingAlgorithmName,
+      String croppingAlgorithmName, String symbolInsertionAlgorithmName) {
+    saltGeneration = SaltGenerationAlgorithmFactory.create(saltGenerationAlgorithmName);
     salting = SaltingAlgorithmFactory.create(saltingAlgorithmName);
     hashing = HashingAlgorithmFactory.create(hashingAlgorithmName);
     cropping = CroppingAlgorithmFactory.create(croppingAlgorithmName);
-    symbolInsertion =
-        SymbolInsertionAlgorithmFactory.create(symbolInsertionAlgorithmName);
+    symbolInsertion = SymbolInsertionAlgorithmFactory.create(symbolInsertionAlgorithmName);
   }
 
   late ISaltGenerationAlgorithm saltGeneration;

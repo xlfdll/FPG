@@ -22,22 +22,19 @@ class NPickedSymbolInsertionAlgorithm implements ISymbolInsertionAlgorithm {
       // Prefer replacing digits (and not overwriting other symbols)
       int alternativeInputIndex = inputIndex;
 
-      while (alternativeInputIndex < input.length &&
-          !isDigit(input, alternativeInputIndex)) {
+      while (alternativeInputIndex < input.length && !isDigit(input, alternativeInputIndex)) {
         alternativeInputIndex++;
       }
 
       if (alternativeInputIndex == input.length) {
         alternativeInputIndex = inputIndex;
 
-        while (alternativeInputIndex < input.length &&
-            symbols.contains(input[alternativeInputIndex])) {
+        while (alternativeInputIndex < input.length && symbols.contains(input[alternativeInputIndex])) {
           alternativeInputIndex++;
         }
       }
 
-      if (alternativeInputIndex < input.length &&
-          alternativeInputIndex != inputIndex) {
+      if (alternativeInputIndex < input.length && alternativeInputIndex != inputIndex) {
         inputIndex = alternativeInputIndex;
       }
 

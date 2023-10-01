@@ -17,8 +17,7 @@ class QRCodePage extends StatefulWidget {
   final String? qrCodeData;
 
   @override
-  State<StatefulWidget> createState() =>
-      _QRCodePageState(qrCodeData: this.qrCodeData);
+  State<StatefulWidget> createState() => _QRCodePageState(qrCodeData: this.qrCodeData);
 }
 
 class _QRCodePageState extends State<QRCodePage> with WidgetsBindingObserver {
@@ -28,8 +27,7 @@ class _QRCodePageState extends State<QRCodePage> with WidgetsBindingObserver {
 
   void exportQrImage(BuildContext context) {
     final qrImageSize = 300.0;
-    final qrPrinter =
-        QrPainter(data: qrCodeData ?? '', version: QrVersions.auto);
+    final qrPrinter = QrPainter(data: qrCodeData ?? '', version: QrVersions.auto);
 
     qrPrinter.toImageData(qrImageSize).then((value) {
       if (value != null) {
@@ -38,8 +36,7 @@ class _QRCodePageState extends State<QRCodePage> with WidgetsBindingObserver {
               context,
               AppLocalizations.of(context)!
                   .saveCriticalSettingsQRCodeCompletedMessage
-                  .replaceAll(
-                      "%s", AppConstants.CriticalSettingsQRImageFileName));
+                  .replaceAll("%s", AppConstants.CriticalSettingsQRImageFileName));
         });
       }
     });
@@ -82,17 +79,13 @@ class _QRCodePageState extends State<QRCodePage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!
-              .showCriticalSettingsQRCodePageTitle),
-          bottom: remainingReturnTime > 0
-              ? AppBarLinearProgressIndicator(
-                  value: remainingReturnTime / returnTime)
-              : null,
+          title: Text(AppLocalizations.of(context)!.showCriticalSettingsQRCodePageTitle),
+          bottom:
+              remainingReturnTime > 0 ? AppBarLinearProgressIndicator(value: remainingReturnTime / returnTime) : null,
         ),
         floatingActionButton: FloatingActionButton.extended(
             icon: Icon(Icons.download),
-            label: Text(AppLocalizations.of(context)!
-                .saveCriticalSettingsQRCodeButtonLabel),
+            label: Text(AppLocalizations.of(context)!.saveCriticalSettingsQRCodeButtonLabel),
             onPressed: () => exportQrImage(context)),
         body: Padding(
             padding: EdgeInsets.only(top: 60, bottom: 60, left: 30, right: 30),
@@ -100,19 +93,16 @@ class _QRCodePageState extends State<QRCodePage> with WidgetsBindingObserver {
               child: qrCodeData != null
                   ? QrImageView(
                       data: qrCodeData ?? '',
-                      eyeStyle: QrEyeStyle(
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                          eyeShape: QrEyeShape.square),
-                      dataModuleStyle: QrDataModuleStyle(
-                          color: Theme.of(context).colorScheme.primary),
+                      eyeStyle:
+                          QrEyeStyle(color: Theme.of(context).colorScheme.inversePrimary, eyeShape: QrEyeShape.square),
+                      dataModuleStyle: QrDataModuleStyle(color: Theme.of(context).colorScheme.primary),
                     )
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(Icons.error, size: UIConstants.LargeIconSize),
-                        Text(AppLocalizations.of(context)!
-                            .noCriticalSettingsQRCodeErrorMessage),
+                        Text(AppLocalizations.of(context)!.noCriticalSettingsQRCodeErrorMessage),
                       ],
                     ),
             )));

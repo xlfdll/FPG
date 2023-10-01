@@ -17,23 +17,15 @@ class App extends StatelessWidget {
         theme: ThemeData.light().copyWith(
             visualDensity: VisualDensity.adaptivePlatformDensity,
             colorScheme: ColorScheme.light(
-                primary: Colors.blue,
-                secondary: Colors.blue,
-                onSecondary: Colors.white,
-                inversePrimary: Colors.orange),
+                primary: Colors.blue, secondary: Colors.blue, onSecondary: Colors.white, inversePrimary: Colors.orange),
             appBarTheme: AppBarTheme(backgroundColor: Colors.blue),
-            progressIndicatorTheme: ProgressIndicatorThemeData(
-                color: Colors.orange, linearTrackColor: Colors.blue)),
+            progressIndicatorTheme: ProgressIndicatorThemeData(color: Colors.orange, linearTrackColor: Colors.blue)),
         darkTheme: ThemeData.dark().copyWith(
             visualDensity: VisualDensity.adaptivePlatformDensity,
             colorScheme: ColorScheme.dark(
-                primary: Colors.blue,
-                secondary: Colors.blue,
-                onSecondary: Colors.white,
-                inversePrimary: Colors.orange),
+                primary: Colors.blue, secondary: Colors.blue, onSecondary: Colors.white, inversePrimary: Colors.orange),
             appBarTheme: AppBarTheme(backgroundColor: Colors.blue),
-            progressIndicatorTheme: ProgressIndicatorThemeData(
-                color: Colors.orange, linearTrackColor: Colors.blue)),
+            progressIndicatorTheme: ProgressIndicatorThemeData(color: Colors.orange, linearTrackColor: Colors.blue)),
         themeMode: ThemeMode.system,
         // The following localization delegates must follow generated AppLocalizations class comments
         localizationsDelegates: AppLocalizations.localizationsDelegates,

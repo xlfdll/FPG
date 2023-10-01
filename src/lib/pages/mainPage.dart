@@ -42,18 +42,15 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
   Future<void> initSettings() async {
     if (await Settings.getRememberUserSaltSwitch() == true) {
-      saltTextInputController.text =
-          await (Settings.getUserSalt()) ?? PreferenceDefaults.UserSalt;
+      saltTextInputController.text = await (Settings.getUserSalt()) ?? PreferenceDefaults.UserSalt;
     }
 
-    lengthTextInputController.text = (await Settings.getPasswordLength() ??
-            PreferenceDefaults.PasswordLength)
-        .toString();
+    lengthTextInputController.text =
+        (await Settings.getPasswordLength() ?? PreferenceDefaults.PasswordLength).toString();
 
     insertSpecialSymbols = await Settings.getInsertSpecialSymbolsSwitch();
 
-    passwordClearTime = await Settings.getPasswordClearTime() ??
-        PreferenceDefaults.PasswordClearTime;
+    passwordClearTime = await Settings.getPasswordClearTime() ?? PreferenceDefaults.PasswordClearTime;
     passwordClearTimer = CountdownStopTimer(passwordClearTime, () {
       setState(() {
         remainingPasswordClearTime = passwordClearTimer.remainingTime;
@@ -134,23 +131,18 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
   void generatePassword() {
     if (keywordTextInputController.text.isEmpty) {
-      UIHelper.showMessage(
-          context, AppLocalizations.of(context)!.keywordEmptyMessage);
+      UIHelper.showMessage(context, AppLocalizations.of(context)!.keywordEmptyMessage);
 
       keywordTextInputFocusNode.requestFocus();
     } else if (saltTextInputController.text.isEmpty) {
-      UIHelper.showMessage(
-          context, AppLocalizations.of(context)!.saltEmptyMessage);
+      UIHelper.showMessage(context, AppLocalizations.of(context)!.saltEmptyMessage);
 
       saltTextInputFocusNode.requestFocus();
     } else {
       int passwordLength = int.parse(lengthTextInputController.text);
 
       PasswordHelper.generatePassword(
-              keywordTextInputController.text,
-              saltTextInputController.text,
-              passwordLength,
-              insertSpecialSymbols!)
+              keywordTextInputController.text, saltTextInputController.text, passwordLength, insertSpecialSymbols!)
           .then((value) {
         setState(() {
           FocusManager.instance.primaryFocus?.unfocus();
@@ -173,8 +165,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
             if (v!) {
               Clipboard.setData(ClipboardData(text: value));
 
-              UIHelper.showMessage(
-                  context, AppLocalizations.of(context)!.passwordCopiedMessage);
+              UIHelper.showMessage(context, AppLocalizations.of(context)!.passwordCopiedMessage);
             }
           });
           Settings.getRememberUserSaltSwitch().then((v) {
@@ -205,8 +196,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   Future<void> startPasswordClearTimer() async {
-    passwordClearTime = await Settings.getPasswordClearTime() ??
-        PreferenceDefaults.PasswordClearTime;
+    passwordClearTime = await Settings.getPasswordClearTime() ?? PreferenceDefaults.PasswordClearTime;
     passwordClearTimer.period = passwordClearTime;
     passwordClearTimer.reset();
     passwordClearTimer.start();
@@ -279,9 +269,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     final lengthTextInput = TextField(
       readOnly: true,
       controller: lengthTextInputController,
-      decoration: InputDecoration(
-          icon: Icon(Icons.input),
-          helperText: AppLocalizations.of(context)!.lengthHelperText),
+      decoration: InputDecoration(icon: Icon(Icons.input), helperText: AppLocalizations.of(context)!.lengthHelperText),
       textAlign: TextAlign.center,
       textAlignVertical: TextAlignVertical.center,
       textInputAction: TextInputAction.next,
@@ -304,8 +292,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.appName),
         bottom: remainingPasswordClearTime > 0
-            ? AppBarLinearProgressIndicator(
-                value: remainingPasswordClearTime / passwordClearTime)
+            ? AppBarLinearProgressIndicator(value: remainingPasswordClearTime / passwordClearTime)
             : null,
         actions: [
           IconButton(
@@ -314,8 +301,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
             onPressed: () {
               ScaffoldMessenger.of(context).clearSnackBars();
 
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => OptionsPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => OptionsPage()));
             },
           )
         ],
@@ -343,8 +329,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
                   decoration: InputDecoration(
                       icon: Icon(Icons.text_fields),
                       hintText: AppLocalizations.of(context)!.keywordHintText,
-                      helperText:
-                          AppLocalizations.of(context)!.keywordHelperText),
+                      helperText: AppLocalizations.of(context)!.keywordHelperText),
                 ),
                 constraints.maxWidth < UIConstants.SmallScreenWidthBreakpoint
                     ? Column(
@@ -353,8 +338,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
                           Row(
                             children: [
                               Expanded(child: lengthTextInput),
-                              Container(
-                                  width: 200, child: insertSymbolsCheckBox)
+                              Container(width: 200, child: insertSymbolsCheckBox)
                             ],
                           )
                         ],
@@ -369,37 +353,28 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
                       ),
                 Visibility(
                     visible: isPasswordSectionVisible,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            flex: 9,
-                            child: Padding(
-                              padding: EdgeInsets.all(16),
-                              child: GestureDetector(
-                                child: FittedBox(
-                                    child: Text(password,
-                                        style: TextStyle(fontSize: 32))),
-                                onDoubleTap: () {
-                                  Clipboard.setData(
-                                          ClipboardData(text: password))
-                                      .then((value) {
-                                    UIHelper.showMessage(
-                                        context,
-                                        AppLocalizations.of(context)!
-                                            .passwordCopiedMessage);
-                                  });
-                                },
-                              ),
-                            ),
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Flexible(
+                        flex: 9,
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: GestureDetector(
+                            child: FittedBox(child: Text(password, style: TextStyle(fontSize: 32))),
+                            onDoubleTap: () {
+                              Clipboard.setData(ClipboardData(text: password)).then((value) {
+                                UIHelper.showMessage(context, AppLocalizations.of(context)!.passwordCopiedMessage);
+                              });
+                            },
                           ),
-                          Flexible(
-                              child: IconButton(
-                            icon: const Icon(Icons.clear),
-                            tooltip: AppLocalizations.of(context)!.clear,
-                            onPressed: clearInput,
-                          ))
-                        ]))
+                        ),
+                      ),
+                      Flexible(
+                          child: IconButton(
+                        icon: const Icon(Icons.clear),
+                        tooltip: AppLocalizations.of(context)!.clear,
+                        onPressed: clearInput,
+                      ))
+                    ]))
               ],
             ),
           );
