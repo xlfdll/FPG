@@ -1,4 +1,4 @@
-# Fkulc's Password Generator
+# [Fkulc's Password Generator](https://xlfdll.github.io/tools/fpg/)
 A hash-based password generator with 3-level Keyword-Personal Salt-Random Salt architecture.
 
 <a href="https://play.google.com/store/apps/details?id=org.xlfdll.nb.fpg">
