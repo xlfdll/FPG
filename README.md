@@ -16,6 +16,7 @@ A hash-based password generator with 3-level Keyword-Personal Salt-Random Salt a
 - macOS 10.14+
 - Android 5+ (6+ is highly recommended)
 - iOS 15.4+
+- Any modern Web browsers
 
 ## Usage
 1. A random salt will be generated automatically when program runs at the first time
