@@ -1,10 +1,6 @@
 # [Fkulc's Password Generator](https://xlfdll.github.io/tools/fpg/)
 A hash-based password generator with 3-level Keyword-Personal Salt-Random Salt architecture.
 
-<a href="https://play.google.com/store/apps/details?id=org.xlfdll.nb.fpg">
-  <img src="https://github.com/xlfdll/xlfdll.github.io/raw/master/images/google-play-badge.png" alt="Get Fkulc's Password Generator (Android) on Google Play Store" height="64">
-</a>
-
 <p align="center">
   <img src="https://github.com/xlfdll/xlfdll.github.io/raw/master/images/projects/FPG/FPG-CrossPlatform.png"
        alt="Fkulc's Password Generator" height="320">
