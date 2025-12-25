@@ -37,6 +37,3 @@ The latest version of the following:
 * **For iOS and macOS version:** Xcode with command-line tools, CocoaPods
 * **For Windows version:** Visual Studio (Build Tools) 2022+
 * **For Linux version:** See [here](https://docs.flutter.dev/get-started/install/linux)
-
-## References
-An extended version of the architecture description can be found [here](https://github.com/xlfdll/FPG/blob/master/Docs/A%20Hash-Based%20Password%20Management%20System.pdf).
