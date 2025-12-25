@@ -1,0 +1,299 @@
+{
+  "appName": "Fkulc's Password Generator",
+  "ok": "OK",
+  "cancel": "Cancel",
+  "yes": "Yes",
+  "no": "No",
+  "dismiss": "Dismiss",
+  "firstRunDialogTitle": "Welcome!",
+  "firstRunDialogMessage": "This is your first time to use this program.\n\nA new random salt has been created for you.\n\nIt is highly recommended to backup your new random salt or restore your existing one in Options screen as soon as possible to avoid losing access to your passwords.",
+  "keywordHelperText": "Keyword",
+  "keywordHintText": "Enter keyword here",
+  "saltHelperText": "Salt",
+  "saltHintText": "Enter personal salt here",
+  "lengthHelperText": "Length",
+  "setLengthTitle": "Set Password Length",
+  "symbolSwitchTitle": "Add Symbols",
+  "keywordEmptyMessage": "Keyword is empty",
+  "saltEmptyMessage": "Salt is empty",
+  "generatePasswordTooltip": "Generate password",
+  "passwordCopiedMessage": "Password has been copied to the clipboard",
+  "clear": "Clear",
+  "options": "Options",
+  "warning": "Warning",
+  "exception": "The following error occurred:\n\n",
+  "generalOptionsHeader": "General",
+  "autoCopyPasswordOptionTitle": "Copy to clipboard automatically",
+  "rememberLastSaltOptionTitle": "Remember last user salt",
+  "editSymbolCandidatesOptionTitle": "Edit symbol candidates",
+  "editSymbolCandidatesHelperText": "Symbol Candidates",
+  "editSymbolCandidatesHintText": "Enter symbol candidates here",
+  "useDefault": "Use Default",
+  "userInterfaceOptionsHeader": "User Interface",
+  "showPasswordOptionTitle": "Show password on screen",
+  "autoClearPasswordOptionTitle": "Clear password automatically",
+  "setPasswordClearTimeOptionTitle": "Set password clear time",
+  "randomSaltOptionsHeader": "Random Salt",
+  "editRandomSaltOptionTitle": "Edit random salt",
+  "randomSaltHintText": "Enter random salt here",
+  "generateRandomSaltOptionTitle": "Generate a new random salt",
+  "randomSaltChangePrompt": "If the random salt had been replaced, current passwords would be unavailable.\n\nContinue?",
+  "randomSaltGeneratedMessage": "A new random salt has been generated.",
+  "backupRestoreOptionsHeader": "Backup / Restore",
+  "backupCriticalSettingsOptionTitle": "Backup critical settings to file",
+  "backupCriticalSettingsOptionSubtitle": "Settings will be saved to %s",
+  "backupCriticalSettingsOptionSubtitleWeb": "Settings will be downloaded as %s",
+  "backupCriticalSettingsCompletedMessage": "Critical settings has been saved to %s.",
+  "restoreCriticalSettingsOptionTitle": "Restore critical settings from file",
+  "restoreCriticalSettingsOptionSubtitle": "Settings will be restored from %s",
+  "restoreCriticalSettingsOptionSubtitleWeb": "Settings will be restored from user selected file",
+  "restoreCriticalSettingsCompletedMessage": "Critical settings has been restored from %s.",
+  "restoreCriticalSettingsCompletedMessageWeb": "Critical settings has been restored from user selected file.",
+  "restoreCriticalSettingsNotFoundErrorMessage": "ERROR: Critical settings %s is not found.",
+  "showCriticalSettingsQRCodeOptionTitle": "Show critical settings QR code",
+  "showCriticalSettingsQRCodePageTitle": "Critical Settings QR Code",
+  "noCriticalSettingsQRCodeErrorMessage": "ERROR: Unknown error occurred during QR code generation",
+  "saveCriticalSettingsQRCodeButtonLabel": "Save QR Code",
+  "saveCriticalSettingsQRCodeCompletedMessage": "Critical settings QR code image has been saved to %s.",
+  "importCriticalSettingsFromQRCodeOptionTitle": "Import critical settings from QR code",
+  "importCriticalSettingsFromQRCodePageTitle": "Import Critical Settings (QR)",
+  "importCriticalSettingsFromQRCodeCompletedMessage": "Critical settings has been imported",
+  "noCameraPermissionErrorMessage": "ERROR: Camera access was denied",
+  "invalidQRCodeErrorMessage": "ERROR: No critical settings found in QR code",
+  "readCriticalSettingsNFCTagOptionTitle": "Read critical settings NFC tag",
+  "readCriticalSettingsNFCTagPageTitle": "Read Critical Settings (NFC)",
+  "readCriticalSettingsNFCTagPageDescription": "Touch NFC tag to read critical settings data",
+  "readCriticalSettingsNFCTagCompletedMessage": "Critical settings has been read from NFC tag",
+  "writeCriticalSettingsNFCTagOptionTitle": "Write critical settings as NFC tag",
+  "writeCriticalSettingsNFCTagPageTitle": "Write Critical Settings (NFC)",
+  "writeCriticalSettingsNFCTagPageDescription": "Touch NFC tag to write critical settings data",
+  "writeCriticalSettingsNFCTagPageWarningMessage": "WARNING: All data in NFC tag will be erased!",
+  "writeCriticalSettingsNFCTagCompletedMessage": "Critical settings has been written to NFC tag",
+  "nfcTagOperationCompletedMessage": "NFC operation has been done successfully",
+  "invalidNFCTagDataErrorMessage": "ERROR: No critical settings found in NFC tag data",
+  "unsupportedNFCTagFormatErrorMessage": "ERROR: NFC tag is not compatible (NDEF)",
+  "unwritableNFCTagErrorMessage": "ERROR: NFC tag is not writable",
+
+  "@appName": {
+    "description": "App name. Used in title."
+  },
+  "@ok": {
+    "description": "Default OK action text"
+  },
+  "@cancel": {
+    "description": "Default Cancel action text"
+  },
+  "@yes": {
+    "description": "Default Yes action text"
+  },
+  "@no": {
+    "description": "Default No action text"
+  },
+  "@dismiss": {
+    "description": "Default Dismiss action text"
+  },
+  "@firstRunDialogTitle": {
+    "description": "First run dialog title"
+  },
+  "@firstRunDialogMessage": {
+    "description": "First run dialog message"
+  },
+  "@keywordHelperText": {
+    "description": "Keyword input helper text"
+  },
+  "@keywordHintText": {
+    "description": "Keyword input hint text"
+  },
+  "@saltHelperText": {
+    "description": "Personal salt input helper text"
+  },
+  "@saltHintText": {
+    "description": "Personal salt input hint text"
+  },
+  "@lengthHelperText": {
+    "description": "Password length input helper text"
+  },
+  "@setLengthTitle": {
+    "description": "Set password length dialog title"
+  },
+  "@symbolSwitchTitle": {
+    "description": "Symbols switch title"
+  },
+  "@keywordEmptyMessage": {
+    "description": "Keyword empty message"
+  },
+  "@saltEmptyMessage": {
+    "description": "Salt empty message"
+  },
+  "@generatePasswordTooltip": {
+    "description": "Generate password button tooltip"
+  },
+  "@passwordCopiedMessage": {
+    "description": "Password copied message"
+  },
+  "@clear": {
+    "description": "Clear action title"
+  },
+  "@options": {
+    "description": "Options AppBar action title"
+  },
+  "@warning": {
+    "description": "Warning dialog title"
+  },
+  "@exception": {
+    "description": "Exception prompt message"
+  },
+  "@generalOptionsHeader": {
+    "description": "General options header"
+  },
+  "@autoCopyPasswordOptionTitle": {
+    "description": "Auto copy password switch title"
+  },
+  "@rememberLastSaltOptionTitle": {
+    "description": "Remember last user salt switch title"
+  },
+  "@editSymbolCandidatesOptionTitle": {
+    "description": "Edit symbol candidates option title"
+  },
+  "@editSymbolCandidatesHelperText": {
+    "description": "Edit symbol candidates helper text"
+  },
+  "@editSymbolCandidatesHintText": {
+    "description": "Edit symbol candidates hint text"
+  },
+  "@useDefault": {
+    "description": "Use default action text"
+  },
+  "@userInterfaceOptionsHeader": {
+    "description": "User interface options header"
+  },
+  "@showPasswordOptionTitle": {
+    "description": "Show password switch title"
+  },
+  "@autoClearPasswordOptionTitle": {
+    "description": "Auto clear password switch title"
+  },
+  "@setPasswordClearTimeOptionTitle": {
+    "description": "Set password clear time option title"
+  },
+  "@randomSaltOptionsHeader": {
+    "description": "Random salt options header"
+  },
+  "@editRandomSaltOptionTitle": {
+    "description": "Edit random salt button title"
+  },
+  "@randomSaltHintText": {
+    "description": "Random salt input hint text"
+  },
+  "@generateRandomSaltOptionTitle": {
+    "description": "Generate random salt button title"
+  },
+  "@randomSaltChangePrompt": {
+    "description": "Random salt change prompt text"
+  },
+  "@randomSaltGeneratedMessage": {
+    "description": "Random salt generated message"
+  },
+  "@backupRestoreOptionsHeader": {
+    "description": "Backup / restore options header"
+  },
+  "@backupCriticalSettingsOptionTitle": {
+    "description": "Backup critical settings button title"
+  },
+  "@backupCriticalSettingsOptionSubtitle": {
+    "description": "Backup critical settings button subtitle"
+  },
+  "@backupCriticalSettingsOptionSubtitleWeb": {
+    "description": "Backup critical settings button subtitle (Web)"
+  },
+  "@backupCriticalSettingsCompletedMessage": {
+    "description": "Critical settings backup completed message"
+  },
+  "@restoreCriticalSettingsOptionTitle": {
+    "description": "Restore critical settings button title"
+  },
+  "@restoreCriticalSettingsOptionSubtitle": {
+    "description": "Restore critical settings button subtitle"
+  },
+  "@restoreCriticalSettingsOptionSubtitleWeb": {
+    "description": "Restore critical settings button subtitle (Web)"
+  },
+  "@restoreCriticalSettingsCompletedMessage": {
+    "description": "Critical settings restore completed message"
+  },
+  "@restoreCriticalSettingsCompletedMessageWeb": {
+    "description": "Critical settings restore completed message (Web)"
+  },
+  "@restoreCriticalSettingsNotFoundErrorMessage": {
+    "description": "Critical settings restore not found message"
+  },
+  "@showCriticalSettingsQRCodeOptionTitle": {
+    "description": "Show critical settings QR code button title"
+  },
+  "@showCriticalSettingsQRCodePageTitle": {
+    "description": "Show critical settings QR code page title"
+  },
+  "@noCriticalSettingsQRCodeErrorMessage": {
+    "description": "No critical settings QR code error message"
+  },
+  "@saveCriticalSettingsQRCodeButtonLabel": {
+    "description": "Save critical settings QR code button label"
+  },
+  "@saveCriticalSettingsQRCodeCompletedMessage": {
+    "description": "Critical settings QR code save completed message"
+  },
+  "@importCriticalSettingsFromQRCodeOptionTitle": {
+    "description": "Import critical settings from QR code button title"
+  },
+  "@importCriticalSettingsFromQRCodePageTitle": {
+    "description": "Import critical settings from QR code page title"
+  },
+  "@importCriticalSettingsFromQRCodeCompletedMessage": {
+    "description": "Import critical settings from QR code completed message"
+  },
+  "@noCameraPermissionErrorMessage": {
+    "description": "No camera permission error message"
+  },
+  "@invalidQRCodeErrorMessage": {
+    "description": "Invalid QR code error message"
+  },
+  "@readCriticalSettingsNFCTagOptionTitle": {
+    "description": "Read critical settings NFC tag button title"
+  },
+  "@readCriticalSettingsNFCTagPageTitle": {
+    "description": "Read critical settings NFC tag page title"
+  },
+  "@readCriticalSettingsNFCTagPageDescription": {
+    "description": "Read critical settings NFC tag page description"
+  },
+  "@readCriticalSettingsNFCTagCompletedMessage": {
+    "description": "Read critical settings NFC tag completed message"
+  },
+  "@writeCriticalSettingsNFCTagOptionTitle": {
+    "description": "Write critical settings NFC tag button title"
+  },
+  "@writeCriticalSettingsNFCTagPageTitle": {
+    "description": "Write critical settings NFC tag page title"
+  },
+  "@writeCriticalSettingsNFCTagPageDescription": {
+    "description": "Write critical settings NFC tag page description"
+  },
+  "@writeCriticalSettingsNFCTagPageWarningMessage": {
+    "description": "Write critical settings NFC tag page warning message"
+  },
+  "@writeCriticalSettingsNFCTagCompletedMessage": {
+    "description": "Write critical settings NFC tag completed message"
+  },
+  "@nfcTagOperationCompletedMessage": {
+    "description": "NFC tag operation completed message"
+  },
+  "@invalidNFCTagDataErrorMessage": {
+    "description": "Invalid NFC tag data error message"
+  },
+  "@unsupportedNFCTagFormatErrorMessage": {
+    "description": "Unsupported NFC tag format error message"
+  },
+  "@unwritableNFCTagErrorMessage": {
+    "description": "Unwritable NFC tag error message"
+  }
+}
